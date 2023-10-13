@@ -8,9 +8,10 @@
     $dbusername = "root";
     $dbpassword = "";
     $dbname = "librarydatabase";
+    $port = 3307; // Port is set to 3307
 
     try {
-        $conn = new mysqli($servername, $dbusername, $dbpassword, $dbname);
+        $conn = new mysqli($servername, $dbusername, $dbpassword, $dbname, $port);
 
         if ($conn->connect_error) {
             throw new Exception("Connection failed: " . $conn->connect_error);

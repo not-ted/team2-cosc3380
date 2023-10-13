@@ -1,0 +1,276 @@
+html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    background-color: #fffaf9;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  
+  @media (hover: hover) {
+    button:hover {
+        opacity: .5;
+        cursor: pointer;
+    }
+  }
+  
+  .cover {
+    width: 100%;
+    height: 100%;
+    background-color: #4142459a;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 900;
+  }
+  
+  .horContainer {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center; 
+    width: 100%;
+    height: auto;
+  }
+  
+  .verContainer {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
+    width: auto;
+  }
+  
+  .gridContainer {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    grid-area: overlap;
+  }
+  
+  @media (orientation: landscape) {
+      #header
+      {
+          height: 15vh;
+          width: 100%;
+          background-color: rgb(153, 46, 46);
+          display: flex;
+          align-items: center;
+          flex-direction: column;
+      }
+      h1
+      {
+          margin: auto;
+          color: #ffffff;
+          font-family: Arial, Helvetica, sans-serif;
+          font-size: 4vh;
+      }
+      p
+      {
+          font-weight:lighter;
+          margin: 1vh;
+          font-size: 2vh;
+      }
+      input
+      {
+        font-weight:normal;
+        margin: 1vh;
+        font-size: 2vh;
+        border-radius: 3vh;
+        padding: 1vh;
+      }
+      label
+      {
+          font-weight:normal;
+          margin: 1vh;
+          font-size: 1.4vw;
+      }
+      button
+      {
+          border: 0;
+          border-radius: 3vh;
+          padding: 1.4vh;
+          margin: 4vh 0 2vh 0;
+          font-size: 2vh;
+          background-color: rgb(128, 144, 207);
+          color: white;
+
+      }
+      select
+      {
+          border: .4vh solid rgb(49, 49, 53);
+          border-radius: 3vh;
+          padding: 1vh;
+          margin: 2vh 0 2vh 0;
+          font-size: 2vh;
+          text-align: center;
+      }
+      .reportOptionBox
+      {
+        background-color: rgba(41, 46, 99, 0.09);
+        border-radius: 4vh;
+        height: auto;
+        width: 90%;
+        margin: 4vh;
+        padding: 2vh;
+      }
+      .optionLabel
+      {
+        font-size: 2.8vh;
+        font-weight: bold;
+        text-align: center;
+      }
+      hr
+      {
+        width: 90%;
+        margin-top: 3vh;
+        margin-bottom: 3vh;
+      }
+      .option
+      {
+        width: 100%;
+      }
+      table {
+        width: 80vw; 
+        border-collapse: separate;
+        border-spacing: 0;
+        border: .3vh solid #ccc; 
+        margin-bottom: 5vh;
+      }
+      
+      th, td {
+        border-bottom: .3vh solid #ccc;
+        padding: 2vh 3vh;
+      }
+      
+      th {
+        background-color: #efefff; 
+        font-weight: normal;
+      }
+      
+      tr:last-child td {
+        border-bottom: none; 
+      }
+      .reportTitle
+      {
+        text-align: center;
+        font-weight: bold;
+        font-size: 3vh;
+      }
+      
+  }
+  
+  
+  @media (orientation: portrait) {
+    #header
+    {
+        height: 15vw;
+        width: 100%;
+        background-color: rgb(153, 46, 46);
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }
+    h1
+    {
+        margin: auto;
+        color: #ffffff;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 4vw;
+    }
+    p
+    {
+        font-weight:lighter;
+        margin: 1vw;
+        font-size: 2vw;
+    }
+    input
+    {
+      font-weight:normal;
+      margin: 1vw;
+      font-size: 2vw;
+      border-radius: 3vw;
+      padding: 1vw;
+    }
+    label
+    {
+        font-weight:normal;
+        margin: 1vw;
+        font-size: 2vw;
+    }
+    button
+    {
+        border: 0;
+        border-radius: 3vw;
+        padding: 1.4vw;
+        margin: 4vw 0 2vw 0;
+        font-size: 2vw;
+        background-color: rgb(128, 144, 207);
+        color: white;
+
+    }
+    select
+    {
+        border: .4vw solid rgb(49, 49, 53);
+        border-radius: 3vw;
+        padding: 1vw;
+        margin: 2vw 0 2vw 0;
+        font-size: 2vw;
+        text-align: center;
+    }
+    .reportOptionBox
+    {
+      background-color: rgba(41, 46, 99, 0.09);
+      border-radius: 4vw;
+      height: auto;
+      width: 90%;
+      margin: 4vw;
+      padding: 2vw;
+    }
+    .optionLabel
+    {
+      font-size: 2.8vw;
+      font-weight: bold;
+      text-align: center;
+    }
+    hr
+    {
+      width: 90%;
+      margin-top: 3vw;
+      margin-bottom: 3vw;
+    }
+    .option
+    {
+      width: 100%;
+    }
+    table {
+      width: 80vw; 
+      border-collapse: separate;
+      border-spacing: 0;
+      border: .3vw solid #ccc; 
+      margin-bottom: 5vw;
+    }
+    
+    th, td {
+      border-bottom: .3vw solid #ccc;
+      padding: 2vw 3vw;
+      font-size: 2.4vw;
+    }
+    
+    th {
+      background-color: #efefff; 
+      font-weight: normal;
+    }
+    
+    tr:last-child td {
+      border-bottom: none; 
+    }
+    .reportTitle
+    {
+      text-align: center;
+      font-weight: bold;
+      font-size: 3vw;
+    }
+    
+}
