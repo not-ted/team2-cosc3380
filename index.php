@@ -1,23 +1,36 @@
 <!--- This is the login page for the library management system. --->
-<?php require 'connection.php'; ?>
 <?php
 session_start();
- 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+	include("connection.php");
 
-    // TODO: Check if the username and password are valid
+	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+		//Something was posted
+		$username = $_POST['username'];
+		$password = $_POST['password'];
 
-    if ($username == 'admin' && $password == 'password') {
-        $_SESSION['loggedin'] = true;
-        header('Location: index.php');
-        exit;
-    } 
-	else {
-        $error = 'Invalid username or password';
-    }
-}
+		//Check if the username and password are valid
+		if(!empty($username) && !empty($password)){
+			$query = "select * from users where uhID = '$username' limit 1";
+			//Checks if username exists in the database
+			$result = mysqli_query($conn, $query);
+			//Checks if the password matches the username
+			if($result){
+				if($result && mysqli_num_rows($result) > 0){
+					$user_data = mysqli_fetch_assoc($result);
+					if($user_data['password'] === $password){
+						// redirects to home page if login is successful
+						$_SESSION['user_id'] = $user_data['userID'];
+						header("Location: pages/home/home.php");
+						die;
+					}
+				}
+				echo "Incorrect username or password!";
+			}
+			else{
+				echo "Incorrect username or password!";
+			}
+		}
+	}
 ?>
 
 <!DOCTYPE html>
@@ -31,19 +44,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 
 <h1>University Library</h1>
+
 <body>
-	<div><h2>Login</h2></div>
-	<form action = 'connection.php' method = "POST">
-		<div class = "input">
-			<label for = "username">Username</label>
-			<input type = "text" name = "username" id = "username" required>
-		</div>
-		<div class = "input">
-			<label for = "password">Password</label>
-			<input type = "password" name = "password" id = "password" required>
-		</div>
-		<div class = "input">
-			<input type = "submit" value = "Login">
-		</div>
+
+<div class = "container">
+	<form method = "POST">
+		<label for = "username">Username</label><br>
+		<input type = "text" name = "username" id = "username" required><br><br>
+
+		<label for = "password">Password</label><br>
+		<input type = "password" name = "password" id = "password" required><br><br>
+
+		<input type = "submit" value = "Login"><br><br>
+
+		<a href = "register.php">Register</a>
+	</form>
+</div>
 </body>
 </html>
