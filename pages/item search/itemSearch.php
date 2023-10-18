@@ -43,6 +43,9 @@ include 'conncection.php';
                                 <td>'.$row['bookID'].'</td>
                                 <td>'.$row['bookname'].'</td>
                                 <td>'.$row['ISBN'].'</td>
+                                <td>'.$row['movieID'].'</td>
+                                <td>'.$row['movieName'].'</td>
+                                <td>'.$row['publishedDat'].'</td>
                                 </tr>
                                 </tbody>';
 
