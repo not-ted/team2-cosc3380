@@ -24,10 +24,10 @@ session_start();
 						die;
 					}
 				}
-				echo "Incorrect username or password!";
+				$error =  "Incorrect username or password!";
 			}
 			else{
-				echo "Incorrect username or password!";
+				$error =  "Incorrect username or password!";
 			}
 		}
 	}
@@ -43,11 +43,12 @@ session_start();
 	<title>Login</title>
 </head>
 
-<h1>University Library</h1>
-
 <body>
 
+<h1>University Library</h1>
+
 <div class = "container">
+	<h2>Login</h2>
 	<form method = "POST">
 		<label for = "username">Username</label><br>
 		<input type = "text" name = "username" id = "username" required><br><br>
@@ -57,6 +58,7 @@ session_start();
 
 		<input type = "submit" value = "Login"><br><br>
 
+		<a href = "reset.php">Forgot Password?</a>
 		<a href = "register.php">Register</a>
 	</form>
 </div>
