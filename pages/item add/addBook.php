@@ -47,7 +47,7 @@
 
                 // Check if a file was uploaded
                 if(isset($_FILES['coverImage']) && $_FILES['coverImage']['error'] == 0) {
-                    $targetDir = "/main resources/item covers/bookCovers/";
+                    $targetDir = "../../main resources/item covers/bookCovers/";
                     $targetFile = $targetDir . basename($_FILES['coverImage']['name']);
                     $imageFileType = strtolower(pathinfo($targetFile,PATHINFO_EXTENSION));
 
@@ -62,7 +62,7 @@
                         // File was uploaded successfully, now insert the book record
                         $coverImagePath = '/main resources/item covers/bookCovers/' . $uniqueImageID . '.' . $imageFileType;
                         $insertBookQuery = "INSERT INTO books (bookName, ISBN, publicationCompany, coverFilePath) 
-                                            VALUES ('$bookName', '$ISBN', '$publicationCompany', '$newFilePath')";
+                                            VALUES ('$bookName', '$ISBN', '$publicationCompany', '$coverImagePath')";
                         //Run insert book query
                         $insertBookResult = mysqli_query($conn, $insertBookQuery);
                                         
