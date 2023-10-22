@@ -22,10 +22,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['form1'])) {
                 $question2 = $user_data['securityQ2'];
                 $question3 = $user_data['securityQ3'];
             } else {
-                $error = "Incorrect email address";
+                $error = "Incorrect username or email address";
             }
         } else {
-            $error = "Incorrect username";
+            $error = "Incorrect username or email address";
         }
     } else {
         $error = "Please enter your username and email address";
@@ -33,28 +33,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['form1'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['form2'])) {
-    $username = $_POST['username'];
-    $answer1 = $_POST['securityA1'];
-    $answer2 = $_POST['securityA2'];
-    $answer3 = $_POST['securityA3'];
-    $password = $_POST['password'];
+    $answer1 = $_POST['answer1'];
+    $answer2 = $_POST['answer2'];
+    $answer3 = $_POST['answer3'];
 
-    $query = "SELECT * FROM users WHERE uhID = '$username' LIMIT 1";
-    $result = mysqli_query($conn, $query);
-
-    if ($result && mysqli_num_rows($result) > 0) {
-        $user_data = mysqli_fetch_assoc($result);
-
-        if ($user_data['answer1'] === $answer1 && $user_data['answer2'] === $answer2 && $user_data['answer3'] === $answer3) {
-            // User answers verified, update password
-            $query = "UPDATE users SET password = '$password' WHERE uhID = '$username'";
-            mysqli_query($conn, $query);
-            $message = "Password updated successfully";
-        } else {
-            $error = "Incorrect security answers";
-        }
-    } else {
-        $error = "Incorrect username";
+    if ($user_data['securityA1'] === $answer1 && $user_data['securityA2'] === $answer2 && $user_data['securityA3'] === $answer3) {
+        // User answers verified, update password
+        $query = "UPDATE users SET password = '$password' WHERE uhID = '$username'";
+        mysqli_query($conn, $query);
+        $message = "Password updated successfully";
+        
+    } 
+    else {
+        $error = "Incorrect security answers";
     }
 }
 ?>
@@ -71,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['form2'])) {
 
 <body>
     <div class="container">
-        <h1>Password Reset</h1>
+        <h2>Password Reset</h2>
 
         <?php if (isset($error)) { ?>
             <p class="error"><?php echo $error; ?></p>

@@ -18,6 +18,7 @@ body {
 	margin: 0 auto;
 	width: 400px;
 	padding: 20px;
+	overflow: auto;
   }
   
   h1 {
@@ -63,3 +64,10 @@ body {
 	padding: 10px;
 	width: 100%;
   }
+
+  .error {
+	color: red;
+	font-weight: bold;
+	margin: 10px 0;
+  }
+  
