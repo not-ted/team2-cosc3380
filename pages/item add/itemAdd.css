@@ -30,7 +30,6 @@ html, body {
     justify-content: space-evenly;
     align-items: center; 
     width: 100%;
-    height: auto;
   }
   
   .verContainer {
@@ -39,7 +38,6 @@ html, body {
     align-items: center;
     flex-direction: column;
     height: 100%;
-    width: auto;
   }
   
   .gridContainer {
@@ -48,15 +46,122 @@ html, body {
     grid-template-rows: 1fr;
     grid-area: overlap;
   }
-  
+  hr
+  {
+    width: 90%;
+  }
 @media (orientation: landscape) {
   .itemAddEntireContainer
-  {
-
+  { 
+    width: 80vw;
+    height: max-content;
+    background-color: rgba(41, 46, 99, 0.09);
+    border-radius: 4vh;
+    margin: 4vh 0;
+    padding: 2vh;
   }
-  
+  h1
+  {
+    font-size: 1.5em;
+    text-align: center;
+  }
+  label
+  {
+    margin: 1vh;
+    font-size: 1em;
+  }
+  select
+  {
+    padding: 1vh 2vh;
+    border-radius: 3vh;
+  }
+  input
+  {
+    border-radius: 2vh;
+    border: 0;
+    padding: 1vh;
+    text-align: center;
+    margin: 1.2vh;
+  }
+  button
+  {
+    background-color: rgb(130, 133, 171);
+    color: white;
+    padding: 1vh 2vh;
+    border-radius: 2vh;
+    border: 0;
+    margin: 2vh;
+  }
+  .errorMessage
+  {
+    font-weight: bold;
+    color: red;
+    font-size: 1.1em;
+    text-align: center;
+  }
+  .successMessage
+  {
+    font-weight: bold;
+    color: rgb(120, 208, 103);
+    font-size: 1.1em;
+    text-align: center;
+  }
 }
 
 @media (orientation: portrait) {
-
+  .itemAddEntireContainer
+  { 
+    width: 80vw;
+    height: max-content;
+    background-color: rgba(41, 46, 99, 0.09);
+    border-radius: 4vw;
+    margin: 4vw 0;
+    padding: 2vw;
+  }
+  h1
+  {
+    font-size: 1.5em;
+    text-align: center;
+  }
+  label
+  {
+    margin: 1vw;
+    font-size: 1em;
+  }
+  select
+  {
+    padding: 1vw 2vw;
+    border-radius: 3vw;
+  }
+  input
+  {
+    border-radius: 2vw;
+    border: 0;
+    padding: 1vw;
+    text-align: center;
+    margin: 1.2vw;
+  }
+  button
+  {
+    background-color: rgb(130, 133, 171);
+    color: white;
+    padding: 1vw 2vw;
+    border-radius: 2vw;
+    border: 0;
+    margin: 2vw;
+  }
+  .errorMessage
+  {
+    font-weight: bold;
+    color: red;
+    font-size: 1.1em;
+    text-align: center;
+  }
+  .successMessage
+  {
+    font-weight: bold;
+    color: rgb(120, 208, 103);
+    font-size: 1.1em;
+    text-align: center;
+  }
 }

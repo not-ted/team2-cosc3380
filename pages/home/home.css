@@ -1,0 +1,114 @@
+/* Resetting some default browser styles */
+body,
+h1,
+p {
+    margin: 0;
+    padding: 0;
+}
+
+
+/* Styling for the page background and text */
+body {
+    background-color: #fffaf9;
+    /* Soft background color */
+    font-family: Arial, Helvetica, sans-serif;
+    /* Easy-to-read text font */
+}
+
+/* Making the main heading (h1) appealing */
+h1 {
+    color: rgb(153, 46, 46);
+    /* Heading text color (customize as needed) */
+    font-size: 4vw;
+    /* Adjusting the main heading font size */
+    text-align: center;
+    /* Center-aligning the heading */
+    margin-top: 2vw;
+    /* Providing top margin (adjust as necessary) */
+}
+
+/* Styling for paragraphs (p) */
+p {
+    font-weight: lighter;
+    /* Using a lighter font weight for text */
+    font-size: 2vw;
+    /* Font size for paragraphs */
+    margin: 1vw;
+    /* Adding margins around paragraphs */
+}
+
+/* Designing the button styles */
+button {
+    border: 0;
+    /* No visible borders for buttons */
+    border-radius: 3vw;
+    /* Rounded corners for a soft appearance */
+    padding: 1.4vw;
+    /* Padding inside buttons for comfortable clicks */
+    margin: 0.5vw;
+    /* Providing consistent margins for buttons */
+    font-size: 2vw;
+    /* Font size for button text */
+    background-color: rgb(128, 144, 207);
+    /* Button background color */
+    color: white;
+    /* Text color on buttons */
+}
+
+/* Styling for links (a) */
+a {
+    text-decoration: none;
+    /* Removing underlines from links */
+    color: rgb(153, 46, 46);
+    /* Text color for links (customize if necessary) */
+}
+
+/* Customizing the horizontal rule (hr) */
+hr {
+    width: 90%;
+    /* Setting the width of the horizontal rule */
+    margin-top: 3vw;
+    /* Margin above the horizontal rule */
+    margin-bottom: 3vw;
+    /* Margin below the horizontal rule */
+}
+
+/* Centering the content text */
+.text-center {
+    text-align: center;
+    /* Center-aligning text */
+}
+
+/* Centering content both vertically and horizontally */
+.center-container {
+    display: flex;
+    /* Using flexible layout */
+    justify-content: center;
+    /* Centering content horizontally */
+    align-items: center;
+    /* Centering content vertically */
+    height: 100vh;
+    /* Filling the full viewport height */
+}
+
+/* Creating a CSS class for the book cover container */
+.book-covers-container {
+    display: flex;
+    /* Using a flexible layout for book covers */
+    flex-wrap: wrap;
+    /* Wrapping images to the next line when necessary */
+    justify-content: center;
+    /* Center-aligning book covers horizontally */
+    align-items: center;
+    /* Center-aligning book covers vertically */
+}
+
+/* Styling for book cover images */
+img.book-cover {
+    width: 150px;
+    /* Setting the width of book cover images */
+    height: auto;
+    /* Maintaining the aspect ratio */
+    margin: 10px;
+    /* Adding spacing around book covers */
+}
