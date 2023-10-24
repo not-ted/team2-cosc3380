@@ -79,33 +79,43 @@ if ($userData['userType'] === 'management') {
     echo "<p>$welcomeMessage</p>";
     ?>
 
-    <?php
-    // Include the connection to the database
-    include("../../connection.php");
+<?php
+// Include the connection to the database
+include("../../connection.php");
 
-    // Define the base URL of your web server
-    $baseURL = "http://localhost:3000/team2-cosc3380";
+// Define the base URL of your web server
+$baseURL = "http://localhost:3000/team2-cosc3380";
 
-    // Query the database to retrieve book cover file paths
-    $sql = "SELECT coverFilePath FROM books";
-    $result = $conn->query($sql);
+// Query the database to retrieve distinct book types and the most recent book cover file paths
+$sql = "SELECT DISTINCT books.bookID, books.bookName, books.coverFilePath
+        FROM books
+        INNER JOIN bookcopy ON books.bookID = bookcopy.bookID
+        WHERE bookcopy.addDate = (
+            SELECT MAX(b2.addDate)
+            FROM bookcopy b2
+            WHERE b2.bookID = books.bookID
+        )
+        ORDER BY books.bookID DESC";
 
-    // Create a container for book covers
-    if ($result) {
-        echo '<div class="book-covers-container">';
-        // Loop through the results and display book covers
-        while ($row = $result->fetch_assoc()) {
-            $coverPath = $row['coverFilePath']; // Relative file path
-            $imageURL = $baseURL . $coverPath; // Construct the absolute image URL
+$result = $conn->query($sql);
 
-            // Display book covers with the book-cover class
-            echo '<img src="' . $imageURL . '" alt="Book Cover" class="book-cover">';
-        }
-        echo '</div>'; // Close the book-covers-container div
-    } else {
-        echo "Error: " . $conn->error;
+// Create a container for book covers
+if ($result) {
+    echo '<div class="book-covers-container">';
+    // Loop through the results and display book covers
+    while ($row = $result->fetch_assoc()) {
+        $coverPath = $row['coverFilePath']; // Relative file path
+        $imageURL = $baseURL . $coverPath; // Construct the absolute image URL
+
+        // Display book covers with the book-cover class
+        echo '<img src="' . $imageURL . '" alt="' . $row['bookName'] . '" class="book-cover">';
     }
-    ?>
+    echo '</div>'; // Close the book-covers-container div
+} else {
+    echo "Error: " . $conn->error;
+}
+?>
+
 </body>
 
 </html>
