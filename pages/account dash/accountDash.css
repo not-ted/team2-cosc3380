@@ -2,19 +2,21 @@
 body {
     background-color: #fffaf9;
     font-family: Arial, Helvetica, sans-serif;
-    color: rgb(153, 46, 46);
-    /* Text color */
+    color: rgb(153, 46, 46); /* Text color */
 }
 
 /* Style the headings */
 h1,
 h2 {
     color: rgb(153, 46, 46);
+    border-bottom: 2px solid rgb(153, 46, 46); /* Add a bottom border */
+    padding-bottom: 5px; /* Add some space between the border and text */
 }
 
 /* Style the form elements */
 label {
     font-weight: bold;
+    color: rgb(128, 144, 207); /* Change label text color */
 }
 
 /* Style the password input field */
@@ -22,22 +24,17 @@ input[type="password"] {
     border: 1px solid rgb(128, 144, 207);
     border-radius: 3vw;
     padding: 0.8vw;
-    /* Adjust the padding to make it smaller */
     font-size: 1.5vw;
-    /* Adjust the font size to make it smaller */
     background-color: white;
     color: rgb(153, 46, 46);
 }
-
 
 /* Style the submit button */
 input[type="submit"] {
     border: 0;
     border-radius: 2vw;
     padding: 0.8vw 2vw;
-    /* Adjust the padding to control button size */
     font-size: 1.3vw;
-    /* Adjust the font size for a smaller button */
     background-color: rgb(128, 144, 207);
     color: white;
 }
@@ -56,18 +53,20 @@ a {
 
 .logout-button {
     background-color: red;
-    /* Red background color */
     color: white;
-    /* White text color */
     border: none;
-    /* No border */
     border-radius: 5px;
-    /* Rounded corners */
     padding: 10px 20px;
-    /* Padding for the button */
     cursor: pointer;
-    /* Add a pointer cursor on hover */
 }
 
+/* Additional styling for profile information section */
+.profile-section {
+    background-color: rgb(255, 238, 222); /* Light background color */
+    padding: 20px;
+    border: 1px solid rgb(128, 144, 207);
+    border-radius: 5px;
+    margin-top: 20px;
+}
 
-/* Add custom styling for your profile information section or other elements */
+/* Add custom styling for other elements as needed */
