@@ -47,12 +47,10 @@ if ($userData['userType'] === 'management') {
 <head>
     <meta charset="UTF-8">
     <title>Library Homepage</title>
-    <!-- Link to an external CSS stylesheet -->
     <link rel="stylesheet" href="home.css">
     <style>
         .button-container {
             display: flex;
-            /* Arrange buttons side by side */
         }
     </style>
 </head>
@@ -79,43 +77,75 @@ if ($userData['userType'] === 'management') {
     echo "<p>$welcomeMessage</p>";
     ?>
 
-<?php
-// Include the connection to the database
-include("../../connection.php");
+    <?php
+    // Include the connection to the database
+    include("../../connection.php");
 
-// Define the base URL of your web server
-$baseURL = "http://localhost:3000/team2-cosc3380";
+    // Define the base URL of your web server
+    $baseURL = "http://localhost:3000/team2-cosc3380";
 
-// Query the database to retrieve distinct book types and the most recent book cover file paths
-$sql = "SELECT DISTINCT books.bookID, books.bookName, books.coverFilePath
-        FROM books
-        INNER JOIN bookcopy ON books.bookID = bookcopy.bookID
-        WHERE bookcopy.addDate = (
-            SELECT MAX(b2.addDate)
-            FROM bookcopy b2
-            WHERE b2.bookID = books.bookID
-        )
-        ORDER BY books.bookID DESC";
-
-$result = $conn->query($sql);
-
-// Create a container for book covers
-if ($result) {
-    echo '<div class="book-covers-container">';
-    // Loop through the results and display book covers
-    while ($row = $result->fetch_assoc()) {
-        $coverPath = $row['coverFilePath']; // Relative file path
-        $imageURL = $baseURL . $coverPath; // Construct the absolute image URL
-
-        // Display book covers with the book-cover class
-        echo '<img src="' . $imageURL . '" alt="' . $row['bookName'] . '" class="book-cover">';
+    // Fetch recently added books
+    $recentlyAddedBooks = array();
+    $sqlBooks = "SELECT * FROM books ORDER BY bookID DESC LIMIT 6";
+    $resultBooks = $conn->query($sqlBooks);
+    if ($resultBooks) {
+        $recentlyAddedBooks = $resultBooks->fetch_all(MYSQLI_ASSOC);
     }
-    echo '</div>'; // Close the book-covers-container div
-} else {
-    echo "Error: " . $conn->error;
-}
-?>
 
+    // Display a maximum of 6 recently added book covers
+    if (!empty($recentlyAddedBooks)) {
+        echo '<div class="book-covers-container">';
+        $bookCount = 0; // Initialize the book count
+        foreach ($recentlyAddedBooks as $book) {
+            if ($bookCount >= 6) {
+                break; // Exit the loop after displaying 6 books
+            }
+            if (isset($book['coverFilePath'])) {
+                $coverPath = $book['coverFilePath'];
+                $imageURL = $baseURL . $coverPath;
+                echo '<img src="' . $imageURL . '" alt="' . $book['bookName'] . '" class="book-cover">';
+                $bookCount++; // Increment the book count
+            }
+        }
+        echo '</div>';
+    } else {
+        echo "No recently added books.";
+    }
+    ?>
+
+    <h2>Explore More Items</h2>
+
+    <?php
+    // Fetch random items from books, movies, and tech (6 items)
+    $randomItems = array();
+    $sqlRandom = "(SELECT bookName AS itemName, coverFilePath FROM books ORDER BY RAND() LIMIT 2)
+                UNION ALL
+                (SELECT movieName AS itemName, coverFilepath AS coverFilePath FROM movies ORDER BY RAND() LIMIT 2)
+                UNION ALL
+                (SELECT techName AS itemName, coverFilePath FROM tech ORDER BY RAND() LIMIT 2)
+                ORDER BY RAND() LIMIT 6";
+
+    $resultRandom = $conn->query($sqlRandom);
+    if ($resultRandom) {
+        $randomItems = $resultRandom->fetch_all(MYSQLI_ASSOC);
+    }
+
+    // Display random item covers
+    if (!empty($randomItems)) {
+        echo '<div class="random-items-container">';
+        foreach ($randomItems as $item) {
+            if (isset($item['coverFilePath'])) {
+                $coverPath = $item['coverFilePath'];
+                $imageURL = $baseURL . $coverPath;
+                $itemName = $item['itemName'];
+                echo '<img src="' . $imageURL . '" alt="' . $itemName . '" class="item-cover">';
+            }
+        }
+        echo '</div>';
+    } else {
+        echo "No random items available.";
+    }
+    ?>
 </body>
 
 </html>

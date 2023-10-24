@@ -113,4 +113,13 @@ img.book-cover {
     margin-top: 2vw;
 }
 
+/* Styling for random item cover images */
+img.item-cover {
+    width: 150px; /* Adjust the width as needed */
+    height: auto; /* Maintain the aspect ratio */
+    margin: 10px;
+    border: 2px solid #ddd; /* Add a light border around item covers */
+    border-radius: 5px;
+}
+
 /* Add additional styles or modifications as needed */
