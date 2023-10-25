@@ -134,7 +134,7 @@
 
           <!-- Copies Available -->
           <label for="copiesAvailableTech">Copies Available:</label>
-          <input type="number" id="copiesAvailableTech" name="copiesAvailableTech" value="1" value="0">
+          <input type="number" id="copiesAvailableTech" name="copiesAvailableTech" value="1" readonly>
 
           <!-- Copy Value -->
           <label for="copyValueTech">Copy Value:</label>
