@@ -8,14 +8,21 @@
     if ($result) {
         while ($row = mysqli_fetch_assoc($result)) {
             $borrowID = $row['borrowID'];
-            $userID = $row['userID']; // Retrieve userID from the result
+            $userID = $row['userID'];
 
-            $fineAmount = 5.00;
-            $insertFineSQL = "INSERT INTO fines (borrowID, userID, fineAmount, havePaid, type) VALUES ('$borrowID', '$userID', '$fineAmount', 'No', 'lost')";
-            $insertFineResult = mysqli_query($conn, $insertFineSQL);
+            // Check if the borrowID already exists in the fines table
+            $checkExistenceSQL = "SELECT COUNT(*) AS count FROM fines WHERE borrowID = '$borrowID'";
+            $checkExistenceResult = mysqli_query($conn, $checkExistenceSQL);
+            $count = mysqli_fetch_assoc($checkExistenceResult)['count'];
 
-            if (!$insertFineResult) {
-                echo "Error adding fine: " . mysqli_error($conn);
+            if ($count == 0) {
+                $fineAmount = 5.00;
+                $insertFineSQL = "INSERT INTO fines (borrowID, userID, fineAmount, havePaid, type) VALUES ('$borrowID', '$userID', '$fineAmount', 'No', 'lost')";
+                $insertFineResult = mysqli_query($conn, $insertFineSQL);
+
+                if (!$insertFineResult) {
+                    echo "Error adding fine: " . mysqli_error($conn);
+                }
             }
         }
     } else {

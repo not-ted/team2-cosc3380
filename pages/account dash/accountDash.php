@@ -99,7 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['newPassword'])) {
                 <th>Item Name</th>
                 <th>Item Type</th>
                 <th>Amount</th>
-                <th>Status</th>
+                <th>Have Paid?</th>
             </tr>
         </thead>
         <tbody>
@@ -114,7 +114,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['newPassword'])) {
             END AS itemName
             FROM fines
             JOIN borrowed ON fines.borrowID = borrowed.borrowID
-            WHERE fines.userID = ? AND fines.havePaid = 0 AND borrowed.returnedDate IS NULL";
+            WHERE fines.userID = ? AND fines.havePaid = 'No' AND borrowed.returnedDate IS NULL";
 
             $stmtUserFines = $conn->prepare($sqlUserFines);
 
@@ -137,7 +137,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['newPassword'])) {
                         $itemName = $row['itemName'];
 
                         // Create a user-friendly message for each fine
-                        $fineStatus = $havePaid ? "Paid" : "Unpaid";
+                        $fineStatus =  $row['havePaid'];
 
                         echo "<tr>
                         <td>$fineID</td>
@@ -402,7 +402,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['newPassword'])) {
         END AS itemName
         FROM fines
         JOIN borrowed ON fines.borrowID = borrowed.borrowID
-        WHERE fines.userID = ? AND fines.havePaid = 1";
+        WHERE fines.userID = ? AND (fines.havePaid = 'Yes' OR fines.havePaid = 'Waived')";
 
                     $stmtFineHistory = $conn->prepare($sqlFineHistory);
 
@@ -425,7 +425,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['newPassword'])) {
                                 $itemName = $row['itemName'];
 
                                 // Create a user-friendly message for each fine
-                                $fineStatus = $havePaid ? "Paid" : "Unpaid";
+                                $fineStatus = $row['havePaid'];
 
                                 echo "<tr>
                     <td>$fineID</td>
