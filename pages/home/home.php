@@ -62,7 +62,7 @@ if ($userData['userType'] === 'management') {
         Logged in as <?php echo $userData['uhID']; ?> : <?php echo $userData['userType']; ?>
     </div>
 
-    <h1>Library Project</h1>
+    <h1>Library Homepage</h1>
     <div class="button-container">
         <?php
         // Display the buttons based on userType
