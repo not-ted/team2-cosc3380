@@ -21,6 +21,7 @@ session_start();
                         if($user_data['password'] === $password){
                             // redirects to home page if login is successful
                             $_SESSION['user_id'] = $user_data['userID'];
+                            $_SESSION['user_type'] = $user_data['userType'];
                             header("Location: pages/home/home.php");
                             die;
                         }

@@ -19,6 +19,7 @@ $userData = $result->fetch_assoc();
 
 // Define buttons for regular users
 $Buttons = [
+    
     '<form action="../item search/itemSearch.php" method="GET"><button type="submit">Item Search</button></form>',
     '<form action="../account dash/accountDash.php" method="GET"><button type="submit">Your Dashboard</button></form>'
 ];
@@ -81,9 +82,6 @@ if ($userData['userType'] === 'management') {
     // Include the connection to the database
     include("../../connection.php");
 
-    // Define the base URL of your web server
-    $baseURL = "http://localhost:3000/team2-cosc3380";
-
     // Fetch recently added books
     $recentlyAddedBooks = array();
     $sqlBooks = "SELECT * FROM books ORDER BY bookID DESC LIMIT 6";
@@ -102,8 +100,7 @@ if ($userData['userType'] === 'management') {
             }
             if (isset($book['coverFilePath'])) {
                 $coverPath = $book['coverFilePath'];
-                $imageURL = $baseURL . $coverPath;
-                echo '<img src="' . $imageURL . '" alt="' . $book['bookName'] . '" class="book-cover">';
+                echo '<img src="' . $coverPath . '" alt="' . $book['bookName'] . '" class="book-cover">';
                 $bookCount++; // Increment the book count
             }
         }
@@ -136,9 +133,8 @@ if ($userData['userType'] === 'management') {
         foreach ($randomItems as $item) {
             if (isset($item['coverFilePath'])) {
                 $coverPath = $item['coverFilePath'];
-                $imageURL = $baseURL . $coverPath;
                 $itemName = $item['itemName'];
-                echo '<img src="' . $imageURL . '" alt="' . $itemName . '" class="item-cover">';
+                echo '<img src="' . $coverPath . '" alt="' . $itemName . '" class="item-cover">';
             }
         }
         echo '</div>';
