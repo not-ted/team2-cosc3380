@@ -1,7 +1,15 @@
 <?php
+//Check if user is manager
+session_start();
+
+if ($_SESSION['user_id'] !== 'management') {
+    header("Location: /index.php"); // Redirect to index.php
+    exit(); 
+}
+?>
+<?php
     include("lateFineRetrieve.php");
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
