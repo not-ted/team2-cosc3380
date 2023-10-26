@@ -1,60 +1,55 @@
-<?php
-include 'conncection.php';
-
-?>
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF=8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Item Search page</title>
-        <link rel="stylesheet" href="">
-    </head>
-    <body>
-        <div class="container my-5">
-            <form method="post">
-                <input type="text" placeholder="Search items" name="search">
-                <button class="btn btn-dark btn-sm" name="submit">Search</button>
-            </form>
-            <div class="container my-5">
-                <table class="table">
-                    <?php
-                    if(isset($_POST['submit'])){
-                        $search=$_POST['search'];
+<html>
+<head>
+    <title>Library Search</title>
+</head>
+<body>
+    <h1>Library Item Search</h1>
+    <form action="search.php" method="POST">
+        <label for="search">Search:</label>
+        <input type="text" name="search" id="search" />
+        <select name="type">
+            <option value="">All</option>
+            <option value="book">Books</option>
+            <option value="movie">Movies</option>
+            <option value="technology">Technology</option>
+        </select>
+        <input type="submit" value="Search" />
+    </form>
 
-                        $sql="Select * from 'books', 'tech', 'movies' where  id='$search'";
-                        $result=mysqli_query($con,$sql)
-                        if($result) {
-                            if(mysqli_num_rows($result) > 0) {
-                                echo '<thead>
-                                <tr>
-                                <th>Sl no</th>
-                                <th>Item Name</th>
-                                <th>Company Name</th>
-                                </tr>
-                                </thead>';
-                                $row=mysqli_fetch_assoc($result);
-                                echo '<tbody>
-                                <tr>
-                                <td>'.$row['bookID'].'</td>
-                                <td>'.$row['bookname'].'</td>
-                                <td>'.$row['ISBN'].'</td>
-                                <td>'.$row['bookID'].'</td>
-                                <td>'.$row['bookname'].'</td>
-                                <td>'.$row['ISBN'].'</td>
-                                <td>'.$row['movieID'].'</td>
-                                <td>'.$row['movieName'].'</td>
-                                <td>'.$row['publishedDat'].'</td>
-                                </tr>
-                                </tbody>';
+    <?php
+    // Handle the form submission
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $search = $_POST["search"];
+        $type = $_POST["type"];
+        $query = "SELECT * FROM items WHERE ";
+        if (!empty($search)) {
+            $query .= "title LIKE '%$search%' AND ";
+        }
+        if (!empty($type)) {
+            $query .= "type = '$type' AND ";
+        }
+        $query = rtrim($query, " AND "); // Remove the trailing "AND"
 
-                            }
-                        }
-                    }
-                    ?>
-                </table>
-            </div>
-        </div>
-    </body>
+        // Perform the database query
+        $conn = new mysqli("localhost", "root", "", "librarydatabase");
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+
+        $result = $conn->query($query);
+
+        if ($result->num_rows > 0) {
+            echo "<h2>Search Results:</h2>";
+            while ($row = $result->fetch_assoc()) {
+                echo "<p>Title: " . $row["title"] . "<br>Type: " . $row["type"] . "</p>";
+            }
+        } else {
+            echo "<p>No results found.</p>";
+        }
+
+        $conn->close();
+    }
+    ?>
+</body>
 </html>
