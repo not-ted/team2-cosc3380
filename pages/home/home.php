@@ -19,7 +19,7 @@ $userData = $result->fetch_assoc();
 
 // Define buttons for regular users
 $Buttons = [
-    
+
     '<form action="../item search/itemSearch.php" method="GET"><button type="submit">Item Search</button></form>',
     '<form action="../account dash/accountDash.php" method="GET"><button type="submit">Your Dashboard</button></form>'
 ];
@@ -99,15 +99,17 @@ if ($userData['userType'] === 'management') {
                 break; // Exit the loop after displaying 6 books
             }
             if (isset($book['coverFilePath'])) {
-                $coverPath = $book['coverFilePath'];
+                $coverPath = '../../' . $book['coverFilePath'];
                 echo '<img src="' . $coverPath . '" alt="' . $book['bookName'] . '" class="book-cover">';
                 $bookCount++; // Increment the book count
             }
+            
         }
         echo '</div>';
     } else {
         echo "No recently added books.";
     }
+
     ?>
 
     <h2>Explore More Items</h2>
@@ -132,10 +134,10 @@ if ($userData['userType'] === 'management') {
         echo '<div class="random-items-container">';
         foreach ($randomItems as $item) {
             if (isset($item['coverFilePath'])) {
-                $coverPath = $item['coverFilePath'];
+                $coverPath = '../../' . $item['coverFilePath']; // Go back two folders
                 $itemName = $item['itemName'];
                 echo '<img src="' . $coverPath . '" alt="' . $itemName . '" class="item-cover">';
-            }
+            }     
         }
         echo '</div>';
     } else {
