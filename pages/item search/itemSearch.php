@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Library Item Search</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="itemSearch.css">
 </head>
 <body>
     <h1>Library Item Search</h1>
@@ -90,6 +90,6 @@
         }
         ?>
     </div>
-    <script src="script.js"></script>
+    <script src="itemSearch.js"></script>
 </body>
 </html>
