@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Library Item Search</title>
-    <link rel="stylesheet" type="text/css" href="itemSearch.css">
+    <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
     <h1>Library Item Search</h1>
@@ -50,23 +50,40 @@
 
             $result = $mysqli->query($sql);
 
-            // Display the search results
-            while ($row = $result->fetch_assoc()) {
-                echo '<div class="result-item">';
-                if ($category === 'books') {
-                    echo 'Book Name: ' . $row['bookName'] . '<br>';
-                    echo 'ISBN: ' . $row['ISBN'] . '<br>';
-                    echo 'Publication Company: ' . $row['publicationCompany'] . '<br>';
-                } elseif ($category === 'movies') {
-                    echo 'Movie Name: ' . $row['movieName'] . '<br>';
-                    echo 'Published Date: ' . $row['publishedDate'] . '<br>';
-                    echo 'Production Company: ' . $row['productionCompany'] . '<br>';
-                } elseif ($category === 'tech') {
-                    echo 'Technology Name: ' . $row['techName'] . '<br>';
-                    echo 'Model Number: ' . $row['modelNumber'] . '<br>';
-                }
-                echo '</div>';
+            // Display the search results in a table
+            echo '<table>';
+            echo '<tr>';
+            if ($category === 'books') {
+                echo '<th>Book Name</th>';
+                echo '<th>ISBN</th>';
+                echo '<th>Publication Company</th>';
+            } elseif ($category === 'movies') {
+                echo '<th>Movie Name</th>';
+                echo '<th>Published Date</th>';
+                echo '<th>Production Company</th>';
+            } elseif ($category === 'tech') {
+                echo '<th>Technology Name</th>';
+                echo '<th>Model Number</th>';
             }
+            echo '</tr>';
+
+            while ($row = $result->fetch_assoc()) {
+                echo '<tr>';
+                if ($category === 'books') {
+                    echo '<td>' . $row['bookName'] . '</td>';
+                    echo '<td>' . $row['ISBN'] . '</td>';
+                    echo '<td>' . $row['publicationCompany'] . '</td>';
+                } elseif ($category === 'movies') {
+                    echo '<td>' . $row['movieName'] . '</td>';
+                    echo '<td>' . $row['publishedDate'] . '</td>';
+                    echo '<td>' . $row['productionCompany'] . '</td>';
+                } elseif ($category === 'tech') {
+                    echo '<td>' . $row['techName'] . '</td>';
+                    echo '<td>' . $row['modelNumber'] . '</td>';
+                }
+                echo '</tr>';
+            }
+            echo '</table>';
 
             // Close the database connection
             $mysqli->close();
