@@ -8,10 +8,11 @@
     <h1>User Search</h1>
     <div class="search-container">
         <form method="post" action="">
+            <input type="text" name="search" placeholder="Search by Name or uhID" value="<?php echo isset($_POST['search']) ? $_POST['search'] : ''; ?>">
             <select name="userType">
-                <option value="all">All Users</option>
-                <option value="faculty">Faculty</option>
-                <option value="students">Students</option>
+                <option value="all">All</option>
+                <option value="faculty" <?php echo ($_POST['userType'] === 'faculty') ? 'selected' : ''; ?>>Faculty</option>
+                <option value="student" <?php echo ($_POST['userType'] === 'student') ? 'selected' : ''; ?>>Student</option>
             </select>
             <button type="submit" name="search-button">Search</button>
         </form>
@@ -30,13 +31,14 @@
                 die("Connection failed: " . $mysqli->connect_error);
             }
 
-            $userType = $_POST["userType"];
+            $search = isset($_POST['search']) ? $_POST['search'] : '';
+            $userType = isset($_POST['userType']) ? $_POST['userType'] : 'all';
 
             // Prepare the SQL statement based on the selected user type
-            if ($userType === "all") {
-                $sql = "SELECT * FROM users";
+            if ($userType === 'all') {
+                $sql = "SELECT * FROM users WHERE (firstName LIKE '%$search%' OR uhID LIKE '%$search')";
             } else {
-                $sql = "SELECT * FROM users WHERE userType = '$userType'";
+                $sql = "SELECT * FROM users WHERE (firstName LIKE '%$search' OR uhID LIKE '%$search') AND userType = '$userType'";
             }
 
             $result = $mysqli->query($sql);
@@ -45,7 +47,7 @@
             echo '<table>';
             echo '<tr>';
             echo '<th>User ID</th>';
-            echo '<th>UH ID</th>';
+            echo '<th>uhID</th>';
             echo '<th>User Type</th>';
             echo '<th>Email</th>';
             echo '<th>First Name</th>';
