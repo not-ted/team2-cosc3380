@@ -66,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['newPassword'])) {
         <li>User ID: <?php echo htmlspecialchars($userData['uhID']); ?></li>
         <li>Email: <?php echo htmlspecialchars($userData['email']); ?></li>
         <li>User Type: <?php echo htmlspecialchars($userData['userType']); ?></li>
-        <li>Can Borrow: <?php echo htmlspecialchars($userData['canBorrow']); ?></li>
+        <li>Can Borrow: <?php echo ($userData['canBorrow'] == 1) ? 'Yes' : 'No'; ?></li>
         <li>Borrow Limit (days): <?php echo htmlspecialchars($userData['borrowLimit']); ?></li>
         <!-- Add more profile information here -->
     </ul>
@@ -92,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['newPassword'])) {
     <?php endif; ?>
 
     <h2>Your Current Fines:</h2>
-    <table>
+    <table class="generic-table">
         <thead>
             <tr>
                 <th>Fine ID</th>
@@ -160,7 +160,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['newPassword'])) {
     </table>
 
     <h2>Your Currently Borrowed Items:</h2>
-    <table>
+    <table class="generic-table">
         <thead>
             <tr>
                 <th>Item Name</th>
@@ -238,7 +238,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['newPassword'])) {
     ?>
 
     <h2>Your Reserved Items:</h2>
-    <table>
+    <table class="generic-table">
         <thead>
             <tr>
                 <th>Item Name</th>
@@ -300,7 +300,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['newPassword'])) {
     <h2> History:<h2>
 
             <h2>Your Returned items:</h2>
-            <table>
+            <table class="generic-table">
                 <thead>
                     <tr>
                         <th>Item Name</th>
@@ -380,7 +380,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['newPassword'])) {
             }
             ?>
             <h2>Your Previously Paid Fines:</h2>
-            <table>
+            <table class="generic-table">
                 <thead>
                     <tr>
                         <th>Fine ID</th>
