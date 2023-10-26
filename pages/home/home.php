@@ -86,30 +86,23 @@ if ($userData['userType'] === 'management') {
     $recentlyAddedBooks = array();
     $sqlBooks = "SELECT * FROM books ORDER BY bookID DESC LIMIT 6";
     $resultBooks = $conn->query($sqlBooks);
-    if ($resultBooks) {
-        $recentlyAddedBooks = $resultBooks->fetch_all(MYSQLI_ASSOC);
-    }
 
-    // Display a maximum of 6 recently added book covers
-    if (!empty($recentlyAddedBooks)) {
+    if ($resultBooks && $resultBooks->num_rows > 0) {
+        $recentlyAddedBooks = $resultBooks->fetch_all(MYSQLI_ASSOC);
         echo '<div class="book-covers-container">';
-        $bookCount = 0; // Initialize the book count
         foreach ($recentlyAddedBooks as $book) {
-            if ($bookCount >= 6) {
-                break; // Exit the loop after displaying 6 books
-            }
-            if (isset($book['coverFilePath'])) {
+            // Ensure the coverFilePath is set and not empty
+            if (!empty($book['coverFilePath'])) {
                 $coverPath = '../../' . $book['coverFilePath'];
-                echo '<img src="' . $coverPath . '" alt="' . $book['bookName'] . '" class="book-cover">';
-                $bookCount++; // Increment the book count
+                echo '<div class="cover-fade">
+                <img src="' . $coverPath . '" alt="Book Cover" class="book-cover">
+            </div>';
             }
-            
         }
         echo '</div>';
     } else {
         echo "No recently added books.";
     }
-
     ?>
 
     <h2>Explore More Items</h2>
@@ -134,15 +127,20 @@ if ($userData['userType'] === 'management') {
         echo '<div class="random-items-container">';
         foreach ($randomItems as $item) {
             if (isset($item['coverFilePath'])) {
-                $coverPath = '../../' . $item['coverFilePath']; // Go back two folders
+                $coverPath = '../../' . $item['coverFilePath'];
                 $itemName = $item['itemName'];
+
+                // Add the "cover-fade" class to apply the fading effect on hover
+                echo '<div class="item-cover-container cover-fade" style="display: inline-block; margin-right: 10px;">';
                 echo '<img src="' . $coverPath . '" alt="' . $itemName . '" class="item-cover">';
-            }     
+                echo '</div>';
+            }
         }
         echo '</div>';
     } else {
         echo "No random items available.";
     }
+
     ?>
 </body>
 
