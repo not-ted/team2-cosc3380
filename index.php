@@ -10,26 +10,31 @@ session_start();
 
 		//Check if the username and password are valid
 		if(!empty($username) && !empty($password)){
-			$query = "select * from users where uhID = '$username' limit 1";
-			//Checks if username exists in the database
-			$result = mysqli_query($conn, $query);
-			//Checks if the password matches the username
-			if($result){
-				if($result && mysqli_num_rows($result) > 0){
-					$user_data = mysqli_fetch_assoc($result);
-					if($user_data['password'] === $password){
-						// redirects to home page if login is successful
-						$_SESSION['user_id'] = $user_data['userID'];
-						header("Location: pages/home/home.php");
-						die;
-					}
-				}
-				echo "Incorrect username or password!";
-			}
-			else{
-				echo "Incorrect username or password!";
-			}
-		}
+            try {
+                $query = "SELECT * FROM users WHERE uhID = '$username' limit 1";
+                //Checks if username exists in the database
+                $result = mysqli_query($conn, $query);
+                //Checks if the password matches the username
+                if($result){
+                    if($result && mysqli_num_rows($result) > 0){
+                        $user_data = mysqli_fetch_assoc($result);
+                        if($user_data['password'] === $password){
+                            // redirects to home page if login is successful
+                            $_SESSION['user_id'] = $user_data['userID'];
+                            $_SESSION['user_type'] = $user_data['userType'];
+                            header("Location: pages/home/home.php");
+                            die;
+                        }
+                    }
+                    throw new Exception("Incorrect username or password!"); // Throw an exception if the username or password is incorrect
+                }
+                else{
+                    throw new Exception("Incorrect username or password!"); // Throw an exception if the username or password is incorrect
+                }
+            } catch (Exception $e) {
+                $error = $e->getMessage(); // Catch the exception and set the error message
+            }
+        }
 	}
 ?>
 
@@ -43,11 +48,15 @@ session_start();
 	<title>Login</title>
 </head>
 
-<h1>University Library</h1>
-
 <body>
 
+<h1>University Library</h1>
+
 <div class = "container">
+	<h2>Login</h2>
+	<?php if (!empty($error)) { ?>
+            <p class="error"><?php echo $error; ?></p> <!-- Display the error message -->
+    <?php } ?>
 	<form method = "POST">
 		<label for = "username">Username</label><br>
 		<input type = "text" name = "username" id = "username" required><br><br>
@@ -57,6 +66,7 @@ session_start();
 
 		<input type = "submit" value = "Login"><br><br>
 
+		<a href = "reset.php">Forgot Password?</a>
 		<a href = "register.php">Register</a>
 	</form>
 </div>

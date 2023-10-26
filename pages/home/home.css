@@ -6,109 +6,120 @@ p {
     padding: 0;
 }
 
-
 /* Styling for the page background and text */
 body {
     background-color: #fffaf9;
-    /* Soft background color */
     font-family: Arial, Helvetica, sans-serif;
-    /* Easy-to-read text font */
+    color: rgb(153, 46, 46);
+    line-height: 1.6;
 }
 
 /* Making the main heading (h1) appealing */
 h1 {
     color: rgb(153, 46, 46);
-    /* Heading text color (customize as needed) */
     font-size: 4vw;
-    /* Adjusting the main heading font size */
     text-align: center;
-    /* Center-aligning the heading */
     margin-top: 2vw;
-    /* Providing top margin (adjust as necessary) */
+    text-transform: uppercase;
 }
 
 /* Styling for paragraphs (p) */
 p {
     font-weight: lighter;
-    /* Using a lighter font weight for text */
     font-size: 2vw;
-    /* Font size for paragraphs */
-    margin: 1vw;
-    /* Adding margins around paragraphs */
+    margin: 1vw 0;
 }
 
 /* Designing the button styles */
 button {
     border: 0;
-    /* No visible borders for buttons */
     border-radius: 3vw;
-    /* Rounded corners for a soft appearance */
-    padding: 1.4vw;
-    /* Padding inside buttons for comfortable clicks */
+    padding: 1.4vw 2vw;
     margin: 0.5vw;
-    /* Providing consistent margins for buttons */
     font-size: 2vw;
-    /* Font size for button text */
     background-color: rgb(128, 144, 207);
-    /* Button background color */
     color: white;
-    /* Text color on buttons */
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #3d6cb7; /* Change background color on hover */
 }
 
 /* Styling for links (a) */
 a {
     text-decoration: none;
-    /* Removing underlines from links */
     color: rgb(153, 46, 46);
-    /* Text color for links (customize if necessary) */
+    transition: color 0.3s;
+}
+
+a:hover {
+    color: #a92a2a; /* Change text color on hover */
 }
 
 /* Customizing the horizontal rule (hr) */
 hr {
     width: 90%;
-    /* Setting the width of the horizontal rule */
-    margin-top: 3vw;
-    /* Margin above the horizontal rule */
-    margin-bottom: 3vw;
-    /* Margin below the horizontal rule */
+    margin: 3vw 0;
+    border: none;
+    border-top: 1px solid #ccc; /* Dotted line instead of the default solid line */
 }
 
 /* Centering the content text */
 .text-center {
     text-align: center;
-    /* Center-aligning text */
 }
 
 /* Centering content both vertically and horizontally */
 .center-container {
     display: flex;
-    /* Using flexible layout */
     justify-content: center;
-    /* Centering content horizontally */
     align-items: center;
-    /* Centering content vertically */
     height: 100vh;
-    /* Filling the full viewport height */
 }
 
 /* Creating a CSS class for the book cover container */
 .book-covers-container {
     display: flex;
-    /* Using a flexible layout for book covers */
     flex-wrap: wrap;
-    /* Wrapping images to the next line when necessary */
     justify-content: center;
-    /* Center-aligning book covers horizontally */
     align-items: center;
-    /* Center-aligning book covers vertically */
 }
 
 /* Styling for book cover images */
 img.book-cover {
     width: 150px;
-    /* Setting the width of book cover images */
     height: auto;
-    /* Maintaining the aspect ratio */
     margin: 10px;
-    /* Adding spacing around book covers */
+    border: 2px solid #ddd; /* Add a light border around book covers */
+    border-radius: 5px;
 }
+
+/* Style for user information container */
+.user-info {
+    background-color: #e8e8e8;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: right;
+    font-weight: bold;
+    font-size: 1.5vw;
+}
+
+/* Style for the button container */
+.button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 2vw;
+}
+
+/* Styling for random item cover images */
+img.item-cover {
+    width: 150px; /* Adjust the width as needed */
+    height: auto; /* Maintain the aspect ratio */
+    margin: 10px;
+    border: 2px solid #ddd; /* Add a light border around item covers */
+    border-radius: 5px;
+}
+
+/* Add additional styles or modifications as needed */

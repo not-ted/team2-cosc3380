@@ -1,3 +1,13 @@
+<?php
+//Check if user is manager
+session_start();
+
+if ($_SESSION['user_type'] !== 'management') {
+    header("Location: ../../index.php"); // Redirect to index.php
+    exit(); 
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -134,7 +144,7 @@
 
           <!-- Copies Available -->
           <label for="copiesAvailableTech">Copies Available:</label>
-          <input type="number" id="copiesAvailableTech" name="copiesAvailableTech" value="1" value="0">
+          <input type="number" id="copiesAvailableTech" name="copiesAvailableTech" value="1" readonly>
 
           <!-- Copy Value -->
           <label for="copyValueTech">Copy Value:</label>

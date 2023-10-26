@@ -19,6 +19,7 @@ $userData = $result->fetch_assoc();
 
 // Define buttons for regular users
 $Buttons = [
+
     '<form action="../item search/itemSearch.php" method="GET"><button type="submit">Item Search</button></form>',
     '<form action="../account dash/accountDash.php" method="GET"><button type="submit">Your Dashboard</button></form>'
 ];
@@ -47,12 +48,10 @@ if ($userData['userType'] === 'management') {
 <head>
     <meta charset="UTF-8">
     <title>Library Homepage</title>
-    <!-- Link to an external CSS stylesheet -->
     <link rel="stylesheet" href="home.css">
     <style>
         .button-container {
             display: flex;
-            /* Arrange buttons side by side */
         }
     </style>
 </head>
@@ -63,7 +62,7 @@ if ($userData['userType'] === 'management') {
         Logged in as <?php echo $userData['uhID']; ?> : <?php echo $userData['userType']; ?>
     </div>
 
-    <h1>Library Project</h1>
+    <h1>Library Homepage</h1>
     <div class="button-container">
         <?php
         // Display the buttons based on userType
@@ -83,27 +82,66 @@ if ($userData['userType'] === 'management') {
     // Include the connection to the database
     include("../../connection.php");
 
-    // Define the base URL of your web server
-    $baseURL = "http://localhost:3000/team2-cosc3380";
+    // Fetch recently added books
+    $recentlyAddedBooks = array();
+    $sqlBooks = "SELECT * FROM books ORDER BY bookID DESC LIMIT 6";
+    $resultBooks = $conn->query($sqlBooks);
+    if ($resultBooks) {
+        $recentlyAddedBooks = $resultBooks->fetch_all(MYSQLI_ASSOC);
+    }
 
-    // Query the database to retrieve book cover file paths
-    $sql = "SELECT coverFilePath FROM books";
-    $result = $conn->query($sql);
-
-    // Create a container for book covers
-    if ($result) {
+    // Display a maximum of 6 recently added book covers
+    if (!empty($recentlyAddedBooks)) {
         echo '<div class="book-covers-container">';
-        // Loop through the results and display book covers
-        while ($row = $result->fetch_assoc()) {
-            $coverPath = $row['coverFilePath']; // Relative file path
-            $imageURL = $baseURL . $coverPath; // Construct the absolute image URL
-
-            // Display book covers with the book-cover class
-            echo '<img src="' . $imageURL . '" alt="Book Cover" class="book-cover">';
+        $bookCount = 0; // Initialize the book count
+        foreach ($recentlyAddedBooks as $book) {
+            if ($bookCount >= 6) {
+                break; // Exit the loop after displaying 6 books
+            }
+            if (isset($book['coverFilePath'])) {
+                $coverPath = '../../' . $book['coverFilePath'];
+                echo '<img src="' . $coverPath . '" alt="' . $book['bookName'] . '" class="book-cover">';
+                $bookCount++; // Increment the book count
+            }
+            
         }
-        echo '</div>'; // Close the book-covers-container div
+        echo '</div>';
     } else {
-        echo "Error: " . $conn->error;
+        echo "No recently added books.";
+    }
+
+    ?>
+
+    <h2>Explore More Items</h2>
+
+    <?php
+    // Fetch random items from books, movies, and tech (6 items)
+    $randomItems = array();
+    $sqlRandom = "(SELECT bookName AS itemName, coverFilePath FROM books ORDER BY RAND() LIMIT 2)
+                UNION ALL
+                (SELECT movieName AS itemName, coverFilepath AS coverFilePath FROM movies ORDER BY RAND() LIMIT 2)
+                UNION ALL
+                (SELECT techName AS itemName, coverFilePath FROM tech ORDER BY RAND() LIMIT 2)
+                ORDER BY RAND() LIMIT 6";
+
+    $resultRandom = $conn->query($sqlRandom);
+    if ($resultRandom) {
+        $randomItems = $resultRandom->fetch_all(MYSQLI_ASSOC);
+    }
+
+    // Display random item covers
+    if (!empty($randomItems)) {
+        echo '<div class="random-items-container">';
+        foreach ($randomItems as $item) {
+            if (isset($item['coverFilePath'])) {
+                $coverPath = '../../' . $item['coverFilePath']; // Go back two folders
+                $itemName = $item['itemName'];
+                echo '<img src="' . $coverPath . '" alt="' . $itemName . '" class="item-cover">';
+            }     
+        }
+        echo '</div>';
+    } else {
+        echo "No random items available.";
     }
     ?>
 </body>

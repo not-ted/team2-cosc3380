@@ -1,34 +1,73 @@
-body{
+body {
 	background-image: url("https://libraries.uh.edu/images/branches_anderson_02.png");
 	background-repeat: no-repeat;
 	background-size: cover;
 	text-align: center;
-}
-
-.container{
-	background-color: rgba(250, 23, 23, 0.672);
-	margin: auto;
+	font-family: Arial, sans-serif;
+	display: flex;
+  	flex-direction: column;
+  	justify-content: center;
+  	align-items: center;
+  	height: 100vh;
+  }
+  
+  .container {
+	background-color: rgba(252, 249, 249, 1);
+	border-radius: 5px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+	margin: 0 auto;
+	width: 400px;
 	padding: 20px;
-	width: 40%;
-}
-
-input[type = text], input[type = password]{
-	background-color: white;
-	padding: 10px;
-	margin: 10px;
-	box-sizing: border-box;
-}
-
-input[type=submit]{
-	background-color: #4CAF50;
-	color: white;
-	padding: 10px;
-	margin: 10px;
-	border: none;
-	cursor: pointer;
-	width: 100%;
-}
-
-h1{
+	overflow: auto;
+  }
+  
+  h1 {
 	text-align: center;
-}
+	color: white;
+	text-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+  }
+
+  h2{
+	text-align: center;
+	color: black;
+	text-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+  }
+  
+  label {
+	display: block;
+	font-weight: bold;
+	margin-bottom: 5px;
+  }
+  
+  input[type="text"],
+  input[type="password"],
+  input[type="email"] {
+	border: 1px solid #ccc;
+	border-radius: 3px;
+	box-sizing: border-box;
+	display: block;
+	font-size: 16px;
+	margin-bottom: 10px;
+	padding: 10px;
+	width: 100%;
+  }
+  
+  input[type="submit"] {
+	background-color: #4CAF50;
+	border: none;
+	border-radius: 3px;
+	color: #fff;
+	cursor: pointer;
+	display: block;
+	font-size: 16px;
+	margin-top: 20px;
+	padding: 10px;
+	width: 100%;
+  }
+
+  .error {
+	color: red;
+	font-weight: bold;
+	margin: 10px 0;
+  }
+  

@@ -155,7 +155,7 @@ function addTech() {
     var publishedDateTech = $('#publishedDateTech').val();
     var brandName = $('#brandName').val();
     var serialNumber = $('#serialNumber').val() || 0;
-    var copiesAvailableTech = $('#copiesAvailableTech').val() || 0;
+    var copiesAvailableTech = 1;
     var copyValueTech = $('#copyValueTech').val() || 0;
     var coverImageTech = $('#coverImageTech')[0].files[0]; // Get the file object
 

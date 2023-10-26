@@ -1,3 +1,13 @@
+<?php
+//Check if user is manager
+session_start();
+
+if ($_SESSION['user_type'] !== 'management') {
+    header("Location: /index.php"); // Redirect to index.php
+    exit(); 
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
