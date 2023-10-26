@@ -62,12 +62,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['newPassword'])) {
     <h1>Welcome, <?php echo htmlspecialchars($userData['firstName']); ?></h1>
 
     <h2>Your Profile Information:</h2>
-    <ul>
-        <li>User ID: <?php echo htmlspecialchars($userData['uhID']); ?></li>
-        <li>Email: <?php echo htmlspecialchars($userData['email']); ?></li>
-        <li>User Type: <?php echo htmlspecialchars($userData['userType']); ?></li>
-        <li>Can Borrow: <?php echo ($userData['canBorrow'] == 1) ? 'Yes' : 'No'; ?></li>
-        <li>Borrow Limit (days): <?php echo htmlspecialchars($userData['borrowLimit']); ?></li>
+    <ul class="user-profile">
+        <li class="user-profile-item">User ID: <?php echo htmlspecialchars($userData['uhID']); ?></li>
+        <li class="user-profile-item">Email: <?php echo htmlspecialchars($userData['email']); ?></li>
+        <li class="user-profile-item">User Type: <?php echo htmlspecialchars($userData['userType']); ?></li>
+        <li class="user-profile-item">Can Borrow: <?php echo ($userData['canBorrow'] == 1) ? 'Yes' : 'No'; ?></li>
+        <li class="user-profile-item">Borrow Limit (days): <?php echo htmlspecialchars($userData['borrowLimit']); ?></li>
         <!-- Add more profile information here -->
     </ul>
 
@@ -92,6 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['newPassword'])) {
     <?php endif; ?>
 
     <h2>Your Current Fines:</h2>
+    
     <table class="generic-table">
         <thead>
             <tr>
@@ -203,39 +204,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['newPassword'])) {
 
             // Create a prepared statement for currently borrowed books
             $sqlCurrBooks = "SELECT books.bookName AS itemName, c.checkoutDate, c.dueDate 
-        FROM borrowed c
-        JOIN bookCopy ON c.itemCopyID = bookCopy.bookCopyID
-        JOIN books ON bookCopy.bookID = books.bookID
-        WHERE c.userID = ? AND c.itemType = 'book' AND borrowStatus = 'checked out'";
+    FROM borrowed c
+    JOIN bookCopy ON c.itemCopyID = bookCopy.bookCopyID
+    JOIN books ON bookCopy.bookID = books.bookID
+    WHERE c.userID = ? AND c.itemType = 'book' AND borrowStatus = 'checked out'";
 
             // Create a prepared statement for movies
             $sqlCurrMovies = "SELECT movies.movieName AS itemName, c.checkoutDate, c.dueDate 
-        FROM borrowed c
-        JOIN moviecopy ON c.itemCopyID = moviecopy.movieCopyID
-        JOIN movies ON moviecopy.movieID = movies.movieID
-        WHERE c.userID = ? AND c.itemType = 'movie' AND borrowStatus = 'checked out'";
+    FROM borrowed c
+    JOIN moviecopy ON c.itemCopyID = moviecopy.movieCopyID
+    JOIN movies ON moviecopy.movieID = movies.movieID
+    WHERE c.userID = ? AND c.itemType = 'movie' AND borrowStatus = 'checked out'";
 
             // Create a prepared statement for tech items
             $sqlCurrTech = "SELECT tech.techName AS itemName, c.checkoutDate, c.dueDate 
-        FROM borrowed c
-        JOIN techcopy ON c.itemCopyID = techcopy.techCopyID
-        JOIN tech ON techcopy.techID = tech.techID
-        WHERE c.userID = ? AND c.itemType = 'tech' AND borrowStatus = 'checked out'";
+    FROM borrowed c
+    JOIN techcopy ON c.itemCopyID = techcopy.techCopyID
+    JOIN tech ON techcopy.techID = tech.techID
+    WHERE c.userID = ? AND c.itemType = 'tech' AND borrowStatus = 'checked out'";
 
             // Fetch currently borrowed items for each category
             fetchCurrentlyBorrowedItems($conn, $userId, 'book', $sqlCurrBooks);
             fetchCurrentlyBorrowedItems($conn, $userId, 'movie', $sqlCurrMovies);
             fetchCurrentlyBorrowedItems($conn, $userId, 'tech', $sqlCurrTech);
+
+            // If no items have been displayed, show the message inside the table
+            if (empty($borrowedItems)) {
+                echo "<tr><td colspan='4'>You don't have any currently borrowed items.</td></tr>";
+            }
             ?>
         </tbody>
     </table>
 
-    <?php
-    // Check if any items have been displayed
-    if (empty($borrowedItems)) {
-        echo "<p>You don't have any currently borrowed items.</p>";
-    }
-    ?>
 
     <h2>Your Reserved Items:</h2>
     <table class="generic-table">
@@ -332,11 +332,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['newPassword'])) {
                                 $returnedDate = date("Y-m-d", strtotime($row['returnedDate']));
 
                                 echo "<tr>
-                <td>$itemName</td>
-                <td>$checkoutDate</td>
-                <td>$dueDate</td>
-                <td>$returnedDate</td>
-            </tr>";
+                    <td>$itemName</td>
+                    <td>$checkoutDate</td>
+                    <td>$dueDate</td>
+                    <td>$returnedDate</td>
+                    </tr>";
 
                                 $itemsDisplayed = true; // Set to true when items are displayed
                             }
@@ -346,39 +346,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['newPassword'])) {
 
                     // Create a prepared statement to retrieve previously checked out books
                     $sqlPrevBooks = "SELECT books.bookName AS itemName, c.checkoutDate, c.dueDate, c.returnedDate
-    FROM borrowed c
-    JOIN bookCopy ON c.itemCopyID = bookCopy.bookCopyID
-    JOIN books ON bookCopy.bookID = books.bookID
-    WHERE c.userID = ? AND c.itemType = 'book' AND c.borrowStatus = 'returned'";
+        FROM borrowed c
+        JOIN bookCopy ON c.itemCopyID = bookCopy.bookCopyID
+        JOIN books ON bookCopy.bookID = books.bookID
+        WHERE c.userID = ? AND c.itemType = 'book' AND c.borrowStatus = 'returned'";
 
                     // Create a prepared statement to retrieve previously checked out movies
                     $sqlPrevMovies = "SELECT movies.movieName AS itemName, c.checkoutDate, c.dueDate, c.returnedDate
-    FROM borrowed c
-    JOIN moviecopy ON c.itemCopyID = moviecopy.movieCopyID
-    JOIN movies ON moviecopy.movieID = movies.movieID
-    WHERE c.userID = ? AND c.itemType = 'movie' AND c.borrowStatus = 'returned'";
+        FROM borrowed c
+        JOIN moviecopy ON c.itemCopyID = moviecopy.movieCopyID
+        JOIN movies ON moviecopy.movieID = movies.movieID
+        WHERE c.userID = ? AND c.itemType = 'movie' AND c.borrowStatus = 'returned'";
 
                     // Create a prepared statement to retrieve previously checked out tech items
                     $sqlPrevTech = "SELECT tech.techName AS itemName, c.checkoutDate, c.dueDate, c.returnedDate
-    FROM borrowed c
-    JOIN techcopy ON c.itemCopyID = techcopy.techCopyID
-    JOIN tech ON techcopy.techID = tech.techID
-    WHERE c.userID = ? AND c.itemType = 'tech' AND c.borrowStatus = 'returned'";
+        FROM borrowed c
+        JOIN techcopy ON c.itemCopyID = techcopy.techCopyID
+        JOIN tech ON techcopy.techID = tech.techID
+        WHERE c.userID = ? AND c.itemType = 'tech' AND c.borrowStatus = 'returned'";
 
                     // Fetch previously checked out items for each category
                     fetchItems($conn, $userId, 'book', $sqlPrevBooks);
                     fetchItems($conn, $userId, 'movie', $sqlPrevMovies);
                     fetchItems($conn, $userId, 'tech', $sqlPrevTech);
+
+                    // If no items have been displayed, show the message inside the table
+                    if (!$itemsDisplayed) {
+                        echo "<tr><td colspan='4'>You don't have any returned items.</td></tr>";
+                    }
                     ?>
                 </tbody>
             </table>
 
-            <?php
-            // Check if any items have been displayed
-            if (!$itemsDisplayed) {
-                echo "<p>You don't have any returned items.</p>";
-            }
-            ?>
             <h2>Your Previously Paid Fines:</h2>
             <table class="generic-table">
                 <thead>

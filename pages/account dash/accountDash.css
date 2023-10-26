@@ -74,7 +74,6 @@ a {
     margin-top: 20px;
 }
 
-
 /* Updated CSS class for generic tables */
 .generic-table {
     width: 100%;
@@ -91,6 +90,7 @@ a {
 
 .generic-table th {
     background-color: #f2f2f2;
+    color: rgb(153, 46, 46); /* Add maroon text color for table headers */
 }
 
 .generic-table tbody tr:nth-child(even) {
@@ -101,5 +101,19 @@ a {
     background-color: #fff;
 }
 
+.user-profile {
+    list-style: none;
+    padding: 0;
+}
 
-/* Add custom styling for other elements as needed */
+.user-profile-item {
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: #f2f2f2;
+    border-radius: 5px;
+}
+
+.user-profile-item:last-child {
+    margin-bottom: 0;
+}
