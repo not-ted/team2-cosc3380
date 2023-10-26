@@ -1,0 +1,32 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+.search-container {
+    margin: 20px;
+}
+
+#search-form {
+    display: flex;
+}
+
+#search {
+    width: 250px;
+    padding: 5px;
+}
+
+#category {
+    padding: 5px;
+}
+
+#search-button {
+    padding: 5px;
+    background-color: #337ab7;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+#results {
+    margin: 20px;
+}
