@@ -20,9 +20,9 @@
     <div id="results">
         <?php
         $host = "localhost";
-        $database = "your_database_name";
-        $username = "your_username"; // Replace with your database username
-        $password = "your_password"; // Replace with your database password
+        $database = "librarydatabase";
+        $username = "root"; // Replace with your database username
+        $password = ""; // Replace with your database password
 
         $mysqli = new mysqli($host, $username, $password, $database);
 
@@ -36,9 +36,9 @@
 
             // Prepare the SQL statement based on the selected user type
             if ($userType === 'all') {
-                $sql = "SELECT * FROM users WHERE username LIKE '%$search'";
+                $sql = "SELECT * FROM users WHERE firstName LIKE '%$search'";
             } else {
-                $sql = "SELECT * FROM users WHERE user_type = '$userType' AND username LIKE '%$search'";
+                $sql = "SELECT * FROM users WHERE userType = '$userType' AND firstName LIKE '%$search'";
             }
 
             $result = $mysqli->query($sql);
@@ -52,8 +52,8 @@
 
             while ($row = $result->fetch_assoc()) {
                 echo '<tr>';
-                echo '<td>' . $row['username'] . '</td>';
-                echo '<td>' . $row['user_type'] . '</td>';
+                echo '<td>' . $row['firstName'] . '</td>';
+                echo '<td>' . $row['userType'] . '</td>';
                 echo '</tr>';
             }
             echo '</table>';
