@@ -80,7 +80,6 @@
 
             // Close the database connection
             $mysqli->close();
-        }
         ?>
     </div>
     <script src="itemSearch.js"></script>
