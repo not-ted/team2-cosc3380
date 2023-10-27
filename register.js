@@ -1,12 +1,12 @@
-function validateSignupForm(event){
-	event.preventDefault();
+function validateSignup(){
 
-	var fname = document.forms["signupForm"]["Fname"].value;
-	var lname = document.forms["signupForm"]["Lname"].value;
-	var username = document.forms["signupForm"]["username"].value;
-    var email = document.forms["signupForm"]["email"].value;
-    var password = document.forms["signupForm"]["password"].value;
-    var confirmPassword = document.forms["signupForm"]["confirmPassword"].value;
+	var fname = document.getElementById("Fname").value;
+	var lname = document.getElementById("Lname").value;
+	var username = document.getElementById("username").value;
+	var email = document.getElementById("email").value;
+	var password = document.getElementById("password").value;
+	var confirmPassword = document.getElementById("confirmPassword").value;
+
 
 	var emptyError = document.getElementById("emptyError");
 	var nameError = document.getElementById("nameError");
@@ -23,7 +23,6 @@ function validateSignupForm(event){
 	matchError.innerHTML = "";
 
 	var isValid = true;
-
 	if (fname == "" || lname == "" || username == "" || email == "" || password == "" || confirmPassword == "") {
 		emptyError.innerHTML = "Please fill out all fields";
 		isValid = false;
@@ -48,44 +47,55 @@ function validateSignupForm(event){
 		emailError.innerHTML = "Invalid email address";
 		isValid = false;
 	}
-
-	if(isValid){
-		document.forms["signupForm"].submit();
-	}
-
-	if(!isValid) {
-		var errorMessages = {
-			emptyError: emptyError.innerHTML,
-			nameError: nameError.innerHTML,
-			idError: idError.innerHTML,
-			emailError: emailError.innerHTML,
-			passwordError: passwordError.innerHTML,
-			matchError: matchError.innerHTML
-		};
-
-        // Send error messages to PHP script using AJAX
-        var xhr = new XMLHttpRequest();
-		var url = "register.php";
-		var method = "POST";
-        xhr.open("POST", "handle_errors.php", true);
-        xhr.setRequestHeader("Content-type", "application/json");
-        xhr.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                // Display error messages returned by PHP script
-                var response = JSON.parse(this.responseText);
-                emptyError.innerHTML = response.emptyError;
-                nameError.innerHTML = response.nameError;
-                idError.innerHTML = response.idError;
-                emailError.innerHTML = response.emailError;
-				passwordError.innerHTML = response.passwordError;
-				matchError.innerHTML = response.matchError;
-            }
-        };
-        var json = JSON.stringify(errorMessages);
-		xhr.send("errorMessages=" + json);
-        return false;
+	if (isValid)
+	{
+		insertUser();
 	}
 }
+
+//send to insertUser.php
+function insertUser() {
+    var fname = document.getElementById("Fname").value;
+    var lname = document.getElementById("Lname").value;
+    var username = document.getElementById("username").value;
+    var email = document.getElementById("email").value;
+    var password = document.getElementById("password").value;
+    var confirmPassword = document.getElementById("confirmPassword").value;
+    var securityQuestion1 = document.getElementById("securityQuestion1").value;
+    var securityQuestion2 = document.getElementById("securityQuestion2").value;
+    var securityQuestion3 = document.getElementById("securityQuestion3").value;
+    var securityAnswer1 = document.getElementById("securityAnswer1").value;
+    var securityAnswer2 = document.getElementById("securityAnswer2").value;
+    var securityAnswer3 = document.getElementById("securityAnswer3").value;
+
+    var xhttp = new XMLHttpRequest();
+
+    // Construct URL with parameters
+    var url = "insertUser.php";
+    url += "?fname=" + encodeURIComponent(fname);
+    url += "&lname=" + encodeURIComponent(lname);
+    url += "&username=" + encodeURIComponent(username);
+    url += "&email=" + encodeURIComponent(email);
+    url += "&password=" + encodeURIComponent(password);
+    url += "&confirmPassword=" + encodeURIComponent(confirmPassword);
+    url += "&securityQuestion1=" + encodeURIComponent(securityQuestion1);
+    url += "&securityQuestion2=" + encodeURIComponent(securityQuestion2);
+    url += "&securityQuestion3=" + encodeURIComponent(securityQuestion3);
+    url += "&securityAnswer1=" + encodeURIComponent(securityAnswer1);
+    url += "&securityAnswer2=" + encodeURIComponent(securityAnswer2);
+    url += "&securityAnswer3=" + encodeURIComponent(securityAnswer3);
+    xhttp.open("GET", url);
+
+	xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+			alert("account created successfuly");
+            window.location.href = 'index.php';
+        }
+    };
+
+    xhttp.send();
+}
+
 
 function validateEmail(email) {
 	var re = /\S+@\S+\.\S+/;
