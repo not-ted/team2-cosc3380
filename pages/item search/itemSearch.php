@@ -20,13 +20,6 @@
     </div>
     <div id="results">
         <?php
-        if (isset($_POST['search-button'])) {
-            $host = "localhost";
-            $database = "librarydatabase";
-            $username = "root"; // Replace with your database username
-            $password = ""; // Replace with your database password (if any)
-
-            $mysqli = new mysqli($host, $username, $password, $database);
 
             if ($mysqli->connect_error) {
                 die("Connection failed: " . $mysqli->connect_error);
