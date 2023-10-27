@@ -2,21 +2,25 @@
 body {
     background-color: #fffaf9;
     font-family: Arial, Helvetica, sans-serif;
-    color: rgb(153, 46, 46); /* Text color */
+    color: rgb(153, 46, 46);
+    /* Text color */
 }
 
 /* Style the headings */
 h1,
 h2 {
     color: rgb(153, 46, 46);
-    border-bottom: 2px solid rgb(153, 46, 46); /* Add a bottom border */
-    padding-bottom: 5px; /* Add some space between the border and text */
+    border-bottom: 2px solid rgb(153, 46, 46);
+    /* Add a bottom border */
+    padding-bottom: 5px;
+    /* Add some space between the border and text */
 }
 
 /* Style the form elements */
 label {
     font-weight: bold;
-    color: rgb(128, 144, 207); /* Change label text color */
+    color: rgb(128, 144, 207);
+    /* Change label text color */
 }
 
 /* Style the password input field */
@@ -62,11 +66,54 @@ a {
 
 /* Additional styling for profile information section */
 .profile-section {
-    background-color: rgb(255, 238, 222); /* Light background color */
+    background-color: rgb(255, 238, 222);
+    /* Light background color */
     padding: 20px;
     border: 1px solid rgb(128, 144, 207);
     border-radius: 5px;
     margin-top: 20px;
 }
 
-/* Add custom styling for other elements as needed */
+/* Updated CSS class for generic tables */
+.generic-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.generic-table th,
+.generic-table td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ccc;
+}
+
+.generic-table th {
+    background-color: #f2f2f2;
+    color: rgb(153, 46, 46); /* Add maroon text color for table headers */
+}
+
+.generic-table tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.generic-table tbody tr:nth-child(odd) {
+    background-color: #fff;
+}
+
+.user-profile {
+    list-style: none;
+    padding: 0;
+}
+
+.user-profile-item {
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: #f2f2f2;
+    border-radius: 5px;
+}
+
+.user-profile-item:last-child {
+    margin-bottom: 0;
+}

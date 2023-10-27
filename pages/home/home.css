@@ -122,4 +122,13 @@ img.item-cover {
     border-radius: 5px;
 }
 
+/* Add a fading effect on hover */
+.cover-fade:hover {
+    opacity: 0.8; /* Adjust the opacity as desired */
+    transition: opacity 0.3s; /* Smooth transition */
+}
+
+
+
+
 /* Add additional styles or modifications as needed */
