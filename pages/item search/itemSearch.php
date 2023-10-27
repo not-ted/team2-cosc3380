@@ -20,11 +20,9 @@
     </div>
     <div id="results">
         <?php
+        include("../../connection.php"); // Include the database connection
 
-            if ($mysqli->connect_error) {
-                die("Connection failed: " . $mysqli->connect_error);
-            }
-
+        if (isset($_POST['search-button'])) {
             $search = isset($_POST['search']) ? $_POST['search'] : '';
             $category = isset($_POST['category']) ? $_POST['category'] : 'all';
 
@@ -41,11 +39,12 @@
                 $sql = "SELECT * FROM $table WHERE $columnName LIKE '%$search%'";
             }
 
-            $result = $mysqli->query($sql);
+            $result = $conn->query($sql); // Use $conn here
 
             // Display the search results in a table
             echo '<table>';
             echo '<tr>';
+            // Table header based on the category
             if ($category === 'books') {
                 echo '<th>Book Name</th>';
                 echo '<th>ISBN</th>';
@@ -60,6 +59,7 @@
             }
             echo '</tr>';
 
+            // Loop through results and populate the table rows
             while ($row = $result->fetch_assoc()) {
                 echo '<tr>';
                 if ($category === 'books') {
@@ -76,12 +76,12 @@
                 }
                 echo '</tr>';
             }
-            echo '</table>';
+            echo '</table';
 
             // Close the database connection
-            $mysqli->close();
+            $conn->close();
+        }
         ?>
     </div>
-    <script src="itemSearch.js"></script>
 </body>
 </html>
