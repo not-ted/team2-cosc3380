@@ -2,8 +2,8 @@
 	session_start();
 	include("connection.php");
 
-		$fname = $_GET['Fname'];
-		$lname = $_GET['Lname'];
+		$fname = $_GET['fname'];
+		$lname = $_GET['fname'];
 		$username = $_GET['username'];
 		$email = $_GET['email'];
 		$password = $_GET['password'];
