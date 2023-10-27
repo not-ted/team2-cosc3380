@@ -2,7 +2,7 @@
     include ("../../connection.php");
 
     $currentDate = date('Y-m-d');
-    $sql = "SELECT borrowed.borrowID, borrowed.userID FROM borrowed WHERE dueDate < '$currentDate'";
+    $sql = "SELECT borrowed.borrowID, borrowed.userID FROM borrowed WHERE dueDate < '$currentDate' AND returnedDate IS NULL";
     $result = mysqli_query($conn, $sql);
 
     if ($result) {
@@ -22,6 +22,14 @@
 
                 if (!$insertFineResult) {
                     echo "Error adding fine: " . mysqli_error($conn);
+                } else {
+                    // Update canBorrow attribute in users table
+                    $updateCanBorrowSQL = "UPDATE users SET canBorrow = 0 WHERE userID = '$userID'";
+                    $updateCanBorrowResult = mysqli_query($conn, $updateCanBorrowSQL);
+
+                    if (!$updateCanBorrowResult) {
+                        echo "Error updating canBorrow attribute: " . mysqli_error($conn);
+                    }
                 }
             }
         }
