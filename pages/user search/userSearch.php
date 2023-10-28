@@ -19,18 +19,9 @@
     </div>
     <div id="results">
         <?php
+        include("../../connection.php");
+
         if (isset($_POST['search-button'])) {
-            $host = "localhost";
-            $database = "librarydatabase";
-            $username = "root"; // Replace with your database username
-            $password = ""; // Replace with your database password (if any)
-
-            $mysqli = new mysqli($host, $username, $password, $database);
-
-            if ($mysqli->connect_error) {
-                die("Connection failed: " . $mysqli->connect_error);
-            }
-
             $search = isset($_POST['search']) ? $_POST['search'] : '';
             $userType = isset($_POST['userType']) ? $_POST['userType'] : 'all';
 
@@ -41,7 +32,7 @@
                 $sql = "SELECT * FROM users WHERE (firstName LIKE '%$search' OR uhID LIKE '%$search') AND userType = '$userType'";
             }
 
-            $result = $mysqli->query($sql);
+            $result = $conn->query($sql);
 
             // Display the search results in a table
             echo '<table>';
@@ -64,10 +55,10 @@
                 echo '<td>' . $row['lastName'] . '</td>';
                 echo '</tr>';
             }
-            echo '</table>';
+            echo '</table';
 
             // Close the database connection
-            $mysqli->close();
+            $conn->close();
         }
         ?>
     </div>
