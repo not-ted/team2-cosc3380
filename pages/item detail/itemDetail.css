@@ -3,6 +3,7 @@ body {
     background-color: #fffaf9;
     font-family: Arial, Helvetica, sans-serif;
     color: rgb(153, 46, 46);
+  	height: 100vh;
     /* Text color */
 }
 
@@ -14,23 +15,6 @@ h2 {
     /* Add a bottom border */
     padding-bottom: 5px;
     /* Add some space between the border and text */
-}
-
-/* Style the form elements */
-label {
-    font-weight: bold;
-    color: rgb(128, 144, 207);
-    /* Change label text color */
-}
-
-/* Style the password input field */
-input[type="password"] {
-    border: 1px solid rgb(128, 144, 207);
-    border-radius: 3vw;
-    padding: 0.8vw;
-    font-size: 1.5vw;
-    background-color: white;
-    color: rgb(153, 46, 46);
 }
 
 /* Style the submit button */
@@ -47,6 +31,54 @@ input[type="submit"] {
 a {
     text-decoration: none;
     color: rgb(153, 46, 46);
+}
+.waitlist-container {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin: 50px;
+}
+
+.list{
+    display: flex;
+    position: absolute;
+    top: 10px;
+    background-color: rgb(200, 202, 211);
+    border-radius: 10px;
+    margin-top: 70px;
+    flex-direction: row;
+}
+
+.list img{
+    display: block;
+    margin: 50px;
+    width : 400px;
+    height : auto;
+    border-radius: 10px;
+}
+
+.list ul{
+    list-style-type: none;
+    margin: 30px;
+    padding: 10px;
+}
+.list li{
+    padding: 10px;
+    margin: 10px;
+    border: 1px solid rgb(128, 144, 207);
+    border-radius: 5px;
+    background-color: rgb(234, 226, 219);
+    width : 300px;
+}
+
+.request-button {
+    display: block;
+    background-color: rgb(128, 144, 207);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
 }
 
 .logout-container {
@@ -89,16 +121,6 @@ a {
     position: left;
 }
 
-/* Additional styling for profile information section */
-.profile-section {
-    background-color: rgb(255, 238, 222);
-    /* Light background color */
-    padding: 20px;
-    border: 1px solid rgb(128, 144, 207);
-    border-radius: 5px;
-    margin-top: 20px;
-}
-
 /* Updated CSS class for generic tables */
 .generic-table {
     width: 100%;
@@ -124,21 +146,4 @@ a {
 
 .generic-table tbody tr:nth-child(odd) {
     background-color: #fff;
-}
-
-.user-profile {
-    list-style: none;
-    padding: 0;
-}
-
-.user-profile-item {
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    padding: 10px;
-    background-color: #f2f2f2;
-    border-radius: 5px;
-}
-
-.user-profile-item:last-child {
-    margin-bottom: 0;
 }

@@ -33,6 +33,16 @@ if(!isset($_SESSION['user_id'])){
   else {
     echo "Item not found";
   }
+
+
+  //get cover image filepath
+  if($itemInfo['coverFilePath'] != NULL){
+  	$coverPath = $itemInfo['coverFilePath'];
+  }
+  else{
+  	$coverPath = "../main resources/placeholder.png";
+  }
+
 //}
 
 ?>
@@ -48,39 +58,48 @@ if(!isset($_SESSION['user_id'])){
 </head>
 
 <body>
+  	<h1>Item Detail</h1>	
+
 	<div class="logout-container">
 		<button class="back-button" onclick="location.href='../../itemSearch.php'">Back to Search</button>
 		<button class="logout-button" onclick="location.href='../../logout.php'">Logout</button>
 	</div>
 
 	<div class = "list" id = "bookList" <?php if($itemType != 'book'){?> style="display:none"<?php } ?> >
-	<ul>
-		<li>Ttile: <?php echo htmlspecialchars($itemInfo['bookName']) ?></li>
-		<li>Author(s): <?php getAuthors($itemInfo, $conn) ?></li>
-		<li>Publisher: <?php echo htmlspecialchars($itemInfo['publicationCompany']) ?> </li>
-		<li>ISBN: <?php echo htmlspecialchars($itemInfo['ISBN']) ?></li>
-		<li>Publish Date: <?php getYear($itemInfo, $conn) ?></li>
-		<li>Avaliable: <?php checkAvailable($itemInfo, $conn, 'book') ?></li>
-	</ul>
-	</div>
-	<div class = "list" id = "movieList" <?php if($itemType != 'movie'){?> style="display:none"<?php } ?>>
-	<ul>
-		<li>Ttile:  <?php echo htmlspecialchars($itemInfo['movieName']) ?></li>
-		<li>Director:  <?php getDirector($itemInfo, $conn) ?></li>
-		<li>Producer: <?php echo htmlspecialchars($itemInfo['productionCompany']) ?></li>
-		<li>Released: <?php echo htmlspecialchars($itemInfo['publishedDate']) ?></li>
-		<li>Avaliable: <?php checkAvailable($itemInfo, $conn, 'movie') ?></li>
-	</ul>
-	</div>
-	<div class = "list" id = "techList" <?php if($itemType != 'tech'){?> style="display:none"<?php } ?>>
-	<ul>
-		<li>Brand: <?php getBrand($itemInfo, $conn) ?></li>
-		<li>Model: <?php echo htmlspecialchars($itemInfo['modelNumber']) ?></li>
-		<li>Avaliable: <?php checkAvailable($itemInfo, $conn, 'tech') ?></li>
-	</ul>
+		<img id = "coverimage" src ="<?php echo htmlspecialchars($coverPath); ?>">
+		<ul>
+			<li>Ttile: <?php echo htmlspecialchars($itemInfo['bookName']) ?></li>
+			<li>Author(s): <?php getAuthors($itemInfo, $conn) ?></li>
+			<li>Publisher: <?php echo htmlspecialchars($itemInfo['publicationCompany']) ?> </li>
+			<li>ISBN: <?php echo htmlspecialchars($itemInfo['ISBN']) ?></li>
+			<li>Publish Date: <?php getYear($itemInfo, $conn) ?></li>
+			<li><?php checkAvailable($itemInfo, $conn, 'book') ?></li>
+		</ul>
+
 	</div>
 
-	<div class="container" id="waitlist" style="display:block">
+	<div class = "list" id = "movieList" <?php if($itemType != 'movie'){?> style="display:none"<?php } ?>>
+		<img id = "coverimage" src ="<?php echo htmlspecialchars($coverPath); ?>">
+		<ul>
+			<li>Ttile:  <?php echo htmlspecialchars($itemInfo['movieName']) ?></li>
+			<li>Director:  <?php getDirector($itemInfo, $conn) ?></li>
+			<li>Producer: <?php echo htmlspecialchars($itemInfo['productionCompany']) ?></li>
+			<li>Released: <?php echo htmlspecialchars($itemInfo['publishedDate']) ?></li>
+			<li><?php checkAvailable($itemInfo, $conn, 'movie') ?></li>
+		</ul>
+		<button class="request-button"">Request This Item</button>
+	</div>
+
+	<div class = "list" id = "techList" <?php if($itemType != 'tech'){?> style="display:none"<?php } ?>>
+		<img id = "coverimage" src ="<?php echo htmlspecialchars($coverPath); ?>">
+		<ul>
+			<li>Brand: <?php getBrand($itemInfo, $conn) ?></li>
+			<li>Model: <?php echo htmlspecialchars($itemInfo['modelNumber']) ?></li>
+			<li><?php checkAvailable($itemInfo, $conn, 'tech') ?></li>
+		</ul>
+	</div>
+
+	<div class="waitlist-container" id="waitlist" >
 		<h2>Waitlist</h2>
 		<table class="generic-table">
 			<thead>

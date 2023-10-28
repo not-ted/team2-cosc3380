@@ -65,7 +65,7 @@ function checkAvailable($itemInfo, $conn, $itemType){
 			echo mysqli_num_rows($result) . " copies available";
 		}
 		else{
-			echo "No copies available";
+			echo "This item is currentyly unavailable";
 		}
 	}
 	if($itemType == "movie"){
@@ -76,7 +76,7 @@ function checkAvailable($itemInfo, $conn, $itemType){
 			echo mysqli_num_rows($result) . " copies available";
 		}
 		else{
-			echo "No copies available";
+			echo "This item is currently unavailable";
 		}
 	}
 	if($itemType == "tech"){
@@ -87,7 +87,7 @@ function checkAvailable($itemInfo, $conn, $itemType){
 			echo mysqli_num_rows($result) . " copies available";
 		}
 		else{
-			echo "No copies available";
+			echo "This item is currently unavailable";
 		}
 	}
 }
@@ -109,7 +109,7 @@ function getWaitlist($itemInfo, $conn, $itemType){
 			}
 		}
 		else{
-			echo "No people on waitlist";
+			echo "<tr><td colspan='3'>Waitlist is empty</td></tr>";
 		}
 	}
 	if($itemType == "movie"){
@@ -127,7 +127,7 @@ function getWaitlist($itemInfo, $conn, $itemType){
 			}
 		}
 		else{
-			echo "No people on waitlist";
+			echo "<tr><td colspan='3'>Waitlist is empty</td></tr>";
 		}
 	}
 	if($itemType == "tech"){
@@ -145,7 +145,7 @@ function getWaitlist($itemInfo, $conn, $itemType){
 			}
 		}
 		else{
-			echo "<tr><td colspan='3'>You don't have any currently borrowed items.</td></tr>";
+			echo "<tr><td colspan='3'>Waitlist is empty</td></tr>";
 		}
 	}
 }
