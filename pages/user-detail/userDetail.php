@@ -7,10 +7,9 @@ if(!isset($_SESSION['user_id'])){
 }
 
 // check if a user ID has been passed in the URL
-//if (isset($_GET["id"])) {
+if (isset($_GET["id"])) {
   // get the user ID from the URL
-  //$userId = $_GET["id"];
-  $userId = 2;
+  $userId = $_GET["id"];
 
   // query the database for the user with the specified ID
   $query = "SELECT * FROM users WHERE userID = $userId LIMIT 1";
@@ -22,7 +21,7 @@ if(!isset($_SESSION['user_id'])){
   else {
     echo "User not found";
   }
-//}
+}
 
 ?>
 
@@ -40,6 +39,7 @@ if(!isset($_SESSION['user_id'])){
 
 	<div class="logout-container">
 		<button class="back-button" onclick="location.href='../../userSearch.php'">Back to Search</button>
+		<button class="home-button" onclick="location.href='../../home.php'">Home</button>
         <button class="logout-button" onclick="location.href='../../logout.php'">Logout</button>
     </div>
 
@@ -54,22 +54,32 @@ if(!isset($_SESSION['user_id'])){
 
 	<div class="edit-container">
   		<button class="edit-button" onclick="<?php changeBorrow($userID, $conn)?>">Change Borrow Privilege</button>		
-		<button class="edit-button" onclick="showFines()">Clear Fine</button>	
+		<button class="edit-button" onclick="clearFines()">Clear Fine</button>	
 	</div>
 
 	<script>
-		function showFines() {
-  			document.getElementById("fines").style.display = "block";
+		function clearFines() {
+  			document.getElementById("clearFine").style.display = "block";
 		}
 	</script>
 
-	<div id="fines" class="fines-container" style="display:none">
+	<div class =fines-container" id="clearFine" style="display:none">
+		<h2>Clear Fine</h2>
+		<form method="POST">
+			<label for="fineID">Fine ID:</label>
+			<input type="text" id="fineID" name="fineID"><br><br>
+			<input type="submit" value="Submit">
+		</form>
+	</div>
+
+	<div id="fines" class="fines-container">
 		<h2>Fines</h2>
 		<table class="generic-table">
 			<thead>
 				<tr>
+					<th>Fine ID</th>
 					<th>Fine Amount</th>
-					<th>Fine Type</th>
+					<th>Reason</th>
 					<th>Status</th>
 				</tr>
 			</thead>
@@ -77,7 +87,7 @@ if(!isset($_SESSION['user_id'])){
 				<?php getFines($userId, $conn); ?>
 			</tbody>
 		</table>
-  	</div>				
+  	</div>
 
 	<h2>Currently Borrowed</h2>
 	<table class="generic-table">

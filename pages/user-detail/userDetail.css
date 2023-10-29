@@ -70,6 +70,15 @@ a {
     cursor: pointer;
 }
 
+.home-button {
+    background-color: rgb(26, 208, 102);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
 .logout-button {
     background-color: red;
     color: white;
