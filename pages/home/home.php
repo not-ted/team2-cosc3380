@@ -82,32 +82,32 @@ if ($userData['userType'] === 'management') {
     // Include the connection to the database
     include("../../connection.php");
 
-// Fetch recently added books
-$recentlyAddedBooks = array();
-$sqlBooks = "SELECT * FROM books ORDER BY bookID DESC LIMIT 6";
-$resultBooks = $conn->query($sqlBooks);
+    // Fetch recently added books
+    $recentlyAddedBooks = array();
+    $sqlBooks = "SELECT * FROM books ORDER BY bookID DESC LIMIT 6";
+    $resultBooks = $conn->query($sqlBooks);
 
-if ($resultBooks && $resultBooks->num_rows > 0) {
-    $recentlyAddedBooks = $resultBooks->fetch_all(MYSQLI_ASSOC);
-    echo '<div class="book-covers-container">';
-    foreach ($recentlyAddedBooks as $book) {
-        // Ensure the coverFilePath is set and not empty
-        if (!empty($book['coverFilePath'])) {
-            $coverPath = '../../' . $book['coverFilePath'];
-            
-            // Create a clickable link that leads to itemDetail.php with the bookID
-            echo '<div class="cover-fade">
+    if ($resultBooks && $resultBooks->num_rows > 0) {
+        $recentlyAddedBooks = $resultBooks->fetch_all(MYSQLI_ASSOC);
+        echo '<div class="book-covers-container">';
+        foreach ($recentlyAddedBooks as $book) {
+            // Ensure the coverFilePath is set and not empty
+            if (!empty($book['coverFilePath'])) {
+                $coverPath = '../../' . $book['coverFilePath'];
+
+                // Create a clickable link that leads to itemDetail.php with the bookID
+                echo '<div class="cover-fade">
                 <a href="../item detail/itemDetail.php?bookID=' . $book['bookID'] . '">
                     <img src="' . $coverPath . '" alt="Book Cover" class="book-cover">
                 </a>
             </div>';
+            }
         }
+        echo '</div>';
+    } else {
+        echo "No recently added books.";
     }
-    echo '</div>';
-} else {
-    echo "No recently added books.";
-}
-?>
+    ?>
 
 
     <h2>Explore More Items</h2>
@@ -135,9 +135,11 @@ if ($resultBooks && $resultBooks->num_rows > 0) {
                 $coverPath = '../../' . $item['coverFilePath'];
                 $itemName = $item['itemName'];
 
-                // Add the "cover-fade" class to apply the fading effect on hover
+                // Wrap the cover image in an anchor tag to make it clickable
                 echo '<div class="item-cover-container cover-fade" style="display: inline-block; margin-right: 10px;">';
+                echo '<a href="../item Detail/itemDetail.php">'; // Adjust the href path as needed
                 echo '<img src="' . $coverPath . '" alt="' . $itemName . '" class="item-cover">';
+                echo '</a>';
                 echo '</div>';
             }
         }
