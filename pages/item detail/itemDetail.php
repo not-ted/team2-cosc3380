@@ -59,7 +59,7 @@ if (isset($_GET["itemID"])) {
   	<h1>Item Detail</h1>	
 
 	<div class="logout-container">
-		<button class="back-button" onclick="location.href='../../itemSearch.php'">Back to Search</button>
+		<button class="back-button" onclick="location.href='../item search/itemSearch.php'">Back to Search</button>
 		<button class="logout-button" onclick="location.href='../../logout.php'">Logout</button>
 	</div>
 
