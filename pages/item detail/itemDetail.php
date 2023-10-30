@@ -8,12 +8,10 @@ if(!isset($_SESSION['user_id'])){
 }
 
 // check if a user ID has been passed in the URL
-//if (isset($_GET["itemID"])) {
+if (isset($_GET["itemID"])) {
   // get the user ID from the URL
-  //$itemID = $_GET["id"];
-  //$itemType = $_GET["type"];	
-  $itemID = 2;
-  $itemType = "movie";
+  $itemID = $_GET["id"];
+  $itemType = $_GET["type"];	
 
   // query the database for the user with the specified ID
   if($itemType == "book"){
@@ -43,7 +41,7 @@ if(!isset($_SESSION['user_id'])){
   	$coverPath = "../main resources/placeholder.png";
   }
 
-//}
+}
 
 ?>
 

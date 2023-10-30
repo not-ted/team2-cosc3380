@@ -9,10 +9,9 @@ if(!isset($_SESSION['user_id'])){
 $message = "test";
 
 // check if a user ID has been passed in the URL
-//if (isset($_GET["id"])) {
+if (isset($_GET["id"])) {
   // get the user ID from the URL
-  //$userId = $_GET["id"];
-  $userId = $_SESSION['user_id'];
+  $userId = $_GET["id"];
 
   // query the database for the user with the specified ID
   $query = "SELECT * FROM users WHERE userID = $userId LIMIT 1";
@@ -24,7 +23,7 @@ $message = "test";
   else {
     echo "User not found";
   }
-//}
+}
 
 if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['payFine'])){
 	$fineID = $_POST['fineID'];
