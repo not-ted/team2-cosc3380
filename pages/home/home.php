@@ -82,28 +82,33 @@ if ($userData['userType'] === 'management') {
     // Include the connection to the database
     include("../../connection.php");
 
-    // Fetch recently added books
-    $recentlyAddedBooks = array();
-    $sqlBooks = "SELECT * FROM books ORDER BY bookID DESC LIMIT 6";
-    $resultBooks = $conn->query($sqlBooks);
+// Fetch recently added books
+$recentlyAddedBooks = array();
+$sqlBooks = "SELECT * FROM books ORDER BY bookID DESC LIMIT 6";
+$resultBooks = $conn->query($sqlBooks);
 
-    if ($resultBooks && $resultBooks->num_rows > 0) {
-        $recentlyAddedBooks = $resultBooks->fetch_all(MYSQLI_ASSOC);
-        echo '<div class="book-covers-container">';
-        foreach ($recentlyAddedBooks as $book) {
-            // Ensure the coverFilePath is set and not empty
-            if (!empty($book['coverFilePath'])) {
-                $coverPath = '../../' . $book['coverFilePath'];
-                echo '<div class="cover-fade">
-                <img src="' . $coverPath . '" alt="Book Cover" class="book-cover">
+if ($resultBooks && $resultBooks->num_rows > 0) {
+    $recentlyAddedBooks = $resultBooks->fetch_all(MYSQLI_ASSOC);
+    echo '<div class="book-covers-container">';
+    foreach ($recentlyAddedBooks as $book) {
+        // Ensure the coverFilePath is set and not empty
+        if (!empty($book['coverFilePath'])) {
+            $coverPath = '../../' . $book['coverFilePath'];
+            
+            // Create a clickable link that leads to itemDetail.php with the bookID
+            echo '<div class="cover-fade">
+                <a href="../item detail/itemDetail.php?bookID=' . $book['bookID'] . '">
+                    <img src="' . $coverPath . '" alt="Book Cover" class="book-cover">
+                </a>
             </div>';
-            }
         }
-        echo '</div>';
-    } else {
-        echo "No recently added books.";
     }
-    ?>
+    echo '</div>';
+} else {
+    echo "No recently added books.";
+}
+?>
+
 
     <h2>Explore More Items</h2>
 
