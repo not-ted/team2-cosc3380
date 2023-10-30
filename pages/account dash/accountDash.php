@@ -1,5 +1,5 @@
-<!--- This is the user dashboard page for the library management system. --->
 <?php
+// This is the user dashboard page for the library management system.
 // Start the user's session or resume if it exists
 session_start();
 
@@ -71,9 +71,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['newPassword'])) {
         <!-- Add more profile information here -->
     </ul>
 
+    <!-- display logout and back button -->
     <div class="logout-container">
         <button class="logout-button" onclick="location.href='logout.php'">Logout</button>
     </div>
+
+    <div class="back-button-container">
+        <button class="back-button" onclick="location.href='../home/home.php'">Back to Home Page</button>
+    </div>
+
 
     <h2>Change Password:</h2>
     <form method="post">
@@ -92,7 +98,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['newPassword'])) {
     <?php endif; ?>
 
     <h2>Your Current Fines:</h2>
-    
+
     <table class="generic-table">
         <thead>
             <tr>
