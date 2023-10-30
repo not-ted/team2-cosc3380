@@ -8,10 +8,12 @@ if(!isset($_SESSION['user_id'])){
 }
 
 // check if a user ID has been passed in the URL
-if (isset($_GET["itemID"])) {
+//if (isset($_GET["itemID"])) {
   // get the user ID from the URL
-  $itemID = $_GET["id"];
-  $itemType = $_GET["type"];	
+  //$itemID = $_GET["id"];
+  //$itemType = $_GET["type"];	
+  $itemID = 2;
+  $itemType = "movie";
 
   // query the database for the user with the specified ID
   if($itemType == "book"){
@@ -34,14 +36,14 @@ if (isset($_GET["itemID"])) {
 
 
   //get cover image filepath
-  if($itemInfo['coverFilePath'] != NULL){
-  	$coverPath = $itemInfo['coverFilePath'];
+  if($itemInfo['coverFilepath'] != NULL){
+  	$coverPath = $itemInfo['coverFilepath'];
   }
   else{
   	$coverPath = "../main resources/placeholder.png";
   }
 
-}
+//}
 
 ?>
 
@@ -63,39 +65,46 @@ if (isset($_GET["itemID"])) {
 		<button class="logout-button" onclick="location.href='../../logout.php'">Logout</button>
 	</div>
 
-	<div class = "list" id = "bookList" <?php if($itemType != 'book'){?> style="display:none"<?php } ?> >
-		<img id = "coverimage" src ="<?php echo htmlspecialchars($coverPath); ?>">
-		<ul>
-			<li>Ttile: <?php echo htmlspecialchars($itemInfo['bookName']) ?></li>
-			<li>Author(s): <?php getAuthors($itemInfo, $conn) ?></li>
-			<li>Publisher: <?php echo htmlspecialchars($itemInfo['publicationCompany']) ?> </li>
-			<li>ISBN: <?php echo htmlspecialchars($itemInfo['ISBN']) ?></li>
-			<li>Publish Date: <?php getYear($itemInfo, $conn) ?></li>
-			<li><?php checkAvailable($itemInfo, $conn, 'book') ?></li>
-		</ul>
+	<?php if($itemType == "book"){ ?>
 
-	</div>
+		<div class = "list" id = "bookList" >
+			<img id = "coverimage" src ="<?php echo htmlspecialchars($coverPath); ?>">
+			<ul>
+				<li>Ttile: <?php echo htmlspecialchars($itemInfo['bookName']) ?></li>
+				<li>Author(s): <?php getAuthors($itemInfo, $conn) ?></li>
+				<li>Publisher: <?php echo htmlspecialchars($itemInfo['publicationCompany']) ?> </li>
+				<li>ISBN: <?php echo htmlspecialchars($itemInfo['ISBN']) ?></li>
+				<li>Publish Date: <?php getYear($itemInfo, $conn) ?></li>
+				<li><?php checkAvailable($itemInfo, $conn, 'book') ?></li>
+			</ul>
 
-	<div class = "list" id = "movieList" <?php if($itemType != 'movie'){?> style="display:none"<?php } ?>>
-		<img id = "coverimage" src ="<?php echo htmlspecialchars($coverPath); ?>">
-		<ul>
-			<li>Ttile:  <?php echo htmlspecialchars($itemInfo['movieName']) ?></li>
-			<li>Director:  <?php getDirector($itemInfo, $conn) ?></li>
-			<li>Producer: <?php echo htmlspecialchars($itemInfo['productionCompany']) ?></li>
-			<li>Released: <?php echo htmlspecialchars($itemInfo['publishedDate']) ?></li>
-			<li><?php checkAvailable($itemInfo, $conn, 'movie') ?></li>
-		</ul>
-		<button class="request-button"">Request This Item</button>
-	</div>
+		</div>
 
-	<div class = "list" id = "techList" <?php if($itemType != 'tech'){?> style="display:none"<?php } ?>>
-		<img id = "coverimage" src ="<?php echo htmlspecialchars($coverPath); ?>">
-		<ul>
-			<li>Brand: <?php getBrand($itemInfo, $conn) ?></li>
-			<li>Model: <?php echo htmlspecialchars($itemInfo['modelNumber']) ?></li>
-			<li><?php checkAvailable($itemInfo, $conn, 'tech') ?></li>
-		</ul>
-	</div>
+	<?php } else if($itemType == "movie"){ ?>
+
+		<div class = "list" id = "movieList">
+			<img id = "coverimage" src ="<?php echo htmlspecialchars($coverPath); ?>">
+			<ul>
+				<li>Ttile:  <?php echo htmlspecialchars($itemInfo['movieName']) ?></li>
+				<li>Director:  <?php getDirector($itemInfo, $conn) ?></li>
+				<li>Producer: <?php echo htmlspecialchars($itemInfo['productionCompany']) ?></li>
+				<li>Released: <?php echo htmlspecialchars($itemInfo['publishedDate']) ?></li>
+				<li><?php checkAvailable($itemInfo, $conn, 'movie') ?></li>
+			</ul>
+		</div>
+
+	<?php } else if($itemType == "tech") {?>
+
+		<div class = "list" id = "techList">
+			<img id = "coverimage" src ="<?php echo htmlspecialchars($coverPath); ?>">
+			<ul>
+				<li>Brand: <?php getBrand($itemInfo, $conn) ?></li>
+				<li>Model: <?php echo htmlspecialchars($itemInfo['modelNumber']) ?></li>
+				<li><?php checkAvailable($itemInfo, $conn, 'tech') ?></li>
+			</ul>
+		</div>
+
+	<?php } ?>
 
 	<div class="waitlist-container" id="waitlist" >
 		<h2>Waitlist</h2>
@@ -108,7 +117,7 @@ if (isset($_GET["itemID"])) {
 				</tr>
 			</thead>
 			<tbody>
-				<?php getWaitlist($itemID, $conn, $itemType); ?>
+				<?php getWaitlist($itemInfo, $conn, $itemType); ?>
 			</tbody>
 		</table>
 	</div>

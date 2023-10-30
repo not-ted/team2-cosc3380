@@ -95,7 +95,7 @@ function checkAvailable($itemInfo, $conn, $itemType){
 function getWaitlist($itemInfo, $conn, $itemType){
 	if($itemType == "book"){
 		$itemID = $itemInfo['bookID'];
-		$query = "SELECT * FROM holds WHERE bookID = '$itemID' AND requestStatus = 'pending' ORDER BY requestDate ASC";
+		$query = "SELECT * FROM holds WHERE itemID = '$itemID' AND requestStatus = 'pending' AND itemType = 'book' ORDER BY requestDate ASC";
 		$result = mysqli_query($conn, $query);
 		$num = 1;
 		if (mysqli_num_rows($result) > 0) {
@@ -114,7 +114,7 @@ function getWaitlist($itemInfo, $conn, $itemType){
 	}
 	if($itemType == "movie"){
 		$itemID = $itemInfo['movieID'];
-		$query = "SELECT * FROM holds WHERE movieID = '$itemID' AND requestStatus = 'pending' ORDER BY requestDate ASC";
+		$query = "SELECT * FROM holds WHERE itemID = '$itemID' AND requestStatus = 'pending' AND itemType = 'movie' ORDER BY requestDate ASC";
 		$result = mysqli_query($conn, $query);
 		if (mysqli_num_rows($result) > 0) {
 			while($row = mysqli_fetch_assoc($result)){
@@ -132,7 +132,7 @@ function getWaitlist($itemInfo, $conn, $itemType){
 	}
 	if($itemType == "tech"){
 		$itemID = $itemInfo['techID'];
-		$query = "SELECT * FROM holds WHERE techID = '$itemID' AND requestStatus = 'pending' ORDER BY requestDate ASC";
+		$query = "SELECT * FROM holds WHERE itemID = '$itemID' AND requestStatus = 'pending' AND itemType = 'tech' ORDER BY requestDate ASC";
 		$result = mysqli_query($conn, $query);
 		if (mysqli_num_rows($result) > 0) {
 			while($row = mysqli_fetch_assoc($result)){
