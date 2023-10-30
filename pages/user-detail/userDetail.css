@@ -55,10 +55,9 @@ a {
     right: 10px;
 }
 
-.button-container {
-    position: absolute;
-    top: 10px;
-    left: 10px;
+.message {
+    color: rgb(153, 46, 46);
+    font-weight: bold;
 }
 
 .edit-button {

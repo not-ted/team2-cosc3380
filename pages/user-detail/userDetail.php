@@ -6,10 +6,13 @@ if(!isset($_SESSION['user_id'])){
 	header("Location: ../../index.php");
 }
 
+$message = "test";
+
 // check if a user ID has been passed in the URL
-if (isset($_GET["id"])) {
+//if (isset($_GET["id"])) {
   // get the user ID from the URL
-  $userId = $_GET["id"];
+  //$userId = $_GET["id"];
+  $userId = $_SESSION['user_id'];
 
   // query the database for the user with the specified ID
   $query = "SELECT * FROM users WHERE userID = $userId LIMIT 1";
@@ -21,6 +24,27 @@ if (isset($_GET["id"])) {
   else {
     echo "User not found";
   }
+//}
+
+if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['payFine'])){
+	$fineID = $_POST['fineID'];
+	$amount = $_POST['amount'];
+	$query1 = "SELECT * FROM fines WHERE fineID = '$fineID' && userID = '$userId' LIMIT 1";
+	$result1 = mysqli_query($conn, $query1);
+	if (mysqli_num_rows($result1) > 0) {
+		$row = mysqli_fetch_assoc($result1);
+		if($row['fineAmount'] == $amount){
+			$query2 = "UPDATE fines SET havePaid = 1 WHERE fineID = '$fineID' && userID = '$userId'";
+			$result2 = mysqli_query($conn, $query2);
+			$message = "Fine paid!";
+		}
+		else{
+			$message = "Incorrect amount";
+		}
+	}
+	else{
+		$message = "Fine not found";
+	}
 }
 
 ?>
@@ -52,22 +76,39 @@ if (isset($_GET["id"])) {
         <li class="user-profile-item">Borrow Limit (days): <?php echo htmlspecialchars($user_info['borrowLimit']); ?></li>
     </ul>
 
-	<div class="edit-container">
-  		<button class="edit-button" onclick="<?php changeBorrow($userID, $conn)?>">Change Borrow Privilege</button>		
-		<button class="edit-button" onclick="clearFines()">Clear Fine</button>	
-	</div>
-
 	<script>
-		function clearFines() {
-  			document.getElementById("clearFine").style.display = "block";
+		function changeBorrow() {
+  			document.getElementById("changeBorrow").style.display = "block";
+		}
+		function payFines() {
+  			document.getElementById("payFine").style.display = "block";
 		}
 	</script>
 
-	<div class =fines-container" id="clearFine" style="display:none">
-		<h2>Clear Fine</h2>
-		<form method="POST">
+	<div class="edit-container">
+  		<button class="edit-button" onclick="changeBorrow()">Change Borrow Privilege</button>
+		<button class="edit-button" onclick="payFines()">Pay Fine</button>
+		<?php if(isset($message)) { ?>
+			<p class="message"><?php echo $message; ?></p>	
+		<?php } ?>
+	</div>
+
+	<div class="change-borrow-container" id="changeBorrow" style="display:none">
+		<h2>Change Borrow Privilege: </h2>
+		<form method="POST" name = "changeBorrow">
+			<p id ="revoke">Revoke Borrow Privilege?</p>
+			<p id ="restore">Restore Borrow Privilege?</p>
+			<input type="submit" value="Submit">
+		</form>
+	</div>
+
+	<div class ="fines-container" id="payFine" style="display:none">
+		<h2>Pay Fine: </h2>
+		<form method="POST" name = "payFine" onsubmit="return confirm('Are you sure you want to submit this form?')">
 			<label for="fineID">Fine ID:</label>
-			<input type="text" id="fineID" name="fineID"><br><br>
+			<input type="text" id="fineID" name="fineID">
+			<label for ="amount">Amount:</label>
+			<input type="number" id="amount" name="amount"><br><br>
 			<input type="submit" value="Submit">
 		</form>
 	</div>

@@ -1,10 +1,20 @@
 <?php
 include("../../connection.php");
 
-function changeBorrow($userID, $conn){
-	$query = "UPDATE users SET canBorrow = !canBorrow WHERE userID = '$userID' LIMIT 1";
-	$conn->query($query);
-	echo "<script>alert('Borrow privilege changed!');</script>";
+function changeBorrow($userId, $conn){
+	$query = "SELECT * FROM users WHERE userID = $userId LIMIT 1";
+	$result = mysqli_query($conn, $query);
+	$user_info = mysqli_fetch_assoc($result);
+	if($user_info['canBorrow'] == 1){
+		$query = "UPDATE users SET canBorrow = 0 WHERE userID = $userId";
+		$conn->query($query);
+		return;
+	}
+	else{
+		$query = "UPDATE users SET canBorrow = 1 WHERE userID = $userId";
+		$conn->query($query);
+		return;
+	}
 }
 
 function getFines($userID, $conn){
