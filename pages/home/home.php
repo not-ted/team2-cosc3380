@@ -97,7 +97,7 @@ if ($userData['userType'] === 'management') {
 
                 // Create a clickable link that leads to itemDetail.php with the bookID
                 echo '<div class="cover-fade">
-                <a href="../item detail/itemDetail.php? id=' . $book['bookID'] . '&type=book">
+                <a href="../item detail/itemDetail.php?id=' . $book['bookID'] . '&type=book">
                     <img src="' . $coverPath . '" alt="Book Cover" class="book-cover">
                 </a>
             </div>';
@@ -116,12 +116,30 @@ if ($userData['userType'] === 'management') {
     <?php
     // Fetch random items from books, movies, and tech (6 items)
     $randomItems = array();
-    $sqlRandom = "(SELECT bookName AS itemName, coverFilePath FROM books ORDER BY RAND() LIMIT 2)
-                UNION ALL
-                (SELECT movieName AS itemName, coverFilepath AS coverFilePath FROM movies ORDER BY RAND() LIMIT 2)
-                UNION ALL
-                (SELECT techName AS itemName, coverFilePath FROM tech ORDER BY RAND() LIMIT 2)
-                ORDER BY RAND() LIMIT 6";
+    $sqlRandom = "(
+                        SELECT 'book' AS itemType, bookID AS itemID, bookName AS itemName, coverFilePath 
+                        FROM books 
+                        ORDER BY RAND() 
+                        LIMIT 2
+                    )
+                    UNION ALL
+                    (
+                        SELECT 'movie' AS itemType, movieID AS itemID, movieName AS itemName, coverFilepath AS coverFilePath 
+                        FROM movies 
+                        ORDER BY RAND() 
+                        LIMIT 2
+                    )
+                    UNION ALL
+                    (
+                        SELECT 'tech' AS itemType, techID AS itemID, techName AS itemName, coverFilePath 
+                        FROM tech 
+                        ORDER BY RAND() 
+                        LIMIT 2
+                    )
+                    ORDER BY RAND() 
+                    LIMIT 6;
+    
+                    ";
 
     $resultRandom = $conn->query($sqlRandom);
     if ($resultRandom) {
@@ -138,8 +156,9 @@ if ($userData['userType'] === 'management') {
 
                 // Wrap the cover image in an anchor tag to make it clickable
                 echo '<div class="item-cover-container cover-fade" style="display: inline-block; margin-right: 10px;">';
-                echo '<a href="../item Detail/itemDetail.php">'; // Adjust the href path as needed
-                echo '<img src="' . $coverPath . '" alt="' . $itemName . '" class="item-cover">';
+                echo '<a href="../item Detail/itemDetail.php?id=' . $item['itemID'] . '&type=' . $item['itemType'] . '">
+                            <img src="' . $coverPath . '" alt="Book Cover" class="book-cover">
+                        </a>'; 
                 echo '</a>';
                 echo '</div>';
             }
