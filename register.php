@@ -4,8 +4,8 @@
 
 	if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-		$fname = $_POST['fname'];
-		$lname = $_POST['fname'];
+		$fname = $_POST['Fname'];
+		$lname = $_POST['Lname'];
 		$username = $_POST['username'];
 		$email = $_POST['email'];
 		$password = $_POST['password'];
@@ -23,16 +23,18 @@
         $result = mysqli_query($conn, $query); 
 		if($result && mysqli_num_rows($result) > 0) {
             $error = "Username or email already in use";
-        } else {
+        } 
+		else {
             // Insert user data into database
             $query2 = "INSERT INTO users (firstName, lastName, uhID, email, password, securityQ1, securityQ2, securityQ3, securityA1, securityA2, securityA3, canBorrow, borrowLimit) 
-          VALUES ('$fname', '$lname', '$username', '$email', '$password', '$securityQuestion1', '$securityQuestion2', '$securityQuestion3', '$securityAnswer1', '$securityAnswer2', '$securityAnswer3', 1, 7)";
+          		VALUES ('$fname', '$lname', '$username', '$email', '$password', '$securityQuestion1', '$securityQuestion2', '$securityQuestion3', '$securityAnswer1', '$securityAnswer2', '$securityAnswer3', 1, 7)";
 
             $result2 = mysqli_query($conn, $query2);
         
             if ($result2) {
                 $message = "User created successfully";
-            } else {
+            } 
+			else {
                 $error = "Error: " . $query2 . "<br>" . mysqli_error($conn);
             }
         }
