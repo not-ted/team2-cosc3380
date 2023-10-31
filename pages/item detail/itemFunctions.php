@@ -31,7 +31,7 @@ function getDirector($itemInfo, $conn){
 
 function getBrand($itemInfo, $conn){
 	$techID = $itemInfo['techID'];
-	$query = "SELECT brandName FROM brands AS B, tech AS T WHERE techID = '$techID' AND B.brandID = T.brandID";
+	$query = "SELECT brandName FROM brands AS B, tech AS T, manufacturedby AS m WHERE T.techID = '$techID' AND B.brandID = m.brandID AND m.techID = T.techID";
 	$result = mysqli_query($conn, $query);
 	if (mysqli_num_rows($result) > 0) {
 		while($row = mysqli_fetch_assoc($result)){
