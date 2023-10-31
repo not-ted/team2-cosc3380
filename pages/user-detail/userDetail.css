@@ -3,8 +3,6 @@ body {
     background-color: #fffaf9;
     font-family: Arial, Helvetica, sans-serif;
     color: rgb(153, 46, 46);
-  	height: 100vh;
-    overflow: scroll;
     /* Text color */
 }
 
@@ -16,6 +14,23 @@ h2 {
     /* Add a bottom border */
     padding-bottom: 5px;
     /* Add some space between the border and text */
+}
+
+/* Style the form elements */
+label {
+    font-weight: bold;
+    color: rgb(128, 144, 207);
+    /* Change label text color */
+}
+
+/* Style the password input field */
+input[type="password"] {
+    border: 1px solid rgb(128, 144, 207);
+    border-radius: 3vw;
+    padding: 0.8vw;
+    font-size: 1.5vw;
+    background-color: white;
+    color: rgb(153, 46, 46);
 }
 
 /* Style the submit button */
@@ -33,49 +48,19 @@ a {
     text-decoration: none;
     color: rgb(153, 46, 46);
 }
-.waitlist-container {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    margin: 50px;
-}
 
-.list{
-    display: flex;
-    width: 800px;
-    height: auto;
+.logout-container {
+    position: absolute;
     top: 10px;
-    background-color: rgb(200, 202, 211);
-    border-radius: 10px;
-    margin-top: 70px;
-    flex-direction: row;
+    right: 10px;
 }
 
-.list img{
-    display: block;
-    margin: 50px;
-    width : 400px;
-    height : auto;
-    border-radius: 10px;
+.message {
+    color: rgb(153, 46, 46);
+    font-weight: bold;
 }
 
-.list ul{
-    list-style-type: none;
-    margin: 30px;
-    padding: 10px;
-}
-.list li{
-    padding: 10px;
-    margin: 10px;
-    border: 1px solid rgb(128, 144, 207);
-    border-radius: 5px;
-    background-color: rgb(234, 226, 219);
-    width : 300px;
-}
-
-.request-button {
-    display: block;
+.edit-button {
     background-color: rgb(128, 144, 207);
     color: white;
     border: none;
@@ -84,20 +69,8 @@ a {
     cursor: pointer;
 }
 
-.logout-container {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-}
-
-.button-container {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-}
-
-.edit-button {
-    background-color: rgb(128, 144, 207);
+.home-button {
+    background-color: rgb(26, 208, 102);
     color: white;
     border: none;
     border-radius: 5px;
@@ -122,6 +95,16 @@ a {
     padding: 10px 20px;
     cursor: pointer;
     position: left;
+}
+
+/* Additional styling for profile information section */
+.profile-section {
+    background-color: rgb(255, 238, 222);
+    /* Light background color */
+    padding: 20px;
+    border: 1px solid rgb(128, 144, 207);
+    border-radius: 5px;
+    margin-top: 20px;
 }
 
 /* Updated CSS class for generic tables */
@@ -149,4 +132,21 @@ a {
 
 .generic-table tbody tr:nth-child(odd) {
     background-color: #fff;
+}
+
+.user-profile {
+    list-style: none;
+    padding: 0;
+}
+
+.user-profile-item {
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: #f2f2f2;
+    border-radius: 5px;
+}
+
+.user-profile-item:last-child {
+    margin-bottom: 0;
 }

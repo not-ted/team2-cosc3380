@@ -94,8 +94,12 @@ if ($userData['userType'] === 'management') {
             // Ensure the coverFilePath is set and not empty
             if (!empty($book['coverFilePath'])) {
                 $coverPath = '../../' . $book['coverFilePath'];
+
+                // Create a clickable link that leads to itemDetail.php with the bookID
                 echo '<div class="cover-fade">
-                <img src="' . $coverPath . '" alt="Book Cover" class="book-cover">
+                <a href="../item detail/itemDetail.php?bookID=' . $book['bookID'] . '">
+                    <img src="' . $coverPath . '" alt="Book Cover" class="book-cover">
+                </a>
             </div>';
             }
         }
@@ -104,6 +108,7 @@ if ($userData['userType'] === 'management') {
         echo "No recently added books.";
     }
     ?>
+
 
     <h2>Explore More Items</h2>
 
@@ -130,9 +135,11 @@ if ($userData['userType'] === 'management') {
                 $coverPath = '../../' . $item['coverFilePath'];
                 $itemName = $item['itemName'];
 
-                // Add the "cover-fade" class to apply the fading effect on hover
+                // Wrap the cover image in an anchor tag to make it clickable
                 echo '<div class="item-cover-container cover-fade" style="display: inline-block; margin-right: 10px;">';
+                echo '<a href="../item Detail/itemDetail.php">'; // Adjust the href path as needed
                 echo '<img src="' . $coverPath . '" alt="' . $itemName . '" class="item-cover">';
+                echo '</a>';
                 echo '</div>';
             }
         }
