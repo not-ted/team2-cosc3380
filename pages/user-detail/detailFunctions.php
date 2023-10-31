@@ -94,7 +94,7 @@ function displayHolds($result, $conn, $itemType){
 
 function getCheckouts($userID, $conn){
 	// create prepared statements
-	$bookQ = 	"SELECT B.bookName AS itemName, D.checkoutDate, D.dueDate  
+	$bookQ = 	"SELECT B.bookName AS itemName, D.checkoutDate, D.dueDate, D.returnedDate
     				FROM borrowed AS D
     				JOIN bookCopy AS C ON D.itemCopyID = C.bookCopyID
     				JOIN books AS B ON C.bookID = B.bookID
@@ -102,7 +102,7 @@ function getCheckouts($userID, $conn){
 
 	$getBooks = mysqli_query($conn, $bookQ);
 
-	$movieQ = 	"SELECT M.movieName AS itemName, D.checkoutDate, D.dueDate
+	$movieQ = 	"SELECT M.movieName AS itemName, D.checkoutDate, D.dueDate, D.returnedDate
 					FROM borrowed AS D
 					JOIN moviecopy AS C ON D.itemCopyID = C.movieCopyID
 					JOIN movies AS M ON C.movieID = M.movieID
@@ -110,7 +110,7 @@ function getCheckouts($userID, $conn){
 				
 	$getMovies = mysqli_query($conn, $movieQ);
 
-	$techQ = 	"SELECT T.techName AS itemName, D.checkoutDate, D.dueDate
+	$techQ = 	"SELECT T.techName AS itemName, D.checkoutDate, D.dueDate, D.returnedDate
 					FROM borrowed AS D
 					JOIN techcopy AS C ON D.itemCopyID = C.techCopyID
 					JOIN tech AS T ON C.techID = T.techID
