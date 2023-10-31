@@ -15,13 +15,13 @@ else{
     $message = "";
 }
 
-// check if a user ID has been passed in the URL
-if (isset($_GET["itemID"])) {
-  // get the user ID from the URL
+// check if an itemID has been passed in the URL
+if (isset($_GET["id"])) {
+
   $itemID = $_GET["id"];
   $itemType = $_GET["type"];	
 
-  // query the database for the user with the specified ID
+  // query the database for the item with the specified ID
   if($itemType == "book"){
   	$query = "SELECT * FROM books WHERE bookID = $itemID LIMIT 1";
   }
@@ -41,8 +41,8 @@ if (isset($_GET["itemID"])) {
   }
 
   //get cover image filepath
-  if($itemInfo['coverFilepath'] != NULL){
-  	$coverPath = $itemInfo['coverFilepath'];
+  if($itemInfo['coverFilePath'] != NULL){
+  	$coverPath = $itemInfo['coverFilePath'];
   }
   else{
   	$coverPath = "../main resources/placeholder.png";
