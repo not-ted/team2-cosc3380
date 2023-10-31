@@ -11,8 +11,8 @@
             <input type="text" name="search" placeholder="Search by Name or uhID" value="<?php echo isset($_POST['search']) ? $_POST['search'] : ''; ?>">
             <select name="userType">
                 <option value="all">All</option>
-                <option value="faculty" <?php echo ($_POST['userType'] === 'faculty') ? 'selected' : ''; ?>>Faculty</option>
-                <option value="student" <?php echo ($_POST['userType'] === 'student') ? 'selected' : ''; ?>>Student</option>
+                <option value="faculty" <?php echo (isset($_POST['userType']) && $_POST['userType'] === 'faculty') ? 'selected' : ''; ?>>Faculty</option>
+                <option value="student" <?php echo (isset($_POST['userType']) && $_POST['userType'] === 'student') ? 'selected' : ''; ?>>Student</option>
             </select>
             <button type="submit" name="search-button">Search</button>
         </form>
@@ -23,7 +23,7 @@
 
         if (isset($_POST['search-button'])) {
             $search = isset($_POST['search']) ? $_POST['search'] : '';
-            $userType = isset($_POST['userType']) ? $_POST['userType'] : 'all';
+            $userType = (isset($_POST['userType'])) ? $_POST['userType'] : 'all';
 
             // Prepare the SQL statement based on the selected user type
             if ($userType === 'all') {
