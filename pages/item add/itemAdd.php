@@ -103,16 +103,16 @@ if ($_SESSION['user_type'] !== 'management') {
             <input type="text" id="productionCompany" name="productionCompany" >
 
             <!-- Published Date -->
-            <label for="publishedDate">Published Date:</label>
-            <input type="date" id="publishedDate" name="publishedDate" >
+            <label for="moviepublishedDate">Published Date:</label>
+            <input type="date" id="moviepublishedDate" name="moviepublishedDate" >
 
             <!-- Copies Available -->
             <label for="movieCopiesAvailable">Copies Available:</label>
-            <input type="number" id="copiesAvailable" name="copiesAvailable" value="1" min="0" >
+            <input type="number" id="movieCopiesAvailable" name="movieCopiesAvailable" value="1" min="0" >
 
             <!-- Copy Value -->
             <label for="movieCopyValue">Copy Value:</label>
-            <input type="number" id="copyValue" name="copyValue"value="0"  min="0" step="0.01" >
+            <input type="number" id="movieCopyValue" name="movieCopyValue"value="0"  min="0" step="0.01" >
 
             <!-- Cover Image -->
             <label for="coverImageMovie">Cover Image:</label>

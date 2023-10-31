@@ -6,14 +6,14 @@
     $distributedBy = $_POST['distributedBy'];
     $director = $_POST['director'];
     $productionCompany = $_POST['productionCompany'];
-    $publishedDate = $_POST['publishedDate'];
-    $copiesAvailable = $_POST['copiesAvailable'];
-    $copyValue = $_POST['copyValue'];
+    $moviepublishedDate = $_POST['moviepublishedDate'];
+    $movieCopiesAvailable = $_POST['movieCopiesAvailable'];
+    $movieCopyValue = $_POST['movieCopyValue'];
     $coverImageMovie = $_FILES['coverImageMovie']['name']; // For file uploads
     $response = [];
 
      // Verify copies availiable
-     if ($copiesAvailable == 0) { 
+     if ($movieCopiesAvailable == 0) { 
         echo "At least one movie copy need to be added.";
     } else if (strtotime($publishedDate) > strtotime(date('Y-m-d'))) {
         echo "Published date needs to have been in the past";
@@ -70,9 +70,9 @@
                             $directedByRelationshipResult = mysqli_query($conn, $adddirectedByRelationship);
 
                             // Add copies
-                            for ($i = 0; $i < $copiesAvailable; $i++) {
+                            for ($i = 0; $i < $movieCopiesAvailable; $i++) {
                                 $addCopyQuery = "INSERT INTO movieCopy (movieID, addDate, available, value) 
-                                VALUES ('$movieID', NOW(), 1, '$copyValue')";
+                                VALUES ('$movieID', NOW(), 1, '$movieCopyValue')";
                                 $addCopyResult = mysqli_query($conn, $addCopyQuery);
                                 if (!$addCopyResult) {
                                     die("Query failed: " . mysqli_error($conn));

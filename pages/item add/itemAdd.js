@@ -93,7 +93,7 @@ function addMovie() {
     var distributedBy = $('#distributedBy').val();
     var director = $('#director').val();
     var productionCompany = $('#productionCompany').val();
-    var publishedDate = $('#publishedDate').val();
+    var moviepublishedDate = $('#moviepublishedDate').val();
     var movieCopiesAvailable = $('#movieCopiesAvailable').val() || 0;
     var movieCopyValue = $('#movieCopyValue').val() || 0;
     var coverImageMovie = $('#coverImageMovie')[0].files[0]; // Get the file object
