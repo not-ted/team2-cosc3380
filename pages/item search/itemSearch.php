@@ -10,9 +10,9 @@
         <form method="post" action="">
             <input type="text" name="search" placeholder="Search..." value="<?php echo isset($_POST['search']) ? $_POST['search'] : ''; ?>">
             <select name="category">
-                <option value="books" <?php echo ($category === 'books') ? 'selected' : ''; ?>>Books</option>
-                <option value="movies" <?php echo ($category === 'movies') ? 'selected' : ''; ?>>Movies</option>
-                <option value="tech" <?php echo ($category === 'tech') ? 'selected' : ''; ?>>Technology</option>
+                <option value="books" <?php if (isset($category) && $category === 'books') echo 'selected'; ?>>Books</option>
+                <option value="movies" <?php if (isset($category) && $category === 'movies') echo 'selected'; ?>>Movies</option>
+                <option value="tech" <?php if (isset($category) && $category === 'tech') echo 'selected'; ?>>Technology</option>
             </select>
             <button type="submit" name="search-button">Search</button>
         </form>
@@ -21,9 +21,10 @@
         <?php
         include("../../connection.php"); // Include the database connection
 
+        $category = isset($_POST['category']) ? $_POST['category'] : 'books'; // Default to 'books' if no category selected
+
         if (isset($_POST['search-button'])) {
             $search = isset($_POST['search']) ? $_POST['search'] : '';
-            $category = isset($_POST['category']) ? $_POST['category'] : 'books'; // Default to 'books' if no category selected
 
             $table = $category;
             $idColumn = ($category === 'books') ? 'bookID' : (($category === 'movies') ? 'movieID' : 'techID');
