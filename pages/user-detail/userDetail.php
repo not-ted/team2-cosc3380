@@ -15,9 +15,10 @@ else{
 }
 
 // check if a user ID has been passed in the URL
-if (isset($_GET["id"])) {
+$userId = $_SESSION['user_id'];
+//if (isset($_GET["id"])) {
   // get the user ID from the URL
-  $userId = $_GET["id"];
+  //$userId = $_GET["id"];
 
   // query the database for the user with the specified ID
   $query = "SELECT * FROM users WHERE userID = $userId LIMIT 1";
@@ -29,17 +30,17 @@ if (isset($_GET["id"])) {
   else {
     echo "User not found";
   }
-}
+//}
 
 if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['payFine'])){
 	$fineID = $_POST['fineID'];
 	$amount = $_POST['amount'];
-	$query1 = "SELECT * FROM fines WHERE fineID = '$fineID' && userID = '$userId' LIMIT 1";
+	$query1 = "SELECT * FROM fines WHERE fineID = '$fineID' AND userID = '$userId' LIMIT 1";
 	$result1 = mysqli_query($conn, $query1);
 	if (mysqli_num_rows($result1) > 0) {
 		$row = mysqli_fetch_assoc($result1);
 		if($row['fineAmount'] == $amount){
-			$query2 = "UPDATE fines SET havePaid = 'Yes' WHERE fineID = '$fineID' && userID = '$userId'";
+			$query2 = "UPDATE fines SET havePaid = 'Yes' WHERE fineID = '$fineID' AND userID = '$userId'";
 			$conn->query($query2);
 			$_SESSION['message'] = "Fine paid!";
 		}
@@ -56,7 +57,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['payFine'])){
 
 if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['clearFine'])){
 	$fineID = $_POST['fineID'];
-	$query1 = "SELECT * FROM fines WHERE fineID = '$fineID' && userID = '$userId' LIMIT 1";
+	$query1 = "SELECT * FROM fines WHERE fineID = '$fineID' AND userID = '$userId' LIMIT 1";
 	$result1 = mysqli_query($conn, $query1);
 	if (mysqli_num_rows($result1) > 0) {
 		if($row['havePaid'] == 'Yes'){
@@ -66,7 +67,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['clearFine'])){
 			$_SESSION['message'] = "Fine already waived";
 		}
 		else{
-			$query2 = "UPDATE fines SET havePaid = 'Waived' WHERE fineID = '$fineID' && userID = '$userId'";
+			$query2 = "UPDATE fines SET havePaid = 'Waived' WHERE fineID = '$fineID' AND userID = '$userId'";
 			$conn->query($query2);
 			$_SESSION['message'] = "Fine waived!";
 		}
