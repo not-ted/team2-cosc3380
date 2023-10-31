@@ -47,7 +47,7 @@
 
             while ($row = $result->fetch_assoc()) {
                 echo '<tr>';
-                echo '<td><a href="../user-detail/userDetail.php?userID=' . $row['userID'] . '">' . $row['userID'] . '</a></td>';
+                echo '<td><a href="../user-detail/userDetail.php?id=' . $row['userID'] . '">' . $row['userID'] . '</a></td>';
                 echo '<td>' . $row['uhID'] . '</td>';
                 echo '<td>' . $row['userType'] . '</td>';
                 echo '<td>' . $row['email'] . '</td>';
