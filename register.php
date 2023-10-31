@@ -2,10 +2,26 @@
 	session_start();
 	include("connection.php");
 
+	if(isset($_SESSION['message'])){
+		$message = $_SESSION['message'];
+		unset($_SESSION['message']); // unset the message after displaying it
+	}
+	else{
+		$message = "";
+	}
+
+	if(isset($_SESSION['error'])){
+		$error = $_SESSION['error'];
+		unset($_SESSION['error']); // unset the message after displaying it
+	}
+	else{
+		$error = "";
+	}
+
 	if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-		$fname = $_POST['fname'];
-		$lname = $_POST['fname'];
+		$fname = $_POST['Fname'];
+		$lname = $_POST['Lname'];
 		$username = $_POST['username'];
 		$email = $_POST['email'];
 		$password = $_POST['password'];
@@ -22,18 +38,20 @@
 		$query = "SELECT * FROM users WHERE uhID = '$username' OR email = '$email'";
         $result = mysqli_query($conn, $query); 
 		if($result && mysqli_num_rows($result) > 0) {
-            $error = "Username or email already in use";
-        } else {
+            $_SESSION['error'] = "Username or email already in use";
+        } 
+		else {
             // Insert user data into database
-            $query2 = "INSERT INTO users (firstName, lastName, uhID, email, password, securityQ1, securityQ2, securityQ3, securityA1, securityA2, securityA3, canBorrow, borrowLimit) 
-          VALUES ('$fname', '$lname', '$username', '$email', '$password', '$securityQuestion1', '$securityQuestion2', '$securityQuestion3', '$securityAnswer1', '$securityAnswer2', '$securityAnswer3', 1, 7)";
+            $stmt = $conn->prepare("INSERT INTO users (firstName, lastName, uhID, email, password, securityQ1, securityQ2, securityQ3, securityA1, securityA2, securityA3, canBorrow, borrowLimit, userType) 
+    		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, 7, 'Student')");
 
-            $result2 = mysqli_query($conn, $query2);
+			$stmt->bind_param("sssssssssss", $fname, $lname, $username, $email, $password, $securityQuestion1, $securityQuestion2, $securityQuestion3, $securityAnswer1, $securityAnswer2, $securityAnswer3);
         
-            if ($result2) {
-                $message = "User created successfully";
-            } else {
-                $error = "Error: " . $query2 . "<br>" . mysqli_error($conn);
+            if ($stmt->execute()) {
+                $_SESSION['message'] = "User created successfully";
+            } 
+			else {
+                $error = "Error: " . $stmt . "<br>" . mysqli_error($conn);
             }
         }
 	} 
@@ -55,11 +73,8 @@
 
 	<h2>Register</h2>
 
-    <?php if (isset($message)) { ?>
-        <p class="message"><?php echo $message; ?></p>
-    <?php } ?>
+    <p class="message"><?php echo $message; ?></p>
 	
-	<?php if(!isset($message)){ ?>
 	<p class = "error" id = "emptyError"></p>
 
 	<form method = "POST">
@@ -130,7 +145,6 @@
 		<input type = "submit" value = "Register" onclick = 'validateSignup()'><br><br>
 
 	</form>
-	<?php } ?>
 
 	<a href = "index.php">Login</a>
 

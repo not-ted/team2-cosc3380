@@ -97,10 +97,11 @@ if ($userData['userType'] === 'management') {
 
                 // Create a clickable link that leads to itemDetail.php with the bookID
                 echo '<div class="cover-fade">
-                <a href="../item detail/itemDetail.php?bookID=' . $book['bookID'] . '">
+                <a href="../item detail/itemDetail.php? id=' . $book['bookID'] . '&type=book">
                     <img src="' . $coverPath . '" alt="Book Cover" class="book-cover">
                 </a>
             </div>';
+            
             }
         }
         echo '</div>';
