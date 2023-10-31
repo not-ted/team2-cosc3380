@@ -66,7 +66,7 @@
             while ($row = $result->fetch_assoc()) {
                 echo '<tr>';
                 if ($category === 'books') {
-                    echo '<td><a href="itemDetail.php?bookID='  . $row['bookID'] . '">' . $row['bookID'] . '</a></td>';
+                    echo '<td><a href="../item detail/itemDetail.php?bookID='  . $row['bookID'] . '">' . $row['bookID'] . '</a></td>';
                     echo '<td>' . $row['bookName'] . '</td>';
                     echo '<td>' . $row['ISBN'] . '</td>';
                     echo '<td>' . $row['publicationCompany'] . '</td>';
