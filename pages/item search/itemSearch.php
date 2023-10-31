@@ -46,14 +46,17 @@
             echo '<tr>';
             // Table header based on the category
             if ($category === 'books') {
+                echo '<th>Book ID</th>';
                 echo '<th>Book Name</th>';
                 echo '<th>ISBN</th>';
                 echo '<th>Publication Company</th>';
             } elseif ($category === 'movies') {
+                echo '<th>Movie ID</th>';
                 echo '<th>Movie Name</th>';
                 echo '<th>Published Date</th>';
                 echo '<th>Production Company</th>';
             } elseif ($category === 'tech') {
+                echo '<th>Tech ID</th>';
                 echo '<th>Technology Name</th>';
                 echo '<th>Model Number</th>';
             }
@@ -63,14 +66,17 @@
             while ($row = $result->fetch_assoc()) {
                 echo '<tr>';
                 if ($category === 'books') {
+                    echo '<td><a href="itemDetail.php?bookID='  . $row['bookID'] . '">' . $row['bookID'] . '</a></td>';
                     echo '<td>' . $row['bookName'] . '</td>';
                     echo '<td>' . $row['ISBN'] . '</td>';
                     echo '<td>' . $row['publicationCompany'] . '</td>';
                 } elseif ($category === 'movies') {
+                    echo '<td><a href="itemDetail.php?movieID='  . $row['movieID'] . '">' . $row['movieID'] . '</a></td>';
                     echo '<td>' . $row['movieName'] . '</td>';
                     echo '<td>' . $row['publishedDate'] . '</td>';
                     echo '<td>' . $row['productionCompany'] . '</td>';
                 } elseif ($category === 'tech') {
+                    echo '<td><a href="itemDetail.php?techID='  . $row['techID'] . '">' . $row['techID'] . '</a></td>';
                     echo '<td>' . $row['techName'] . '</td>';
                     echo '<td>' . $row['modelNumber'] . '</td>';
                 }
