@@ -6,7 +6,13 @@ if(!isset($_SESSION['user_id'])){
 	header("Location: ../../index.php");
 }
 
-$message = "test";
+if(isset($_SESSION['message'])){
+    $message = $_SESSION['message'];
+    unset($_SESSION['message']); // unset the message after displaying it
+}
+else{
+    $message = "";
+}
 
 // check if a user ID has been passed in the URL
 if (isset($_GET["id"])) {
@@ -33,16 +39,64 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['payFine'])){
 	if (mysqli_num_rows($result1) > 0) {
 		$row = mysqli_fetch_assoc($result1);
 		if($row['fineAmount'] == $amount){
-			$query2 = "UPDATE fines SET havePaid = 1 WHERE fineID = '$fineID' && userID = '$userId'";
-			$result2 = mysqli_query($conn, $query2);
-			$message = "Fine paid!";
+			$query2 = "UPDATE fines SET havePaid = 'Yes' WHERE fineID = '$fineID' && userID = '$userId'";
+			$conn->query($query2);
+			$_SESSION['message'] = "Fine paid!";
 		}
 		else{
-			$message = "Incorrect amount";
+			$_SESSION['message'] = "Incorrect amount";
 		}
+		header("Refresh:0");
 	}
 	else{
-		$message = "Fine not found";
+		$_SESSION['message'] = "Fine not found";
+	}
+	header("Refresh:0");
+}
+
+if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['clearFine'])){
+	$fineID = $_POST['fineID'];
+	$query1 = "SELECT * FROM fines WHERE fineID = '$fineID' && userID = '$userId' LIMIT 1";
+	$result1 = mysqli_query($conn, $query1);
+	if (mysqli_num_rows($result1) > 0) {
+		if($row['havePaid'] == 'Yes'){
+			$_SESSION['message'] = "Fine already paid";
+		}
+		else if($row['havePaid'] == 'Waived'){
+			$_SESSION['message'] = "Fine already waived";
+		}
+		else{
+			$query2 = "UPDATE fines SET havePaid = 'Waived' WHERE fineID = '$fineID' && userID = '$userId'";
+			$conn->query($query2);
+			$_SESSION['message'] = "Fine waived!";
+		}
+		header("Refresh:0");
+	}
+	else{
+		$_SESSION['message'] = "Fine not found";
+	}
+	header("Refresh:0");
+}
+
+if($_SERVER['REQUEST_METHOD'] =='POST' && isset($_POST['changePrivilege'])){
+	$query = "SELECT * FROM users WHERE userID = '$userId' LIMIT 1";
+	$result = mysqli_query($conn, $query);
+	if (mysqli_num_rows($result) > 0) {
+		$row = mysqli_fetch_assoc($result);
+		if($row['canBorrow'] == 1){
+			$query2 = "UPDATE users SET canBorrow = 0 WHERE userID = '$userId'";
+			$conn->query($query2);
+			$_SESSION['message'] = "Borrow privilege revoked";
+		}
+		else if($_SESSION['hasFines'] == false){
+			$query2 = "UPDATE users SET canBorrow = 1 WHERE userID = '$userId'";
+			$conn->query($query2);
+			$_SESSION['message'] = "Borrow privilege restored";
+		}
+		else{
+			$_SESSION['message'] = "User has unpaid fines";
+		}
+		header("Refresh:0");
 	}
 }
 
@@ -52,10 +106,10 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['payFine'])){
 <html lang="en">
 
 <head>
-  <link rel="stylesheet" href="userDetail.css">
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>User Detail</title>
+	<link rel="stylesheet" href="userDetail.css">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>User Detail</title>
 </head>
 
 <body>
@@ -76,38 +130,43 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['payFine'])){
     </ul>
 
 	<script>
-		function changeBorrow() {
-  			document.getElementById("changeBorrow").style.display = "block";
-		}
 		function payFines() {
   			document.getElementById("payFine").style.display = "block";
+		}
+		function clearFines() {
+  			document.getElementById("clearFine").style.display = "block";
 		}
 	</script>
 
 	<div class="edit-container">
-  		<button class="edit-button" onclick="changeBorrow()">Change Borrow Privilege</button>
+  		<form method="POST" name = "changePrivilege">
+			<input type="submit" name="changePrivilege" value="Change Borrow Privilege">
+		</form>
 		<button class="edit-button" onclick="payFines()">Pay Fine</button>
-		<?php if(isset($message)) { ?>
-			<p class="message"><?php echo $message; ?></p>	
-		<?php } ?>
+		<button class="edit-button" onclick="clearFines()">Clear Fine</button>
 	</div>
 
-	<div class="change-borrow-container" id="changeBorrow" style="display:none">
-		<h2>Change Borrow Privilege: </h2>
-		<form method="POST" name = "changeBorrow">
-			<p id ="revoke">Revoke Borrow Privilege?</p>
-			<p id ="restore">Restore Borrow Privilege?</p>
-			<input type="submit" value="Submit">
-		</form>
-	</div>
+	<?php if(isset($message)) { ?>
+		<p class="message"><?php echo $message; ?></p>	
+	<?php } ?>
 
 	<div class ="fines-container" id="payFine" style="display:none">
 		<h2>Pay Fine: </h2>
-		<form method="POST" name = "payFine" onsubmit="return confirm('Are you sure you want to submit this form?')">
+		<form method="POST" name = "payFine" onsubmit="return confirm('Are you sure?')">
 			<label for="fineID">Fine ID:</label>
 			<input type="text" id="fineID" name="fineID">
 			<label for ="amount">Amount:</label>
 			<input type="number" id="amount" name="amount"><br><br>
+			<input type="submit" value="Submit">
+		</form>
+	</div>
+
+	<div class ="fines-container" id="clearFine" style="display:none">
+		<h2>Clear Fine</h2>
+		<h3>Input ID of fine to be cleared</h3>
+		<form method="POST" name = "clearFine" onsubmit="return confirm('Are you sure you want to waive this fine?\n Fine status will be set to WAIVED.')">
+			<label for="fineID">Fine ID:</label>
+			<input type="text" id="fineID" name="fineID">
 			<input type="submit" value="Submit">
 		</form>
 	</div>
@@ -168,7 +227,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['payFine'])){
 				<th>Item Type</th>
 				<th>Checkout Date</th>
 				<th>Return Date</th>
-				<th>Status</th>
 			</tr>
 		</thead>
 		<tbody>
