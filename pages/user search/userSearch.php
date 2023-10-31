@@ -18,7 +18,7 @@
         </form>
     </div>
     <div id="results">
-        <?php
+    <?php
         include("../../connection.php");
 
         if (isset($_POST['search-button'])) {
@@ -27,9 +27,9 @@
 
             // Prepare the SQL statement based on the selected user type
             if ($userType === 'all') {
-                $sql = "SELECT * FROM users WHERE (firstName LIKE '%$search%' OR uhID LIKE '%$search')";
+                $sql = "SELECT * FROM users WHERE (firstName LIKE '%$search%' OR lastName LIKE '%$search%' OR uhID LIKE '%$search')";
             } else {
-                $sql = "SELECT * FROM users WHERE (firstName LIKE '%$search' OR uhID LIKE '%$search') AND userType = '$userType'";
+                $sql = "SELECT * FROM users WHERE (firstName LIKE '%$search%' OR lastName LIKE '%$search%' OR uhID LIKE '%$search') AND userType = '$userType'";
             }
 
             $result = $conn->query($sql);
@@ -47,7 +47,7 @@
 
             while ($row = $result->fetch_assoc()) {
                 echo '<tr>';
-                echo '<td>' . $row['userID'] . '</td>';
+                echo '<td><a href="userDetail.php?userID=' . $row['userID'] . '">' . $row['userID'] . '</a></td>';
                 echo '<td>' . $row['uhID'] . '</td>';
                 echo '<td>' . $row['userType'] . '</td>';
                 echo '<td>' . $row['email'] . '</td>';
@@ -55,7 +55,7 @@
                 echo '<td>' . $row['lastName'] . '</td>';
                 echo '</tr>';
             }
-            echo '</table';
+            echo '</table>';
 
             // Close the database connection
             $conn->close();

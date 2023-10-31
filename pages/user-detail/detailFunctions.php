@@ -1,22 +1,6 @@
 <?php
 include("../../connection.php");
 
-function changeBorrow($userId, $conn){
-	$query = "SELECT * FROM users WHERE userID = $userId LIMIT 1";
-	$result = mysqli_query($conn, $query);
-	$user_info = mysqli_fetch_assoc($result);
-	if($user_info['canBorrow'] == 1){
-		$query = "UPDATE users SET canBorrow = 0 WHERE userID = $userId";
-		$conn->query($query);
-		return;
-	}
-	else{
-		$query = "UPDATE users SET canBorrow = 1 WHERE userID = $userId";
-		$conn->query($query);
-		return;
-	}
-}
-
 function getFines($userID, $conn){
 	$query = "SELECT * FROM fines WHERE userID = '$userID'";
 	$result = mysqli_query($conn, $query);
@@ -26,10 +10,14 @@ function getFines($userID, $conn){
 			echo "<td>" . $row["fineID"] . "</td>";
 			echo "<td>" . $row["fineAmount"] . "</td>";
 			echo "<td>" . $row["type"] . "</td>";
-			if($row['havePaid'] == 1){
+			if($row['havePaid'] == 'Yes'){
 				echo "<td style='color:green'>PAID</td>";
 			}
+			else if($row['havePaid'] == 'Waived'){
+				echo "<td style='color:blue'>WAIVED</td>";
+			}
 			else{
+				$_SESSION['hasFines'] = true;
 				echo "<td style='color:red'>UNPAID</td>";
 			}
 		}
@@ -80,11 +68,8 @@ function displayCheckouts($result, $conn, $itemType){
 			else{
 				echo "<td>" . $row["returnedDate"] . "</td>";
 			}
-			if(isLate($row)){
+			if(isLate($row) && $row['returnedDate'] == NULL){
 				echo "<td style='color:red'>OVERDUE</td>";
-			}
-			else{
-				echo "<td>--</td>";
 			}
 		}
 	}
@@ -109,7 +94,7 @@ function displayHolds($result, $conn, $itemType){
 
 function getCheckouts($userID, $conn){
 	// create prepared statements
-	$bookQ = 	"SELECT B.bookName AS itemName, D.checkoutDate, D.dueDate , D.returnedDate 
+	$bookQ = 	"SELECT B.bookName AS itemName, D.checkoutDate, D.dueDate  
     				FROM borrowed AS D
     				JOIN bookCopy AS C ON D.itemCopyID = C.bookCopyID
     				JOIN books AS B ON C.bookID = B.bookID
@@ -117,7 +102,7 @@ function getCheckouts($userID, $conn){
 
 	$getBooks = mysqli_query($conn, $bookQ);
 
-	$movieQ = 	"SELECT M.movieName AS itemName, D.checkoutDate, D.dueDate , D.returnedDate
+	$movieQ = 	"SELECT M.movieName AS itemName, D.checkoutDate, D.dueDate
 					FROM borrowed AS D
 					JOIN moviecopy AS C ON D.itemCopyID = C.movieCopyID
 					JOIN movies AS M ON C.movieID = M.movieID
@@ -125,7 +110,7 @@ function getCheckouts($userID, $conn){
 				
 	$getMovies = mysqli_query($conn, $movieQ);
 
-	$techQ = 	"SELECT T.techName AS itemName, D.checkoutDate, D.dueDate , D.returnedDate
+	$techQ = 	"SELECT T.techName AS itemName, D.checkoutDate, D.dueDate
 					FROM borrowed AS D
 					JOIN techcopy AS C ON D.itemCopyID = C.techCopyID
 					JOIN tech AS T ON C.techID = T.techID
@@ -170,7 +155,7 @@ function getHolds($userID, $conn){
 
 function getHistory($userID, $conn){
 	// create prepared statements
-	$bookQ = 	"SELECT B.bookName AS itemName, D.checkoutDate, D.dueDate 
+	$bookQ = 	"SELECT B.bookName AS itemName, D.checkoutDate, D.dueDate, D.returnedDate
     				FROM borrowed AS D
  					JOIN bookCopy AS C ON D.itemCopyID = C.bookCopyID
     				JOIN books AS B ON C.bookID = B.bookID
@@ -178,7 +163,7 @@ function getHistory($userID, $conn){
 
 	$getBooks = mysqli_query($conn, $bookQ);
 
-	$movieQ = 	"SELECT M.movieName AS itemName, D.checkoutDate, D.dueDate 
+	$movieQ = 	"SELECT M.movieName AS itemName, D.checkoutDate, D.dueDate, D.returnedDate
 					FROM borrowed AS D
 					JOIN moviecopy AS C ON D.itemCopyID = C.movieCopyID
 					JOIN movies AS M ON C.movieID = M.movieID
@@ -186,7 +171,7 @@ function getHistory($userID, $conn){
 
 	$getMovies = mysqli_query($conn, $movieQ);
 
-	$techQ =	"SELECT T.techName AS itemName, D.checkoutDate, D.dueDate 
+	$techQ =	"SELECT T.techName AS itemName, D.checkoutDate, D.dueDate, D.returnedDate
 					FROM borrowed AS D
 					JOIN techcopy AS C ON D.itemCopyID = C.techCopyID
 					JOIN tech AS T ON C.techID = T.techID

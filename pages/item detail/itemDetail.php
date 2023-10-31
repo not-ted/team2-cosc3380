@@ -7,6 +7,14 @@ if(!isset($_SESSION['user_id'])){
 	header("Location: ../../index.php");
 }
 
+if(isset($_SESSION['message'])){
+    $message = $_SESSION['message'];
+    unset($_SESSION['message']); // unset the message after displaying it
+}
+else{
+    $message = "";
+}
+
 // check if a user ID has been passed in the URL
 if (isset($_GET["itemID"])) {
   // get the user ID from the URL
@@ -32,7 +40,6 @@ if (isset($_GET["itemID"])) {
     echo "Item not found";
   }
 
-
   //get cover image filepath
   if($itemInfo['coverFilepath'] != NULL){
   	$coverPath = $itemInfo['coverFilepath'];
@@ -41,6 +48,25 @@ if (isset($_GET["itemID"])) {
   	$coverPath = "../main resources/placeholder.png";
   }
 
+}
+
+if(isset($_POST['submit'])){
+	submitHold($itemID, $conn, $itemType, $_SESSION['user_id']);
+}
+
+function submitHold($itemID, $conn, $itemType, $userID){
+	$query2 = "SELECT * FROM holds WHERE itemID = '$itemID' AND userID = '$userID' AND requestStatus = 'pending' AND itemType = '$itemType'";
+	$result = mysqli_query($conn, $query2);
+	if(mysqli_num_rows($result) > 0){
+		$_SESSION['message'] = "You already have a pending request for this item";
+	}
+	else{
+		$requestDate = date("Y-m-d");
+		$query2 = "INSERT INTO holds (userID, itemType, itemID, requestDate, requestStatus) VALUES ('$userID', '$itemType', '$itemID', '$requestDate', 'pending')";
+		$conn->query($query2);
+		$_SESSION['message'] =  "Request submitted";
+	}
+	header("Refresh:0");
 }
 
 ?>
@@ -74,8 +100,17 @@ if (isset($_GET["itemID"])) {
 				<li>ISBN: <?php echo htmlspecialchars($itemInfo['ISBN']) ?></li>
 				<li>Publish Date: <?php getYear($itemInfo, $conn) ?></li>
 				<li><?php checkAvailable($itemInfo, $conn, 'book') ?></li>
+				<li>
+					<form method = "POST">
+						<input type = "submit" name = "submit" value = "Request this item">
+					</form>
+				</li>
+				<li>
+					<?php if(isset($message)) { ?>
+						<p class="message"><?php echo $message; ?></p>	
+					<?php } ?>
+				</li>
 			</ul>
-
 		</div>
 
 	<?php } else if($itemType == "movie"){ ?>
@@ -88,6 +123,16 @@ if (isset($_GET["itemID"])) {
 				<li>Producer: <?php echo htmlspecialchars($itemInfo['productionCompany']) ?></li>
 				<li>Released: <?php echo htmlspecialchars($itemInfo['publishedDate']) ?></li>
 				<li><?php checkAvailable($itemInfo, $conn, 'movie') ?></li>
+				<li>
+					<form method = "POST">
+						<input type = "submit" name = "submit" value = "Request this item">
+					</form>
+				</li>
+				<li>
+					<?php if(isset($message)) { ?>
+						<p class="message"><?php echo $message; ?></p>	
+					<?php } ?>
+				</li>
 			</ul>
 		</div>
 
@@ -99,6 +144,16 @@ if (isset($_GET["itemID"])) {
 				<li>Brand: <?php getBrand($itemInfo, $conn) ?></li>
 				<li>Model: <?php echo htmlspecialchars($itemInfo['modelNumber']) ?></li>
 				<li><?php checkAvailable($itemInfo, $conn, 'tech') ?></li>
+				<li>
+					<form method = "POST">
+						<input type = "submit" name = "submit" value = "Request this item">
+					</form>
+				</li>
+				<li>
+					<?php if(isset($message)) { ?>
+						<p class="message"><?php echo $message; ?></p>	
+					<?php } ?>
+				</li>
 			</ul>
 		</div>
 
@@ -110,7 +165,7 @@ if (isset($_GET["itemID"])) {
 			<thead>
 				<tr>
 					<th>Waitlist Position</th>
-					<th>User ID</th>
+					<th>UH ID</th>
 					<th>Request Date</th>
 				</tr>
 			</thead>
