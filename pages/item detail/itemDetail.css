@@ -52,9 +52,21 @@ a {
     flex-direction: row;
 }
 
+.list button{
+    margin: 50px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: rgb(128, 144, 207);
+    color: white;
+    border: none;
+    cursor: pointer;
+    width : 200px;
+    height : auto;
+}
+
 .list img{
     display: block;
-    margin: 50px;
+    margin: 30px;
     width : 400px;
     height : auto;
     border-radius: 10px;
@@ -64,24 +76,14 @@ a {
     list-style-type: none;
     margin: 30px;
     padding: 10px;
+    border: 1px solid rgb(128, 144, 207);
+    border-radius: 5px;
+    background-color: rgb(234, 226, 219);
 }
 .list li{
     padding: 10px;
     margin: 10px;
-    border: 1px solid rgb(128, 144, 207);
-    border-radius: 5px;
-    background-color: rgb(234, 226, 219);
     width : 300px;
-}
-
-.request-button {
-    display: block;
-    background-color: rgb(128, 144, 207);
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    cursor: pointer;
 }
 
 .logout-container {
