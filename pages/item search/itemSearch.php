@@ -71,7 +71,7 @@
                 // Loop through results and populate the table rows
                 while ($row = $result->fetch_assoc()) {
                     echo '<tr>';
-                    echo '<td><a href="itemDetail.php?id=' . $row['ID'] . '">' . $row['ID'] . '</a></td>';
+                    echo '<td><a href="../itemDetail/itemDetail.php?id=' . $row['ID'] . '">' . $row['ID'] . '</a></td>';
                     if ($category === 'books') {
                         echo '<td>' . $row['bookName'] . '</td>';
                         echo '<td>' . $row['ISBN'] . '</td>';
