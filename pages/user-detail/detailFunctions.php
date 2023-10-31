@@ -126,21 +126,21 @@ function getCheckouts($userID, $conn){
 
 function getHolds($userID, $conn){
 	// create prepared statements
-	$bookQ = 	"SELECT bookName, requestDate, itemType 
+	$bookQ = 	"SELECT bookName AS itemName, bookID AS itemID, requestDate, itemType 
 					FROM holds
 					JOIN books ON itemID = bookID
 					WHERE userID = '$userID' AND itemType = 'book' AND requestStatus = 'pending'";
 
 	$getBooks = mysqli_query($conn, $bookQ);
 
-	$movieQ = 	"SELECT movieName, requestDate, itemType 
+	$movieQ = 	"SELECT movieName AS itemName, movieID AS itemID, requestDate, itemType 
 					FROM holds
 					JOIN movies ON itemID = movieID
 					WHERE userID = '$userID' AND itemType = 'movie' AND requestStatus = 'pending'";
 
 	$getMovies = mysqli_query($conn, $movieQ);
 
-	$techQ = 	"SELECT techName, requestDate, itemType 
+	$techQ = 	"SELECT techName AS itemName, techID AS itemID, requestDate, itemType 
 					FROM holds
 					JOIN tech ON itemID = techID
 					WHERE userID = '$userID' AND itemType = 'tech' AND requestStatus = 'pending'";

@@ -34,12 +34,12 @@ if (isset($_GET["id"])) {
 if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['payFine'])){
 	$fineID = $_POST['fineID'];
 	$amount = $_POST['amount'];
-	$query1 = "SELECT * FROM fines WHERE fineID = '$fineID' && userID = '$userId' LIMIT 1";
+	$query1 = "SELECT * FROM fines WHERE fineID = '$fineID' AND userID = '$userId' LIMIT 1";
 	$result1 = mysqli_query($conn, $query1);
 	if (mysqli_num_rows($result1) > 0) {
 		$row = mysqli_fetch_assoc($result1);
 		if($row['fineAmount'] == $amount){
-			$query2 = "UPDATE fines SET havePaid = 'Yes' WHERE fineID = '$fineID' && userID = '$userId'";
+			$query2 = "UPDATE fines SET havePaid = 'Yes' WHERE fineID = '$fineID' AND userID = '$userId'";
 			$conn->query($query2);
 			$_SESSION['message'] = "Fine paid!";
 		}
@@ -56,7 +56,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['payFine'])){
 
 if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['clearFine'])){
 	$fineID = $_POST['fineID'];
-	$query1 = "SELECT * FROM fines WHERE fineID = '$fineID' && userID = '$userId' LIMIT 1";
+	$query1 = "SELECT * FROM fines WHERE fineID = '$fineID' AND userID = '$userId' LIMIT 1";
 	$result1 = mysqli_query($conn, $query1);
 	if (mysqli_num_rows($result1) > 0) {
 		if($row['havePaid'] == 'Yes'){
@@ -66,7 +66,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['clearFine'])){
 			$_SESSION['message'] = "Fine already waived";
 		}
 		else{
-			$query2 = "UPDATE fines SET havePaid = 'Waived' WHERE fineID = '$fineID' && userID = '$userId'";
+			$query2 = "UPDATE fines SET havePaid = 'Waived' WHERE fineID = '$fineID' AND userID = '$userId'";
 			$conn->query($query2);
 			$_SESSION['message'] = "Fine waived!";
 		}
