@@ -52,17 +52,19 @@
                 // Display the search results in a table
                 echo '<table>';
                 echo '<tr>';
-                echo '<th>ID</th>';
                 // Table header based on the category
                 if ($category === 'books') {
+                    echo '<th>Book ID</th>';
                     echo '<th>Book Name</th>';
                     echo '<th>ISBN</th>';
                     echo '<th>Publication Company</th>';
                 } elseif ($category === 'movies') {
+                    echo '<th>Movie ID</th>';
                     echo '<th>Movie Name</th>';
                     echo '<th>Published Date</th>';
                     echo '<th>Production Company</th>';
                 } elseif ($category === 'tech') {
+                    echo '<th>Technology ID</th>';
                     echo '<th>Technology Name</th>';
                     echo '<th>Model Number</th>';
                 }
@@ -71,7 +73,15 @@
                 // Loop through results and populate the table rows
                 while ($row = $result->fetch_assoc()) {
                     echo '<tr>';
-                    echo '<td><a href="../item detail/itemDetail.php?id=' . $row['ID'] . '">' . $row['ID'] . '</a></td>';
+                    echo '<td><a href="../itemDetail/itemDetail.php?';
+                    if ($category === 'books') {
+                    echo 'bookID=' . $row['ID'];
+                    } elseif ($category === 'movies') {
+                    echo 'movieID=' . $row['ID'];
+                    } elseif ($category === 'tech') {
+                    echo 'techID=' . $row['ID'];
+                    }
+                    echo '">' . $row['ID'] . '</a></td>';
                     if ($category === 'books') {
                         echo '<td>' . $row['bookName'] . '</td>';
                         echo '<td>' . $row['ISBN'] . '</td>';
