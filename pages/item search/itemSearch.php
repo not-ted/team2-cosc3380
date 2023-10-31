@@ -10,10 +10,9 @@
         <form method="post" action="">
             <input type="text" name="search" placeholder="Search..." value="<?php echo isset($_POST['search']) ? $_POST['search'] : ''; ?>">
             <select name="category">
-                <option value="all" <?php echo ($_POST['category'] === 'all') ? 'selected' : ''; ?>>All</option>
-                <option value="books" <?php echo ($_POST['category'] === 'books') ? 'selected' : ''; ?>>Books</option>
-                <option value="movies" <?php echo ($_POST['category'] === 'movies') ? 'selected' : ''; ?>>Movies</option>
-                <option value="tech" <?php echo ($_POST['category'] === 'tech') ? 'selected' : ''; ?>>Technology</option>
+                <option value="books" <?php echo ($category === 'books') ? 'selected' : ''; ?>>Books</option>
+                <option value="movies" <?php echo ($category === 'movies') ? 'selected' : ''; ?>>Movies</option>
+                <option value="tech" <?php echo ($category === 'tech') ? 'selected' : ''; ?>>Technology</option>
             </select>
             <button type="submit" name="search-button">Search</button>
         </form>
@@ -24,66 +23,70 @@
 
         if (isset($_POST['search-button'])) {
             $search = isset($_POST['search']) ? $_POST['search'] : '';
-            $category = isset($_POST['category']) ? $_POST['category'] : 'all';
+            $category = isset($_POST['category']) ? $_POST['category'] : 'books'; // Default to 'books' if no category selected
 
-            // Prepare the SQL statement based on the selected category
-            if ($category === 'all') {
-                $sql = "SELECT * FROM books WHERE bookName LIKE '%$search%'
-                        UNION
-                        SELECT * FROM movies WHERE movieName LIKE '%$search%'
-                        UNION
-                        SELECT * FROM tech WHERE techName LIKE '%$search%'";
-            } else {
-                $table = $category;
-                $columnName = ($category === 'books') ? 'bookName' : (($category === 'movies') ? 'movieName' : 'techName');
-                $sql = "SELECT * FROM $table WHERE $columnName LIKE '%$search%'";
+            $table = $category;
+            $idColumn = ($category === 'books') ? 'bookID' : (($category === 'movies') ? 'movieID' : 'techID');
+
+            $sql = "SELECT $idColumn AS ID";
+
+            if ($category === 'books') {
+                $columnName = 'bookName';
+                $sql .= ", $columnName, ISBN, publicationCompany";
+            } elseif ($category === 'movies') {
+                $columnName = 'movieName';
+                $sql .= ", $columnName, publishedDate, productionCompany";
+            } elseif ($category === 'tech') {
+                $columnName = 'techName';
+                $sql .= ", $columnName, modelNumber";
             }
+
+            $sql .= " FROM $table WHERE $columnName LIKE '%$search%'";
 
             $result = $conn->query($sql); // Use $conn here
 
-            // Display the search results in a table
-            echo '<table>';
-            echo '<tr>';
-            // Table header based on the category
-            if ($category === 'books') {
-                echo '<th>Book ID</th>';
-                echo '<th>Book Name</th>';
-                echo '<th>ISBN</th>';
-                echo '<th>Publication Company</th>';
-            } elseif ($category === 'movies') {
-                echo '<th>Movie ID</th>';
-                echo '<th>Movie Name</th>';
-                echo '<th>Published Date</th>';
-                echo '<th>Production Company</th>';
-            } elseif ($category === 'tech') {
-                echo '<th>Tech ID</th>';
-                echo '<th>Technology Name</th>';
-                echo '<th>Model Number</th>';
-            }
-            echo '</tr>';
-
-            // Loop through results and populate the table rows
-            while ($row = $result->fetch_assoc()) {
+            if (!$result) {
+                echo "Error: " . $conn->error;
+            } else {
+                // Display the search results in a table
+                echo '<table>';
                 echo '<tr>';
+                echo '<th>ID</th>';
+                // Table header based on the category
                 if ($category === 'books') {
-                    echo '<td><a href="itemDetail.php?bookID='  . $row['bookID'] . '">' . $row['bookID'] . '</a></td>';
-                    echo '<td>' . $row['bookName'] . '</td>';
-                    echo '<td>' . $row['ISBN'] . '</td>';
-                    echo '<td>' . $row['publicationCompany'] . '</td>';
+                    echo '<th>Book Name</th>';
+                    echo '<th>ISBN</th>';
+                    echo '<th>Publication Company</th>';
                 } elseif ($category === 'movies') {
-                    echo '<td><a href="itemDetail.php?movieID='  . $row['movieID'] . '">' . $row['movieID'] . '</a></td>';
-                    echo '<td>' . $row['movieName'] . '</td>';
-                    echo '<td>' . $row['publishedDate'] . '</td>';
-                    echo '<td>' . $row['productionCompany'] . '</td>';
+                    echo '<th>Movie Name</th>';
+                    echo '<th>Published Date</th>';
+                    echo '<th>Production Company</th>';
                 } elseif ($category === 'tech') {
-                    echo '<td><a href="itemDetail.php?techID='  . $row['techID'] . '">' . $row['techID'] . '</a></td>';
-                    echo '<td>' . $row['techName'] . '</td>';
-                    echo '<td>' . $row['modelNumber'] . '</td>';
+                    echo '<th>Technology Name</th>';
+                    echo '<th>Model Number</th>';
                 }
                 echo '</tr>';
-            }
-            echo '</table';
 
+                // Loop through results and populate the table rows
+                while ($row = $result->fetch_assoc()) {
+                    echo '<tr>';
+                    echo '<td><a href="itemDetail.php?id=' . $row['ID'] . '">' . $row['ID'] . '</a></td>';
+                    if ($category === 'books') {
+                        echo '<td>' . $row['bookName'] . '</td>';
+                        echo '<td>' . $row['ISBN'] . '</td>';
+                        echo '<td>' . $row['publicationCompany'] . '</td>';
+                    } elseif ($category === 'movies') {
+                        echo '<td>' . $row['movieName'] . '</td>';
+                        echo '<td>' . $row['publishedDate'] . '</td>';
+                        echo '<td>' . $row['productionCompany'] . '</td>';
+                    } elseif ($category === 'tech') {
+                        echo '<td>' . $row['techName'] . '</td>';
+                        echo '<td>' . $row['modelNumber'] . '</td>';
+                    }
+                    echo '</tr>';
+                }
+                echo '</table';
+            }
             // Close the database connection
             $conn->close();
         }
