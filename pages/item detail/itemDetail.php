@@ -86,7 +86,8 @@ function submitHold($itemID, $conn, $itemType, $userID){
 
 	<div class="logout-container">
 		<button class="back-button" onclick="location.href='../item search/itemSearch.php'">Back to Search</button>
-		<button class="logout-button" onclick="location.href='../../logout.php'">Logout</button>
+		<button class="home-button" onclick="location.href='../home/home.php'">Home</button>
+		<button class="logout-button" onclick="location.href='../account dash/logout.php'">Logout</button>
 	</div>
 
 	<?php if($itemType == "book"){ ?>

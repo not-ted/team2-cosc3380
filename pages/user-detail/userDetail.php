@@ -115,9 +115,9 @@ if($_SERVER['REQUEST_METHOD'] =='POST' && isset($_POST['changePrivilege'])){
 <body>
 
 	<div class="logout-container">
-		<button class="back-button" onclick="location.href='../../userSearch.php'">Back to Search</button>
-		<button class="home-button" onclick="location.href='../../home.php'">Home</button>
-        <button class="logout-button" onclick="location.href='../../logout.php'">Logout</button>
+		<button class="back-button" onclick="location.href='../user search/userSearch.php'">Back to Search</button>
+		<button class="home-button" onclick="location.href='../home/home.php'">Home</button>
+        <button class="logout-button" onclick="location.href='../account dash/logout.php'">Logout</button>
     </div>
 
 	<h1><?php echo htmlspecialchars($user_info['firstName']) . " " . htmlspecialchars($user_info['lastName']); ?></h1>
