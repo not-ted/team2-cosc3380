@@ -29,7 +29,7 @@
             $table = $category;
             $idColumn = ($category === 'books') ? 'bookID' : (($category === 'movies') ? 'movieID' : 'techID');
 
-            $sql = "SELECT $idColumn AS ID";
+            $sql = "SELECT $idColumn AS ID, '$category' AS itemType"; // Add 'itemType' to the SELECT
 
             if ($category === 'books') {
                 $columnName = 'bookName';
@@ -53,6 +53,7 @@
                 echo '<table>';
                 echo '<tr>';
                 echo '<th>ID</th>';
+                echo '<th>Item Type</th>'; // Add a new column for 'itemType'
                 // Table header based on the category
                 if ($category === 'books') {
                     echo '<th>Book Name</th>';
@@ -71,24 +72,10 @@
                 // Loop through results and populate the table rows
                 while ($row = $result->fetch_assoc()) {
                     echo '<tr>';
-                    echo '<td><a href="../item Detail/itemDetail.php?itemType=';
-                    if ($category === 'books') {
-                        echo 'books';
-                    } elseif ($category === 'movies') {
-                        echo 'movies';
-                    } elseif ($category === 'tech') {
-                        echo 'tech';
-                    }
-                    echo '&';
-
-                    if ($category === 'books') {
-                        echo 'bookID=' . $row['ID'];
-                    } elseif ($category === 'movies') {
-                        echo 'movieID=' . $row['ID'];
-                    } elseif ($category === 'tech') {
-                        echo 'techID=' . $row['ID'];
-                    }
-                    echo '">' . $row['ID'] . '</a></td>';
+                    $paramType = ($category === 'books') ? 'book' : (($category === 'movies') ? 'movie' : 'tech');
+                    $url = '../item Detail/itemDetail.php?id=' . $row['ID'] . '&type=' . $paramType; // Pass 'itemType'
+                    echo '<td><a href="' . $url . '">' . $row['ID'] . '</a></td>';
+                    echo '<td>' . $row['itemType'] . '</td>'; // Display 'itemType'
                     if ($category === 'books') {
                         echo '<td>' . $row['bookName'] . '</td>';
                         echo '<td>' . $row['ISBN'] . '</td>';
@@ -102,7 +89,7 @@
                         echo '<td>' . $row['modelNumber'] . '</td>';
                     }
                     echo '</tr>';
-                    }
+                }
                 echo '</table';
             }
             // Close the database connection
