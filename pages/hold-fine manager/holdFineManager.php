@@ -8,7 +8,7 @@ if ($_SESSION['user_type'] !== 'management') {
 }
 ?>
 <?php
-    include("lateFineRetrieve.php");
+    //include("lateFineRetrieve.php");
 ?>
 
 <!DOCTYPE html>
