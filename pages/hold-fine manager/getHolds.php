@@ -111,20 +111,20 @@
                 if ($data['itemType'] == "book") {
                     $itemQuery = "SELECT * 
                     FROM books
-                    INNER JOIN bookCopy ON books.bookID = bookCopy.bookID
-                    WHERE bookCopy.bookCopyID = {$data['itemID']};";
+                    INNER JOIN bookcopy ON books.bookID = bookcopy.bookID
+                    WHERE bookcopy.bookCopyID = {$data['itemID']};";
                 }
                 if ($data['itemType'] == "movie") {
                     $itemQuery = "SELECT * 
                     FROM movies
-                    INNER JOIN movieCopy ON movies.movieID = movieCopy.movieID
-                    WHERE movieCopy.movieCopyID = {$data['itemID']};";
+                    INNER JOIN moviecopy ON movies.movieID = moviecopy.movieID
+                    WHERE moviecopy.movieCopyID = {$data['itemID']};";
                 }
                 if ($data['itemType'] == "tech") {
                     $itemQuery = "SELECT * 
                     FROM tech
-                    INNER JOIN techCopy ON tech.techID = techCopy.techID
-                    WHERE techCopy.techCopyID = {$data['itemID']};";
+                    INNER JOIN techcopy ON tech.techID = techcopy.techID
+                    WHERE techcopy.techCopyID = {$data['itemID']};";
                 }
 
                 $itemResult = mysqli_query($conn, $itemQuery);
@@ -155,7 +155,7 @@
                 if ($data['itemType'] == "tech")
                 {
                     echo "<p> Tech Name: <span class='data'>" . $itemData['techName'] . "</span></p>";
-                    echo "<p> Tech ID: <span class='data'>" . $itemData['techID'] . "</span></p>";
+                    echo "<p> Tech ID: <span class='data'>" . $itemData['techCopyID'] . "</span></p>";
                 }
 
                 //Action Buttons

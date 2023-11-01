@@ -73,7 +73,7 @@
                 while ($row = $result->fetch_assoc()) {
                     echo '<tr>';
                     $paramType = ($category === 'books') ? 'book' : (($category === 'movies') ? 'movie' : 'tech');
-                    $url = '../item Detail/itemDetail.php?id=' . $row['ID'] . '&type=' . $paramType; // Pass 'itemType'
+                    $url = '../item detail/itemDetail.php?id=' . $row['ID'] . '&type=' . $paramType; // Pass 'itemType'
                     echo '<td><a href="' . $url . '">' . $row['ID'] . '</a></td>';
                     echo '<td>' . $row['itemType'] . '</td>'; // Display 'itemType'
                     if ($category === 'books') {

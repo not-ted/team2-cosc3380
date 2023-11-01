@@ -156,7 +156,7 @@ if ($userData['userType'] === 'management') {
 
                 // Wrap the cover image in an anchor tag to make it clickable
                 echo '<div class="item-cover-container cover-fade" style="display: inline-block; margin-right: 10px;">';
-                echo '<a href="../item Detail/itemDetail.php?id=' . $item['itemID'] . '&type=' . $item['itemType'] . '">
+                echo '<a href="../item detail/itemDetail.php?id=' . $item['itemID'] . '&type=' . $item['itemType'] . '">
                             <img src="' . $coverPath . '" alt="Book Cover" class="book-cover">
                         </a>'; 
                 echo '</a>';
