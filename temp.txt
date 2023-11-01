@@ -1,8 +1,0 @@
-few things i had to change
-
--table names in mysql are not case sensitive so when you host it all table names have to be strictly lowercase for it to be read (writtenBy -> writtenby) so i've changed table names 
-to all lowercase. if you see any table names still in camel case in your files, change it to all lower (attribute names are case sensitive so keep it the way it is)
--in itemFunctions.php $num is not defined in the scope where you're trying to use it. it's defined only in if (book), i changed it to be outside, before all the if statements so it can be used everywhere
-- wiydan, in your urls redirects, I've changed the folder names from camel case to lowercase. if you check our file names, its all lowercase (itemDetails -> item detail)
-- sometimes when you host stuff, some things have to be tweaked. lmk if you want to update a file.
-- also send sql files if you want to populate the website with more dummy data
