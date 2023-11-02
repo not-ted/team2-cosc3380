@@ -114,9 +114,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['newPassword'])) {
             // Create a prepared statement to retrieve fines for unpaid items
             $sqlUserFines = "SELECT fines.fineID, fines.fineAmount, fines.havePaid, borrowed.itemType,
             CASE
-                WHEN borrowed.itemType = 'book' THEN (SELECT bookName FROM books, bookcopy WHERE books.bookID = bookCopy.bookID AND bookCopy.bookCopyID = borrowed.itemCopyID)
-                WHEN borrowed.itemType = 'movie' THEN (SELECT movieName FROM movies, moviecopy WHERE movies.movieID = moviecopy.movieID AND moviecopy.movieCopyID = borrowed.itemCopyID)
-                WHEN borrowed.itemType = 'tech' THEN (SELECT techName FROM tech, techcopy WHERE tech.techID = techcopy.techID AND techcopy.techCopyID = borrowed.itemCopyID)
+                WHEN borrowed.itemType = 'book' THEN (SELECT bookName FROM books, bookcopy WHERE books.bookID = bookcopy.bookID AND bookcopy.bookcopyID = borrowed.itemCopyID)
+                WHEN borrowed.itemType = 'movie' THEN (SELECT movieName FROM movies, moviecopy WHERE movies.movieID = moviecopy.movieID AND moviecopy.moviecopyID = borrowed.itemCopyID)
+                WHEN borrowed.itemType = 'tech' THEN (SELECT techName FROM tech, techcopy WHERE tech.techID = techcopy.techID AND techcopy.techcopyID = borrowed.itemCopyID)
                 ELSE NULL
             END AS itemName
             FROM fines
@@ -211,21 +211,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['newPassword'])) {
             // Create a prepared statement for currently borrowed books
             $sqlCurrBooks = "SELECT books.bookName AS itemName, c.checkoutDate, c.dueDate 
     FROM borrowed c
-    JOIN bookCopy ON c.itemCopyID = bookCopy.bookCopyID
-    JOIN books ON bookCopy.bookID = books.bookID
+    JOIN bookcopy ON c.itemCopyID = bookcopy.bookcopyID
+    JOIN books ON bookcopy.bookID = books.bookID
     WHERE c.userID = ? AND c.itemType = 'book' AND borrowStatus = 'checked out'";
 
             // Create a prepared statement for movies
             $sqlCurrMovies = "SELECT movies.movieName AS itemName, c.checkoutDate, c.dueDate 
     FROM borrowed c
-    JOIN moviecopy ON c.itemCopyID = moviecopy.movieCopyID
+    JOIN moviecopy ON c.itemCopyID = moviecopy.moviecopyID
     JOIN movies ON moviecopy.movieID = movies.movieID
     WHERE c.userID = ? AND c.itemType = 'movie' AND borrowStatus = 'checked out'";
 
             // Create a prepared statement for tech items
             $sqlCurrTech = "SELECT tech.techName AS itemName, c.checkoutDate, c.dueDate 
     FROM borrowed c
-    JOIN techcopy ON c.itemCopyID = techcopy.techCopyID
+    JOIN techcopy ON c.itemCopyID = techcopy.techcopyID
     JOIN tech ON techcopy.techID = tech.techID
     WHERE c.userID = ? AND c.itemType = 'tech' AND borrowStatus = 'checked out'";
 
@@ -353,21 +353,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['newPassword'])) {
                     // Create a prepared statement to retrieve previously checked out books
                     $sqlPrevBooks = "SELECT books.bookName AS itemName, c.checkoutDate, c.dueDate, c.returnedDate
         FROM borrowed c
-        JOIN bookCopy ON c.itemCopyID = bookCopy.bookCopyID
-        JOIN books ON bookCopy.bookID = books.bookID
+        JOIN bookcopy ON c.itemCopyID = bookcopy.bookcopyID
+        JOIN books ON bookcopy.bookID = books.bookID
         WHERE c.userID = ? AND c.itemType = 'book' AND c.borrowStatus = 'returned'";
 
                     // Create a prepared statement to retrieve previously checked out movies
                     $sqlPrevMovies = "SELECT movies.movieName AS itemName, c.checkoutDate, c.dueDate, c.returnedDate
         FROM borrowed c
-        JOIN moviecopy ON c.itemCopyID = moviecopy.movieCopyID
+        JOIN moviecopy ON c.itemCopyID = moviecopy.moviecopyID
         JOIN movies ON moviecopy.movieID = movies.movieID
         WHERE c.userID = ? AND c.itemType = 'movie' AND c.borrowStatus = 'returned'";
 
                     // Create a prepared statement to retrieve previously checked out tech items
                     $sqlPrevTech = "SELECT tech.techName AS itemName, c.checkoutDate, c.dueDate, c.returnedDate
         FROM borrowed c
-        JOIN techcopy ON c.itemCopyID = techcopy.techCopyID
+        JOIN techcopy ON c.itemCopyID = techcopy.techcopyID
         JOIN tech ON techcopy.techID = tech.techID
         WHERE c.userID = ? AND c.itemType = 'tech' AND c.borrowStatus = 'returned'";
 
@@ -400,9 +400,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['newPassword'])) {
                     // Create a prepared statement to retrieve fine history for paid fines
                     $sqlFineHistory = "SELECT fines.fineID, fines.fineAmount, fines.havePaid, borrowed.itemType,
         CASE
-            WHEN borrowed.itemType = 'book' THEN (SELECT bookName FROM books, bookcopy WHERE books.bookID = bookCopy.bookID AND bookCopy.bookCopyID = borrowed.itemCopyID)
-            WHEN borrowed.itemType = 'movie' THEN (SELECT movieName FROM movies, moviecopy WHERE movies.movieID = moviecopy.movieID AND moviecopy.movieCopyID = borrowed.itemCopyID)
-            WHEN borrowed.itemType = 'tech' THEN (SELECT techName FROM tech, techcopy WHERE tech.techID = techcopy.techID AND techcopy.techCopyID = borrowed.itemCopyID)
+            WHEN borrowed.itemType = 'book' THEN (SELECT bookName FROM books, bookcopy WHERE books.bookID = bookcopy.bookID AND bookcopy.bookcopyID = borrowed.itemCopyID)
+            WHEN borrowed.itemType = 'movie' THEN (SELECT movieName FROM movies, moviecopy WHERE movies.movieID = moviecopy.movieID AND moviecopy.moviecopyID = borrowed.itemCopyID)
+            WHEN borrowed.itemType = 'tech' THEN (SELECT techName FROM tech, techcopy WHERE tech.techID = techcopy.techID AND techcopy.techcopyID = borrowed.itemCopyID)
             ELSE NULL
         END AS itemName
         FROM fines

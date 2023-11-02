@@ -15,7 +15,7 @@
      // Verify copies availiable
      if ($movieCopiesAvailable == 0) { 
         echo "At least one movie copy need to be added.";
-    } else if (strtotime($publishedDate) > strtotime(date('Y-m-d'))) {
+    } else if (strtotime($moviepublishedDate) > strtotime(date('Y-m-d'))) {
         echo "Published date needs to have been in the past";
     } else {
                 // First, check if the director already exists
@@ -56,8 +56,8 @@
                     if(move_uploaded_file($_FILES['coverImageMovie']['tmp_name'], $newFilePath)) {
                         // File was uploaded successfully, now insert the movie record
                         $coverImageMoviePath = '/main resources/item covers/movieCovers/' . $uniqueImageID . '.' . $imageFileType;
-                        $insertmovieQuery = "INSERT INTO movies (movieName, publishedDate,distributedBy,  productionCompany, coverFilePath) 
-                                            VALUES ('$movieName', '$publishedDate',  '$distributedBy', '$productionCompany', '$coverImageMoviePath')";
+                        $insertmovieQuery = "INSERT INTO movies (movieName, moviepublishedDate,distributedBy,  productionCompany, coverFilePath) 
+                                            VALUES ('$movieName', '$moviepublishedDate',  '$distributedBy', '$productionCompany', '$coverImageMoviePath')";
                         //Run insert movie query
                         $insertmovieResult = mysqli_query($conn, $insertmovieQuery);
                                         

@@ -115,7 +115,7 @@ function addMovie() {
     formData.append('distributedBy', distributedBy);
     formData.append('director', director);
     formData.append('productionCompany', productionCompany);
-    formData.append('publishedDate', publishedDate);
+    formData.append('moviepublishedDate', moviepublishedDate);
     formData.append('movieCopiesAvailable', movieCopiesAvailable);
     formData.append('movieCopyValue', movieCopyValue);
     formData.append('coverImageMovie', coverImageMovie);
