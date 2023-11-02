@@ -56,7 +56,7 @@
                     if(move_uploaded_file($_FILES['coverImageMovie']['tmp_name'], $newFilePath)) {
                         // File was uploaded successfully, now insert the movie record
                         $coverImageMoviePath = '/main resources/item covers/movieCovers/' . $uniqueImageID . '.' . $imageFileType;
-                        $insertmovieQuery = "INSERT INTO movies (movieName, moviepublishedDate,distributedBy,  productionCompany, coverFilePath) 
+                        $insertmovieQuery = "INSERT INTO movies (movieName, publishedDate,distributedBy,  productionCompany, coverFilePath) 
                                             VALUES ('$movieName', '$moviepublishedDate',  '$distributedBy', '$productionCompany', '$coverImageMoviePath')";
                         //Run insert movie query
                         $insertmovieResult = mysqli_query($conn, $insertmovieQuery);
@@ -66,12 +66,12 @@
                             $movieID = mysqli_insert_id($conn);
                             
                             //Add directed by director-movie relationship
-                            $adddirectedByRelationship = "INSERT INTO directedBy (directorID, movieID) VALUES ('$directorID ', '$movieID ')";
+                            $adddirectedByRelationship = "INSERT INTO directedby (directorID, movieID) VALUES ('$directorID ', '$movieID ')";
                             $directedByRelationshipResult = mysqli_query($conn, $adddirectedByRelationship);
 
                             // Add copies
                             for ($i = 0; $i < $movieCopiesAvailable; $i++) {
-                                $addCopyQuery = "INSERT INTO movieCopy (movieID, addDate, available, value) 
+                                $addCopyQuery = "INSERT INTO moviecopy (movieID, addDate, available, value) 
                                 VALUES ('$movieID', NOW(), 1, '$movieCopyValue')";
                                 $addCopyResult = mysqli_query($conn, $addCopyQuery);
                                 if (!$addCopyResult) {
