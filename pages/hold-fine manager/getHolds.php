@@ -112,19 +112,19 @@
                     $itemQuery = "SELECT * 
                     FROM books
                     INNER JOIN bookcopy ON books.bookID = bookcopy.bookID
-                    WHERE bookcopy.bookCopyID = {$data['itemID']};";
+                    WHERE books.bookID = {$data['itemID']};";
                 }
                 if ($data['itemType'] == "movie") {
                     $itemQuery = "SELECT * 
                     FROM movies
                     INNER JOIN moviecopy ON movies.movieID = moviecopy.movieID
-                    WHERE moviecopy.movieCopyID = {$data['itemID']};";
+                    WHERE movies.movieID = {$data['itemID']};";
                 }
                 if ($data['itemType'] == "tech") {
                     $itemQuery = "SELECT * 
                     FROM tech
                     INNER JOIN techcopy ON tech.techID = techcopy.techID
-                    WHERE techcopy.techCopyID = {$data['itemID']};";
+                    WHERE tech.techID = {$data['itemID']};";
                 }
 
                 $itemResult = mysqli_query($conn, $itemQuery);
