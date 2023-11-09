@@ -43,7 +43,7 @@
 		else {
             // Insert user data into database
             $stmt = $conn->prepare("INSERT INTO users (firstName, lastName, uhID, email, password, securityQ1, securityQ2, securityQ3, securityA1, securityA2, securityA3, canBorrow, borrowLimit, userType) 
-    		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, 7, 'Student')");
+    		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, 7, 'student')");
 
 			$stmt->bind_param("sssssssssss", $fname, $lname, $username, $email, $password, $securityQuestion1, $securityQuestion2, $securityQuestion3, $securityAnswer1, $securityAnswer2, $securityAnswer3);
         
