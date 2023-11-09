@@ -129,6 +129,43 @@ img.item-cover {
 }
 
 
+.notification {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    background-color: #ff1500;
+    color: white;
+    padding: 3px 5px;
+    border-radius: 5px;
+    font-size: 12px;
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity 1s;
+    cursor: pointer; /* Add cursor style to indicate it's clickable */
+}
+
+.notification.show {
+    opacity: 1;
+}
+
+/* Tooltip style */
+.notification .alert-count:hover::before {
+    content: "You have outstanding fines that need to be settled before you can check out more items from the library. Please clear your fines at your earliest convenience. If you have any questions or need assistance, please contact the library manager for help.";
+    position: absolute;
+    background-color: #333;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    white-space: normal;
+    top: 40px; /* Adjust as needed to position the tooltip correctly */
+    left: 0;
+    width: 200px; /* Set the width to fit your content */
+    visibility: hidden; /* Hidden by default */
+}
+
+.notification .alert-count:hover::before {
+    visibility: visible; /* Display the tooltip on hover */
+}
 
 
-/* Add additional styles or modifications as needed */
