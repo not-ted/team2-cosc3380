@@ -5,6 +5,7 @@ body {
     color: rgb(153, 46, 46);
   	height: 100vh;
     overflow: scroll;
+    margin: 0;
     /* Text color */
 }
 
@@ -12,10 +13,10 @@ body {
 h1,
 h2 {
     color: rgb(153, 46, 46);
-    border-bottom: 2px solid rgb(153, 46, 46);
-    /* Add a bottom border */
-    padding-bottom: 5px;
-    /* Add some space between the border and text */
+}
+
+h2 {
+    font-weight: lighter;
 }
 
 /* Style the submit button */
@@ -26,6 +27,7 @@ input[type="submit"] {
     font-size: 1.3vw;
     background-color: rgb(128, 144, 207);
     color: white;
+    cursor: pointer;
 }
 
 /* Style the link */
@@ -35,67 +37,39 @@ a {
 }
 .waitlist-container {
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    margin: 50px;
+    flex-direction: column;
+    margin: 0 auto;
+    width: 90%;
+}
+
+.waitlist-container h1{
+    border-bottom: 2px solid rgb(153, 46, 46);
+    padding-bottom: 5px;
 }
 
 .list{
     display: flex;
-    width: 800px;
     height: auto;
     top: 10px;
-    background-color: rgb(200, 202, 211);
     border-radius: 10px;
     margin-top: 70px;
     flex-direction: row;
-}
-
-.list button{
-    margin: 50px;
-    padding: 10px;
-    border-radius: 5px;
-    background-color: rgb(128, 144, 207);
-    color: white;
-    border: none;
-    cursor: pointer;
-    width : 200px;
-    height : auto;
+    width: 90%;
 }
 
 .list img{
     display: block;
     margin: 30px;
-    width : 400px;
+    width : 350px;
     height : auto;
     border-radius: 10px;
 }
 
 .list ul{
     list-style-type: none;
-    margin: 30px;
-    padding: 10px;
-    border: 1px solid rgb(128, 144, 207);
-    border-radius: 5px;
-    background-color: rgb(234, 226, 219);
 }
 .list li{
-    padding: 10px;
-    margin: 10px;
-    width : 300px;
-}
-
-.logout-container {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-}
-
-.button-container {
-    position: absolute;
-    top: 10px;
-    left: 10px;
+    width: auto;
 }
 
 .edit-button {
@@ -105,25 +79,6 @@ a {
     border-radius: 5px;
     padding: 10px 20px;
     cursor: pointer;
-}
-
-.logout-button {
-    background-color: red;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    cursor: pointer;
-}
-
-.back-button {
-    background-color: rgb(128, 144, 207);
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    cursor: pointer;
-    position: left;
 }
 
 /* Updated CSS class for generic tables */
@@ -151,4 +106,31 @@ a {
 
 .generic-table tbody tr:nth-child(odd) {
     background-color: #fff;
+}
+
+.navbar ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    overflow: hidden;
+    background-color: rgb(153, 46, 46);
+}
+
+.navbar li{
+    float: left;
+}
+
+.navbar li a{
+    display: block;
+    padding: 10px;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+}
+
+.navbar li a:hover{
+    background-color: rgb(202, 64, 64);
 }
