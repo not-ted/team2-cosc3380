@@ -7,7 +7,7 @@ function getAuthors($itemInfo, $conn){
 	$result = mysqli_query($conn, $query);
 	if (mysqli_num_rows($result) > 0) {
 		while($row = mysqli_fetch_assoc($result)){
-			echo htmlspecialchars($row['authorName']) . ", ";
+			echo htmlspecialchars($row['authorName']) . " ";
 		}
 	}
 	else{
@@ -21,7 +21,7 @@ function getDirector($itemInfo, $conn){
 	$result = mysqli_query($conn, $query);
 	if (mysqli_num_rows($result) > 0) {
 		while($row = mysqli_fetch_assoc($result)){
-			echo htmlspecialchars($row['directorName']) . ", ";
+			echo htmlspecialchars($row['directorName']) . " ";
 		}
 	}
 	else{
@@ -35,7 +35,7 @@ function getBrand($itemInfo, $conn){
 	$result = mysqli_query($conn, $query);
 	if (mysqli_num_rows($result) > 0) {
 		while($row = mysqli_fetch_assoc($result)){
-			echo htmlspecialchars($row['brandName']) . ", ";
+			echo htmlspecialchars($row['brandName']);
 		}
 	}
 	else{
@@ -56,6 +56,24 @@ function getYear($itemInfo, $conn){
 		}
 }
 
+function getDescription($itemInfo, $itemType, $conn){
+	if($itemType == "book")
+		$itemID = $itemInfo['bookID'];
+	if($itemType == "movie")
+		$itemID = $itemInfo['movieID'];
+	if($itemType == "tech")
+		$itemID = $itemInfo['techID'];
+	$query = "SELECT description FROM item_description WHERE itemID = '$itemID' AND itemType = '$itemType'";
+	$result = mysqli_query($conn, $query);
+	if (mysqli_num_rows($result) > 0) {
+		$row = mysqli_fetch_assoc($result);
+		echo htmlspecialchars($row['description']);
+	}
+	else{
+		echo "No description found";
+	}
+}
+
 function checkAvailable($itemInfo, $conn, $itemType){
 	if($itemType == "book"){
 		$itemID = $itemInfo['bookID'];
@@ -65,7 +83,7 @@ function checkAvailable($itemInfo, $conn, $itemType){
 			echo mysqli_num_rows($result) . " copies available";
 		}
 		else{
-			echo "This item is currentyly unavailable";
+			echo "This item is currently unavailable";
 		}
 	}
 	if($itemType == "movie"){

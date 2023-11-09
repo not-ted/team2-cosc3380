@@ -46,12 +46,12 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['payFine'])){
 		else{
 			$_SESSION['message'] = "Incorrect amount";
 		}
-		header("Refresh:0");
+		echo '<script>window.location.reload();</script>';
 	}
 	else{
 		$_SESSION['message'] = "Fine not found";
 	}
-	header("Refresh:0");
+	echo '<script>window.location.reload();</script>';
 }
 
 if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['clearFine'])){
@@ -70,12 +70,12 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['clearFine'])){
 			$conn->query($query2);
 			$_SESSION['message'] = "Fine waived!";
 		}
-		header("Refresh:0");
+		echo '<script>window.location.reload();</script>';
 	}
 	else{
 		$_SESSION['message'] = "Fine not found";
 	}
-	header("Refresh:0");
+	echo '<script>window.location.reload();</script>';
 }
 
 if($_SERVER['REQUEST_METHOD'] =='POST' && isset($_POST['changePrivilege'])){
@@ -96,7 +96,7 @@ if($_SERVER['REQUEST_METHOD'] =='POST' && isset($_POST['changePrivilege'])){
 		else{
 			$_SESSION['message'] = "User has unpaid fines";
 		}
-		header("Refresh:0");
+		echo '<script>window.location.reload();</script>';
 	}
 }
 
@@ -114,20 +114,25 @@ if($_SERVER['REQUEST_METHOD'] =='POST' && isset($_POST['changePrivilege'])){
 
 <body>
 
-	<div class="logout-container">
-		<button class="back-button" onclick="location.href='../user search/userSearch.php'">Back to Search</button>
-		<button class="home-button" onclick="location.href='../home/home.php'">Home</button>
-        <button class="logout-button" onclick="location.href='../account dash/logout.php'">Logout</button>
-    </div>
+	<div class="navbar">
+		<ul>
+			<li><a href="../home/home.php">Home</a></li>
+			<li><a href="../account dash/accountDash.php">Dashboard</a></li>
+			<li><a href="../item search/itemSearch.php">Search</a></li>
+			<li style="float:right; margin-right:20px"><a class="logout" href="../account dash/logout.php">Sign Out</a></li>
+		</ul>
+	</div>
 
-	<h1><?php echo htmlspecialchars($user_info['firstName']) . " " . htmlspecialchars($user_info['lastName']); ?></h1>
-    <ul class="user-profile">
-        <li class="user-profile-item">User ID: <?php echo htmlspecialchars($user_info['uhID']); ?></li>
-        <li class="user-profile-item">Email: <?php echo htmlspecialchars($user_info['email']); ?></li>
-        <li class="user-profile-item">User Type: <?php echo htmlspecialchars($user_info['userType']); ?></li>
-        <li class="user-profile-item">Can Borrow: <?php echo ($user_info['canBorrow'] == 1) ? 'Yes' : 'No'; ?></li>
-        <li class="user-profile-item">Borrow Limit (days): <?php echo htmlspecialchars($user_info['borrowLimit']); ?></li>
-    </ul>
+	<div class="user-detail">
+		<h1><?php echo htmlspecialchars($user_info['firstName']) . " " . htmlspecialchars($user_info['lastName']); ?></h1>
+		<ul class="user-profile">
+			<li class="user-profile-item">User ID: <?php echo htmlspecialchars($user_info['uhID']); ?></li>
+			<li class="user-profile-item">Email: <?php echo htmlspecialchars($user_info['email']); ?></li>
+			<li class="user-profile-item">User Type: <?php echo htmlspecialchars($user_info['userType']); ?></li>
+			<li class="user-profile-item">Can Borrow: <?php echo ($user_info['canBorrow'] == 1) ? 'Yes' : 'No'; ?></li>
+			<li class="user-profile-item">Borrow Limit (days): <?php echo htmlspecialchars($user_info['borrowLimit']); ?></li>
+		</ul>
+	</div>
 
 	<script>
 		function payFines() {
@@ -188,50 +193,55 @@ if($_SERVER['REQUEST_METHOD'] =='POST' && isset($_POST['changePrivilege'])){
 		</table>
   	</div>
 
-	<h2>Currently Borrowed</h2>
-	<table class="generic-table">
-        <thead>
-            <tr>
-                <th>Item Name</th>
-				<th>Item Type</th>
-                <th>Checkout Date</th>
-                <th>Due Date</th>
-				<th>Status</th>
-            </tr>
-        </thead>
-		<tbody>
-			<?php getCheckouts($userId, $conn); ?>
-		</tbody>
-	</table>
 
-	<h2>Current Hold Requests</h2>
-	<table class="generic-table">
-        <thead>
-            <tr>
-                <th>Item Name</th>
-				<th>Item Type</th>
-                <th>Request Date</th>
-				<th>Status</th>
-            </tr>
-        </thead>
-		<tbody>
-			<?php getHolds($userId, $conn); ?>
-		</tbody>
-	</table>
+	<div class = "holds-borrow-fines">
+		<h2>Currently Borrowed</h2>
+		<table class="generic-table">
+			<thead>
+				<tr>
+					<th>Item Name</th>
+					<th>Item Type</th>
+					<th>Checkout Date</th>
+					<th>Due Date</th>
+					<th>Status</th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php getCheckouts($userId, $conn); ?>
+			</tbody>
+		</table>
 
-  	<h2>Checkout History</h2>	
-	<table class="generic-table">
-		<thead>
-			<tr>
-				<th>Item Name</th>
-				<th>Item Type</th>
-				<th>Checkout Date</th>
-				<th>Return Date</th>
-			</tr>
-		</thead>
-		<tbody>
-			<?php getHistory($userId, $conn); ?>
-		</tbody>
+		<h2>Current Hold Requests</h2>
+		<table class="generic-table">
+			<thead>
+				<tr>
+					<th>Item Name</th>
+					<th>Item Type</th>
+					<th>Request Date</th>
+					<th>Status</th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php getHolds($userId, $conn); ?>
+			</tbody>
+		</table>
+
+		<h2>Checkout History</h2>	
+		<table class="generic-table">
+			<thead>
+				<tr>
+					<th>Item Name</th>
+					<th>Item Type</th>
+					<th>Checkout Date</th>
+					<th>Return Date</th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php getHistory($userId, $conn); ?>
+			</tbody>
+		</table>
+	</div>
+	
 
 </body>
 

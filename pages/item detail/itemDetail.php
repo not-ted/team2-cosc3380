@@ -6,6 +6,10 @@ include("itemFunctions.php");
 if(!isset($_SESSION['user_id'])){
 	header("Location: ../../index.php");
 }
+else{
+	$userID = $_SESSION['user_id'];
+    $userType = $_SESSION['user_type'];
+}
 
 if(isset($_SESSION['message'])){
     $message = $_SESSION['message'];
@@ -81,99 +85,82 @@ function submitHold($itemID, $conn, $itemType, $userID){
   	<title>Item Detail</title>
 </head>
 
-<body>
-  	<h1>Item Detail</h1>	
-
-	<div class="logout-container">
-		<button class="back-button" onclick="location.href='../item search/itemSearch.php'">Back to Search</button>
-		<button class="home-button" onclick="location.href='../home/home.php'">Home</button>
-		<button class="logout-button" onclick="location.href='../account dash/logout.php'">Logout</button>
+<body>	
+	<div class="navbar">
+		<ul>
+			<li><a href="../home/home.php">Home</a></li>
+			<li><a href="../account dash/accountDash.php">Dashboard</a></li>
+			<li><a href="../item search/itemSearch.php">Search</a></li>
+			<li style="float:right; margin-right:20px"><a class="logout" href="../account dash/logout.php">Sign Out</a></li>
+		</ul>
 	</div>
 
-	<?php if($itemType == "book"){ ?>
-
-		<div class = "list" id = "bookList" >
-			<img id = "coverimage" src ="<?php echo htmlspecialchars($coverPath); ?>">
-			<ul>
-				<li>Ttile: <?php echo htmlspecialchars($itemInfo['bookName']) ?></li>
-				<li>Author(s): <?php getAuthors($itemInfo, $conn) ?></li>
+	<div class = "list">
+		<img id = "coverimage" src ="<?php echo htmlspecialchars($coverPath); ?>">
+		<ul>
+			<?php if($itemType == "book"){ ?>
+				<li><h1><?php echo htmlspecialchars($itemInfo['bookName']) ?></h1></li>
+				<li><h2> <?php getAuthors($itemInfo, $conn) ?> </h2></li>
+				<li> <div class="description"><?php getDescription($itemInfo, 'book', $conn) ?></div> </li><br><br>
+				<li><?php echo htmlspecialchars($itemInfo['genre'])?></li>
 				<li>Publisher: <?php echo htmlspecialchars($itemInfo['publicationCompany']) ?> </li>
 				<li>ISBN: <?php echo htmlspecialchars($itemInfo['ISBN']) ?></li>
-				<li>Publish Date: <?php getYear($itemInfo, $conn) ?></li>
+				<li>Publish Date: <?php getYear($itemInfo, $conn) ?></li><br><br>
 				<li><?php checkAvailable($itemInfo, $conn, 'book') ?></li>
-				<li>
-					<form method = "POST">
-						<input type = "submit" name = "submit" value = "Request this item">
-					</form>
-				</li>
-				<li>
-					<?php if(isset($message)) { ?>
-						<p class="message"><?php echo $message; ?></p>	
-					<?php } ?>
-				</li>
-			</ul>
-		</div>
-
-	<?php } else if($itemType == "movie"){ ?>
-
-		<div class = "list" id = "movieList">
-			<img id = "coverimage" src ="<?php echo htmlspecialchars($coverPath); ?>">
-			<ul>
-				<li>Ttile:  <?php echo htmlspecialchars($itemInfo['movieName']) ?></li>
-				<li>Director:  <?php getDirector($itemInfo, $conn) ?></li>
+			<?php } else if($itemType == "movie"){ ?>	
+				<li><h1> <?php echo htmlspecialchars($itemInfo['movieName']) ?> </h1></li>
+				<li><h2> <?php getDirector($itemInfo, $conn) ?> </h2></li>
+				<li> <div class="description"><?php getDescription($itemInfo, 'movie', $conn) ?></div> </li><br><br>
+				<li><?php echo htmlspecialchars($itemInfo['genre'])?></li>
 				<li>Producer: <?php echo htmlspecialchars($itemInfo['productionCompany']) ?></li>
-				<li>Released: <?php echo htmlspecialchars($itemInfo['publishedDate']) ?></li>
+				<li>Released: <?php echo htmlspecialchars($itemInfo['publishedDate']) ?></li><br><br>
 				<li><?php checkAvailable($itemInfo, $conn, 'movie') ?></li>
-				<li>
-					<form method = "POST">
-						<input type = "submit" name = "submit" value = "Request this item">
-					</form>
-				</li>
-				<li>
-					<?php if(isset($message)) { ?>
-						<p class="message"><?php echo $message; ?></p>	
-					<?php } ?>
-				</li>
-			</ul>
-		</div>
-
-	<?php } else if($itemType == "tech") {?>
-
-		<div class = "list" id = "techList">
-			<img id = "coverimage" src ="<?php echo htmlspecialchars($coverPath); ?>">
-			<ul>
-				<li><?php echo htmlspecialchars($itemInfo['techName']) ?></li>
-				<li>Brand: <?php getBrand($itemInfo, $conn) ?></li>
-				<li>Model: <?php echo htmlspecialchars($itemInfo['modelNumber']) ?></li>
+			<?php } else if($itemType == "tech") {?>	
+				<li><h1><?php echo htmlspecialchars($itemInfo['techName']) ?></h1></li>
+				<li><h2><?php getBrand($itemInfo, $conn) ?></h2></li>
+				<li> <div class="description"><?php getDescription($itemInfo, 'tech', $conn) ?></div> </li><br><br>
+				<li>Model: <?php echo htmlspecialchars($itemInfo['modelNumber']) ?></li><br><br>
 				<li><?php checkAvailable($itemInfo, $conn, 'tech') ?></li>
-				<li>
-					<form method = "POST">
-						<input type = "submit" name = "submit" value = "Request this item">
-					</form>
-				</li>
-				<li>
-					<?php if(isset($message)) { ?>
-						<p class="message"><?php echo $message; ?></p>	
-					<?php } ?>
-				</li>
-			</ul>
+			<?php } ?>
+			<li>
+				<form method = "POST">
+					<input type = "submit" name = "submit" value = "Request this item">
+				</form>
+			</li>
+			<li>
+				<?php if(isset($message)) { ?>
+					<p class="message"><?php echo $message; ?></p>	
+				<?php } ?>
+			</li>
+		</ul>
+	</div>
+
+	<script>
+		function editItem() {
+			window.location.href = "editItem.php?id=<?php echo $itemID ?>&type=<?php echo $itemType ?>";
+		}
+	</script>
+
+	<?php if($userType == "management"){ ?>
+		<div class="edit-container">
+			<button class="edit-button" onclick="editItem()">Edit Item Info</button>
 		</div>
 
-	<?php } ?>
 
-	<div class="waitlist-container" id="waitlist" >
-		<h2>Waitlist</h2>
-		<table class="generic-table">
-			<thead>
-				<tr>
-					<th>Waitlist Position</th>
-					<th>UH ID</th>
-					<th>Request Date</th>
-				</tr>
-			</thead>
-			<tbody>
-				<?php getWaitlist($itemInfo, $conn, $itemType); ?>
-			</tbody>
-		</table>
-	</div>
+		<div class="waitlist-container" id="waitlist">
+			<h1>Waitlist</h1>
+			<table class="generic-table">
+				<thead>
+					<tr>
+						<th>Waitlist Position</th>
+						<th>UH ID</th>
+						<th>Request Date</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php getWaitlist($itemInfo, $conn, $itemType); ?>
+				</tbody>
+			</table>
+		</div>
+	<?php } ?>
 </body>
