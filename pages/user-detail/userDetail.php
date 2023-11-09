@@ -46,12 +46,12 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['payFine'])){
 		else{
 			$_SESSION['message'] = "Incorrect amount";
 		}
-		header("Refresh:0");
+		echo '<script>window.location.reload();</script>';
 	}
 	else{
 		$_SESSION['message'] = "Fine not found";
 	}
-	header("Refresh:0");
+	echo '<script>window.location.reload();</script>';
 }
 
 if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['clearFine'])){
@@ -70,12 +70,12 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['clearFine'])){
 			$conn->query($query2);
 			$_SESSION['message'] = "Fine waived!";
 		}
-		header("Refresh:0");
+		echo '<script>window.location.reload();</script>';
 	}
 	else{
 		$_SESSION['message'] = "Fine not found";
 	}
-	header("Refresh:0");
+	echo '<script>window.location.reload();</script>';
 }
 
 if($_SERVER['REQUEST_METHOD'] =='POST' && isset($_POST['changePrivilege'])){
@@ -96,7 +96,7 @@ if($_SERVER['REQUEST_METHOD'] =='POST' && isset($_POST['changePrivilege'])){
 		else{
 			$_SESSION['message'] = "User has unpaid fines";
 		}
-		header("Refresh:0");
+		echo '<script>window.location.reload();</script>';
 	}
 }
 
