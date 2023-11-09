@@ -71,12 +71,12 @@
                             $bookID = mysqli_insert_id($conn);
                             
                             //Add written by author-book relationship
-                            $addWrittenByRelationship = "INSERT INTO writtenBy (authorID, bookID) VALUES ('$authorID ', '$bookID ')";
+                            $addWrittenByRelationship = "INSERT INTO writtenby (authorID, bookID) VALUES ('$authorID ', '$bookID ')";
                             $writtenByRelationshipResult = mysqli_query($conn, $addWrittenByRelationship);
 
                             // Add paperback copies
                             for ($i = 0; $i < $paperbackCopiesAvailable; $i++) {
-                                $addCopyQuery = "INSERT INTO bookCopy (bookID, publishedDate, addDate, available, value, coverType) 
+                                $addCopyQuery = "INSERT INTO bookcopy (bookID, publishedDate, addDate, available, value, coverType) 
                                 VALUES ('$bookID', '$publishedDate', NOW(), 1, '$paperbackCopyValue', 'paperback')";
                                 $addCopyResult = mysqli_query($conn, $addCopyQuery);
                                 if (!$addCopyResult) {
@@ -86,7 +86,7 @@
 
                             // Add hardback copies
                             for ($i = 0; $i < $hardbackCopiesAvailable; $i++) {
-                                $addCopyQuery = "INSERT INTO bookCopy (bookID, publishedDate, addDate, available, value, coverType) 
+                                $addCopyQuery = "INSERT INTO bookcopy (bookID, publishedDate, addDate, available, value, coverType) 
                                 VALUES ('$bookID', '$publishedDate', NOW(), 1, '$hardbackCopyValue', 'hardback')";
                                 $addCopyResult = mysqli_query($conn, $addCopyQuery);
                                 if (!$addCopyResult) {

@@ -36,15 +36,15 @@ function isLate($row){
 function isAvailable($row, $conn){
 	$itemID = $row['itemID'];
 	if($row['itemType'] == "book"){
-		$query = "SELECT * FROM bookCopy WHERE bookID = '$itemID' && available = 1";
+		$query = "SELECT * FROM bookcopy WHERE bookID = '$itemID' && available = 1";
 		$result = mysqli_query($conn, $query);
 	}
 	else if($row['itemType'] == "movie"){
-		$query = "SELECT * FROM movieCopy WHERE movieID = '$itemID' && available = 1";
+		$query = "SELECT * FROM moviecopy WHERE movieID = '$itemID' && available = 1";
 		$result = mysqli_query($conn, $query);
 	}
 	else if($row['itemType'] == "tech"){
-		$query = "SELECT * FROM techCopy WHERE techID = '$itemID' && available = 1";
+		$query = "SELECT * FROM techcopy WHERE techID = '$itemID' && available = 1";
 		$result = mysqli_query($conn, $query);
 	}
 	if (mysqli_num_rows($result) > 0) {
@@ -96,7 +96,7 @@ function getCheckouts($userID, $conn){
 	// create prepared statements
 	$bookQ = 	"SELECT B.bookName AS itemName, D.checkoutDate, D.dueDate, D.returnedDate
     				FROM borrowed AS D
-    				JOIN bookCopy AS C ON D.itemCopyID = C.bookCopyID
+    				JOIN bookcopy AS C ON D.itemCopyID = C.bookcopyID
     				JOIN books AS B ON C.bookID = B.bookID
     				WHERE D.userID = '$userID' AND D.itemType = 'book' AND D.returnedDate IS NULL";
 
@@ -104,7 +104,7 @@ function getCheckouts($userID, $conn){
 
 	$movieQ = 	"SELECT M.movieName AS itemName, D.checkoutDate, D.dueDate, D.returnedDate
 					FROM borrowed AS D
-					JOIN moviecopy AS C ON D.itemCopyID = C.movieCopyID
+					JOIN moviecopy AS C ON D.itemCopyID = C.moviecopyID
 					JOIN movies AS M ON C.movieID = M.movieID
 					WHERE D.userID = '$userID' AND D.itemType = 'movie' AND D.returnedDate IS NULL";
 				
@@ -112,7 +112,7 @@ function getCheckouts($userID, $conn){
 
 	$techQ = 	"SELECT T.techName AS itemName, D.checkoutDate, D.dueDate, D.returnedDate
 					FROM borrowed AS D
-					JOIN techcopy AS C ON D.itemCopyID = C.techCopyID
+					JOIN techcopy AS C ON D.itemCopyID = C.techcopyID
 					JOIN tech AS T ON C.techID = T.techID
 					WHERE D.userID = '$userID' AND D.itemType = 'tech' AND D.returnedDate IS NULL";
 
@@ -157,7 +157,7 @@ function getHistory($userID, $conn){
 	// create prepared statements
 	$bookQ = 	"SELECT B.bookName AS itemName, D.checkoutDate, D.dueDate, D.returnedDate
     				FROM borrowed AS D
- 					JOIN bookCopy AS C ON D.itemCopyID = C.bookCopyID
+ 					JOIN bookcopy AS C ON D.itemCopyID = C.bookcopyID
     				JOIN books AS B ON C.bookID = B.bookID
     				WHERE D.userID = '$userID' AND D.itemType = 'book' AND D.returnedDate IS NOT NULL";
 
@@ -165,7 +165,7 @@ function getHistory($userID, $conn){
 
 	$movieQ = 	"SELECT M.movieName AS itemName, D.checkoutDate, D.dueDate, D.returnedDate
 					FROM borrowed AS D
-					JOIN moviecopy AS C ON D.itemCopyID = C.movieCopyID
+					JOIN moviecopy AS C ON D.itemCopyID = C.moviecopyID
 					JOIN movies AS M ON C.movieID = M.movieID
 					WHERE D.userID = '$userID' AND D.itemType = 'movie' AND D.returnedDate IS NOT NULL";
 
@@ -173,7 +173,7 @@ function getHistory($userID, $conn){
 
 	$techQ =	"SELECT T.techName AS itemName, D.checkoutDate, D.dueDate, D.returnedDate
 					FROM borrowed AS D
-					JOIN techcopy AS C ON D.itemCopyID = C.techCopyID
+					JOIN techcopy AS C ON D.itemCopyID = C.techcopyID
 					JOIN tech AS T ON C.techID = T.techID
 					WHERE D.userID = '$userID' AND D.itemType = 'tech' AND D.returnedDate IS NOT NULL";
 

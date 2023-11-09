@@ -61,7 +61,7 @@ function submitHold($itemID, $conn, $itemType, $userID){
 		$_SESSION['message'] = "You already have a pending request for this item";
 	}
 	else{
-		$requestDate = date("Y-m-d");
+		$requestDate = date("Y-m-d H:i:s");
 		$query2 = "INSERT INTO holds (userID, itemType, itemID, requestDate, requestStatus) VALUES ('$userID', '$itemType', '$itemID', '$requestDate', 'pending')";
 		$conn->query($query2);
 		$_SESSION['message'] =  "Request submitted";
@@ -142,6 +142,7 @@ function submitHold($itemID, $conn, $itemType, $userID){
 		<div class = "list" id = "techList">
 			<img id = "coverimage" src ="<?php echo htmlspecialchars($coverPath); ?>">
 			<ul>
+				<li><?php echo htmlspecialchars($itemInfo['techName']) ?></li>
 				<li>Brand: <?php getBrand($itemInfo, $conn) ?></li>
 				<li>Model: <?php echo htmlspecialchars($itemInfo['modelNumber']) ?></li>
 				<li><?php checkAvailable($itemInfo, $conn, 'tech') ?></li>

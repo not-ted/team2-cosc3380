@@ -66,12 +66,12 @@
                             $techID = mysqli_insert_id($conn);
                             
                             //Add directed by brand-tech relationship
-                            $adddirectedByRelationship = "INSERT INTO manufacturedBy (brandID, techID) VALUES ('$brandID ', '$techID ')";
+                            $adddirectedByRelationship = "INSERT INTO manufacturedby (brandID, techID) VALUES ('$brandID ', '$techID ')";
                             $directedByRelationshipResult = mysqli_query($conn, $adddirectedByRelationship);
 
                             // Add copies
                             for ($i = 0; $i < $copiesAvailableTech; $i++) {
-                                $addCopyQuery = "INSERT INTO techCopy (techID, addDate,serialNumber, available, value) 
+                                $addCopyQuery = "INSERT INTO techcopy (techID, addDate,serialNumber, available, value) 
                                 VALUES ('$techID', NOW(), '$serialNumber', 1, '$copyValueTech')";
                                 $addCopyResult = mysqli_query($conn, $addCopyQuery);
                                 if (!$addCopyResult) {

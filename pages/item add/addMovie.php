@@ -15,7 +15,7 @@
      // Verify copies availiable
      if ($movieCopiesAvailable == 0) { 
         echo "At least one movie copy need to be added.";
-    } else if (strtotime($publishedDate) > strtotime(date('Y-m-d'))) {
+    } else if (strtotime($moviepublishedDate) > strtotime(date('Y-m-d'))) {
         echo "Published date needs to have been in the past";
     } else {
                 // First, check if the director already exists
@@ -57,7 +57,7 @@
                         // File was uploaded successfully, now insert the movie record
                         $coverImageMoviePath = '/main resources/item covers/movieCovers/' . $uniqueImageID . '.' . $imageFileType;
                         $insertmovieQuery = "INSERT INTO movies (movieName, publishedDate,distributedBy,  productionCompany, coverFilePath) 
-                                            VALUES ('$movieName', '$publishedDate',  '$distributedBy', '$productionCompany', '$coverImageMoviePath')";
+                                            VALUES ('$movieName', '$moviepublishedDate',  '$distributedBy', '$productionCompany', '$coverImageMoviePath')";
                         //Run insert movie query
                         $insertmovieResult = mysqli_query($conn, $insertmovieQuery);
                                         
@@ -66,12 +66,12 @@
                             $movieID = mysqli_insert_id($conn);
                             
                             //Add directed by director-movie relationship
-                            $adddirectedByRelationship = "INSERT INTO directedBy (directorID, movieID) VALUES ('$directorID ', '$movieID ')";
+                            $adddirectedByRelationship = "INSERT INTO directedby (directorID, movieID) VALUES ('$directorID ', '$movieID ')";
                             $directedByRelationshipResult = mysqli_query($conn, $adddirectedByRelationship);
 
                             // Add copies
                             for ($i = 0; $i < $movieCopiesAvailable; $i++) {
-                                $addCopyQuery = "INSERT INTO movieCopy (movieID, addDate, available, value) 
+                                $addCopyQuery = "INSERT INTO moviecopy (movieID, addDate, available, value) 
                                 VALUES ('$movieID', NOW(), 1, '$movieCopyValue')";
                                 $addCopyResult = mysqli_query($conn, $addCopyQuery);
                                 if (!$addCopyResult) {

@@ -1,4 +1,3 @@
-<!--- This ensures proper user logout --->
 <?php
 // Start the session
 session_start();

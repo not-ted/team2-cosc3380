@@ -3,12 +3,6 @@
 <head>
     <title>Library Item Search</title>
     <link rel="stylesheet" type="text/css" href="itemSearch.css">
-    <style>
-        /* CSS class for item covers */
-        .item-cover {
-            max-width: 100px; /* Set the maximum width for the cover images */
-            max-height: 150px; /* Set the maximum height for the cover images */
-        </style>
     </head>
     <body>
         <h1>Library Item Search</h1>

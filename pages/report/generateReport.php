@@ -40,10 +40,39 @@
             $includeItemCondition = "AND borrowed.itemType = 'INVALID'";
         }
 
-        $reportQuery = "SELECT * FROM borrowed
-                        INNER JOIN users ON borrowed.userID = users.userID
+        $reportQuery = "SELECT 
+                        MIN(borrowID) AS borrowID, 
+                        itemType,
+                        itemName,
+                        itemID,
+                        COUNT(*) AS timesCheckedOut
+                    FROM (
+                        SELECT 
+                            borrowID, 
+                            itemType,
+                            CASE 
+                                WHEN borrowed.itemType = 'book' THEN books.bookName
+                                WHEN borrowed.itemType = 'movie' THEN movies.movieName
+                                WHEN borrowed.itemType = 'tech' THEN tech.techName
+                            END AS itemName,
+                            CASE 
+                                WHEN borrowed.itemType = 'book' THEN books.bookID
+                                WHEN borrowed.itemType = 'movie' THEN movies.movieID
+                                WHEN borrowed.itemType = 'tech' THEN tech.techID
+                            END AS itemID
+                        FROM borrowed
+                        LEFT JOIN bookcopy ON borrowed.itemCopyID = bookcopy.bookCopyID AND borrowed.itemType = 'book'
+                        LEFT JOIN books ON bookcopy.bookID = books.bookID AND borrowed.itemType = 'book'
+                        LEFT JOIN moviecopy ON borrowed.itemCopyID = moviecopy.movieCopyID AND borrowed.itemType = 'movie'
+                        LEFT JOIN movies ON moviecopy.movieID = movies.movieID AND borrowed.itemType = 'movie'
+                        LEFT JOIN techcopy ON borrowed.itemCopyID = techcopy.techCopyID AND borrowed.itemType = 'tech'
+                        LEFT JOIN tech ON techcopy.techID = tech.techID AND borrowed.itemType = 'tech'
                         WHERE (borrowed.checkoutDate >= '$dateFrom' AND borrowed.checkoutDate <= '$dateTo')
-                        $includeItemCondition";
+                        $includeItemCondition
+                    ) AS subquery
+                    GROUP BY itemType, itemID, itemName
+                    ORDER BY timesCheckedOut DESC;
+                ";
     }
     else if ($reportType == 'usersWithMostToLeastFines')
     {
@@ -152,10 +181,10 @@
                 echo "<tr>";
                     if ($reportType == 'mostBorrowed') {
                         echo "<th style = 'font-weight: bold;'> Borrow ID </th>";
-                        echo "<th style = 'font-weight: bold;'> UH ID </th>";
-                        echo "<th style = 'font-weight: bold;'> User Type </th>";
                         echo "<th style = 'font-weight: bold;'> Item Type </th>";
                         echo "<th style = 'font-weight: bold;'> Item Name </th>";
+                        echo "<th style = 'font-weight: bold;'> Item ID </th>";
+                        echo "<th style = 'font-weight: bold;'> Times Checked Out </th>";
                     }
                     if ($reportType == 'usersWithMostToLeastFines') {
                         echo "<th style = 'font-weight: bold;'> Fine ID </th>";
@@ -179,46 +208,15 @@
         while ($data = mysqli_fetch_assoc($result)) {
             if ($reportType == 'mostBorrowed')
             {
-                //Get item data
-                if ($data['itemType'] == "book") {
-                    $itemQuery = "SELECT * 
-                    FROM books
-                    INNER JOIN bookCopy ON books.bookID = bookCopy.bookID
-                    WHERE bookCopy.bookCopyID = {$data['itemCopyID']};";
-                }
-                if ($data['itemType'] == "movie") {
-                    $itemQuery = "SELECT * 
-                    FROM movies
-                    INNER JOIN movieCopy ON movies.movieID = movieCopy.movieID
-                    WHERE movieCopy.movieCopyID = {$data['itemCopyID']};";
-                }
-                if ($data['itemType'] == "tech") {
-                    $itemQuery = "SELECT * 
-                    FROM tech
-                    INNER JOIN techCopy ON tech.techID = techCopy.techID
-                    WHERE techCopy.techCopyID = {$data['itemCopyID']};";
-                }
-                $itemResult = mysqli_query($conn, $itemQuery);
-                $itemData = mysqli_fetch_assoc($itemResult);
                 
                 //Print out info
                 echo "<tr>";
                     echo "<th> {$data['borrowID']} </th>";
-                    echo "<th> {$data['uhID']} </th>";
-                    echo "<th>" . strtoupper($data['userType']) . "</th>";
-                    echo "<th>" . strtoupper($data['itemType']) . "</th>";
-                    if ($data['itemType'] == "book")
-                    {
-                        echo "<th> {$itemData['bookName'] }</th>";
-                    }
-                    if ($data['itemType'] == "movie")
-                    {
-                        echo "<th> {$itemData['movieName'] }</th>";
-                    }
-                    if ($data['itemType'] == "tech")
-                    {
-                        echo "<th> {$itemData['techName'] }</th>";
-                    }
+                    echo "<th>" . strtoupper($data['itemType']) . " </th>";
+                    echo "<th> {$data['itemName']} </th>";
+                    echo "<th> {$data['itemID']} </th>";
+                    echo "<th> {$data['timesCheckedOut']} </th>";
+
                 echo "</tr>";
             }
             if ($reportType == 'usersWithMostToLeastFines')
