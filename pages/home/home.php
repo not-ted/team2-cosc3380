@@ -101,7 +101,6 @@ if ($userData['userType'] === 'management') {
                     <img src="' . $coverPath . '" alt="Book Cover" class="book-cover">
                 </a>
             </div>';
-            
             }
         }
         echo '</div>';
@@ -158,7 +157,7 @@ if ($userData['userType'] === 'management') {
                 echo '<div class="item-cover-container cover-fade" style="display: inline-block; margin-right: 10px;">';
                 echo '<a href="../item detail/itemDetail.php?id=' . $item['itemID'] . '&type=' . $item['itemType'] . '">
                             <img src="' . $coverPath . '" alt="Book Cover" class="book-cover">
-                        </a>'; 
+                        </a>';
                 echo '</a>';
                 echo '</div>';
             }
@@ -169,6 +168,54 @@ if ($userData['userType'] === 'management') {
     }
 
     ?>
+
+    <div class="notification" id="notification">
+        <span class="alert-count">Fine Alerts (0)</span>
+    </div>
+
+
+    <?php
+    $sqlUserFines = "SELECT COUNT(*) AS unpaidFines FROM fines WHERE userID = ? AND havePaid NOT IN ('Yes', 'Waived')";
+    $stmtUserFines = $conn->prepare($sqlUserFines);
+
+    if ($stmtUserFines) {
+        $stmtUserFines->bind_param("i", $userId);
+        $stmtUserFines->execute();
+        $result = $stmtUserFines->get_result();
+        $row = $result->fetch_assoc();
+        $unpaidFines = $row['unpaidFines'];
+    }
+    ?>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const notification = document.getElementById('notification');
+            const customTooltip = notification.querySelector('.custom-tooltip'); // Get the tooltip element
+            const alertCount = <?php echo $unpaidFines; ?>;
+
+            // Update the alert count text
+            notification.querySelector('.alert-count').innerText = `Fine Alerts (${alertCount})`;
+
+            // Toggle the tooltip when the notification box is clicked
+            notification.addEventListener('click', function() {
+                if (customTooltip.style.visibility === 'visible') {
+                    customTooltip.style.visibility = 'hidden';
+                } else {
+                    customTooltip.style.visibility = 'visible';
+                }
+            });
+
+            // Show/hide the alert box
+            if (alertCount > 0) {
+                notification.classList.add('show');
+            } else {
+                notification.classList.remove('show');
+            }
+        });
+    </script>
+
+
+
 </body>
 
 </html>
