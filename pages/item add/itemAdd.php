@@ -49,6 +49,24 @@ if ($_SESSION['user_type'] !== 'management') {
             <label for="ISBN">ISBN:</label>
             <input type="text" id="ISBN" name="ISBN" >
 
+            <!-- Description -->
+            <label for="bookDescription">Book Description:</label>
+            <textarea id="bookDescription" name="bookDescription" style="resize: none;" rows="10" cols="100" maxlength='1000' placeholder="Enter the description of the book..."></textarea>
+    
+            <!-- Genre -->
+            <label for="bookGenre">Genre:</label>
+            <select id="bookGenre" name="bookGenre">
+            <option value="" selected>Select Genre</option>
+              <option value="fiction">Fiction</option>
+              <option value="nonfiction">Non-Fiction</option>
+              <option value="mystery">Mystery</option>
+              <option value="scienceFiction">Science Fiction</option>
+              <option value="fantasy">Fantasy</option>
+              <option value="romance">Romance</option>
+              <option value="horror">Horror</option>
+              <option value="action">Action</option>
+            </select>
+
             <!-- Author -->
             <label for="author">Author:</label>
             <input type="text" id="author" name="author" >
@@ -89,6 +107,28 @@ if ($_SESSION['user_type'] !== 'management') {
             <!-- Movie Name -->
             <label for="movieName">Movie Name:</label>
             <input type="text" id="movieName" name="movieName" >
+
+            <!-- Description -->
+            <label for="movieDescription">Movie Description:</label>
+            <textarea id="movieDescription" name="movieDescription" style="resize: none;" rows="10" cols="100" maxlength='1000' placeholder="Enter the description of the movie..."></textarea>
+
+            <br>
+
+            <!-- Genre -->
+            <label for="movieGenre">Genre:</label>
+            <select id="movieGenre" name="movieGenre">
+              <option value="" selected>Select Genre</option>
+              <option value="action">Action</option>
+              <option value="comedy">Comedy</option>
+              <option value="drama">Drama</option>
+              <option value="sciFi">Science Fiction</option>
+              <option value="animation">Animation</option>
+              <option value="thriller">Thriller</option>
+              <option value="horror">Horror</option>
+              <option value="documentary">Documentary</option>
+              <!-- Add more genre options as needed -->
+            </select>
+
 
             <!-- Distributed By -->
             <label for="distributedBy">Distributed By:</label>

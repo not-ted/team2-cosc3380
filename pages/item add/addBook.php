@@ -4,6 +4,8 @@
     // Retrieve form data
     $bookName = $_POST['bookName'];
     $ISBN = $_POST['ISBN'];
+    $bookDescription = $_POST['bookDescription'];
+    $bookGenre = $_POST['bookGenre'];
     $author = $_POST['author'];
     $publicationCompany = $_POST['publicationCompany'];
     $publishedDate = $_POST['publishedDate'];
@@ -61,8 +63,8 @@
                     if(move_uploaded_file($_FILES['coverImage']['tmp_name'], $newFilePath)) {
                         // File was uploaded successfully, now insert the book record
                         $coverImagePath = '/main resources/item covers/bookCovers/' . $uniqueImageID . '.' . $imageFileType;
-                        $insertBookQuery = "INSERT INTO books (bookName, ISBN, publicationCompany, coverFilePath) 
-                                            VALUES ('$bookName', '$ISBN', '$publicationCompany', '$coverImagePath')";
+                        $insertBookQuery = "INSERT INTO books (bookName, ISBN, publicationCompany, coverFilePath, genre) 
+                                            VALUES ('$bookName', '$ISBN', '$publicationCompany', '$coverImagePath', '$bookGenre')";
                         //Run insert book query
                         $insertBookResult = mysqli_query($conn, $insertBookQuery);
                                         
@@ -73,6 +75,19 @@
                             //Add written by author-book relationship
                             $addWrittenByRelationship = "INSERT INTO writtenby (authorID, bookID) VALUES ('$authorID ', '$bookID ')";
                             $writtenByRelationshipResult = mysqli_query($conn, $addWrittenByRelationship);
+
+                            // Construct the SQL query
+                            $escapedBookDescription = mysqli_real_escape_string($conn, $bookDescription);
+
+                            $descriptionInsert = "INSERT INTO item_description (itemType, itemID, description) VALUES ('book', '$bookID', '$escapedBookDescription')";
+                            // Execute the descriptionInsert query
+                            $descriptionInsertResult = mysqli_query($conn, $descriptionInsert);
+
+                            if (!$descriptionInsertResult) {
+                                // If the query failed, output the error message
+                                die("Query failed: " . mysqli_error($conn));
+                            }
+
 
                             // Add paperback copies
                             for ($i = 0; $i < $paperbackCopiesAvailable; $i++) {
