@@ -76,7 +76,7 @@
                             $addWrittenByRelationship = "INSERT INTO writtenby (authorID, bookID) VALUES ('$authorID ', '$bookID ')";
                             $writtenByRelationshipResult = mysqli_query($conn, $addWrittenByRelationship);
 
-                            // Construct the SQL query
+                            // Construct the item description SQL query
                             $escapedBookDescription = mysqli_real_escape_string($conn, $bookDescription);
 
                             $descriptionInsert = "INSERT INTO item_description (itemType, itemID, description) VALUES ('book', '$bookID', '$escapedBookDescription')";

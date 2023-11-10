@@ -7,7 +7,7 @@
     $servername = "localhost"; 
     $dbusername = "root";
     $dbpassword = "";
-    $dbname = "librarydatabase";
+    $dbname = "id21484403_librarydatabase";
     $port = 3307; // Port is set to 3307
 
     try {
