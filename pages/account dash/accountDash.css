@@ -31,6 +31,13 @@ input[type="password"] {
     font-size: 1.5vw;
     background-color: white;
     color: rgb(153, 46, 46);
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input[type="password"]:hover {
+    cursor: pointer;
+    border-color: rgb(173, 216, 230); /* Change border color on hover */
+    box-shadow: 0 0 5px rgba(173, 216, 230, 0.8); /* Add a subtle box shadow on hover */
 }
 
 /* Style the submit button */
@@ -41,7 +48,14 @@ input[type="submit"] {
     font-size: 1.3vw;
     background-color: rgb(128, 144, 207);
     color: white;
+    transition: background-color 0.3s;
 }
+
+input[type="submit"]:hover {
+    cursor: pointer;
+    background-color: rgb(106, 116, 186); /* Change background color on hover */
+}
+
 
 /* Style the link */
 a {
