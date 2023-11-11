@@ -32,13 +32,13 @@
                 $sql = "SELECT $idColumn AS ID, coverFilePath"; // Add 'coverFilePath' to the SELECT
 
                 if ($category === 'books') {
-                    $sql .= ", 'Book' AS itemType, bookName, ISBN, publicationCompany";
+                    $sql .= ", bookName, ISBN, publicationCompany";
                     $columnName = 'bookName';
                 } elseif ($category === 'movies') {
-                    $sql .= ", 'Movie' AS itemType, movieName, publishedDate, productionCompany";
+                    $sql .= ", movieName, publishedDate, productionCompany";
                     $columnName = 'movieName';
                 } elseif ($category === 'tech') {
-                    $sql .= ", 'Technology' AS itemType, techName, modelNumber";
+                    $sql .= ", techName, modelNumber";
                     $columnName = 'techName';
                 }
 
@@ -53,7 +53,6 @@
                     echo '<table>';
                     echo '<tr>';
                     echo '<th>ID</th>';
-                    echo '<th>Item Type</th>'; // Add a new column for 'itemType'
                     echo '<th>Item Cover</th>'; // Add a new column for 'item cover'
                     // Table header based on the category
                     if ($category === 'books') {
@@ -76,7 +75,6 @@
                         $paramType = ($category === 'books') ? 'book' : (($category === 'movies') ? 'movie' : 'tech');
                         $url = '../item detail/itemDetail.php?id=' . $row['ID'] . '&type=' . $paramType; // Pass 'itemType'
                         echo '<td><a href="' . $url . '">' . $row['ID'] . '</a></td>';
-                        echo '<td>' . $row['itemType'] . '</td>'; // Display 'itemType'
 
                         // Add an image tag with a CSS class to display the cover image
                         echo '<td><img src="' . $row['coverFilePath'] . '" alt="Item Cover" class="item-cover"></td>';
