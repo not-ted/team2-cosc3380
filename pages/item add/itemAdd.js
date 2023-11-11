@@ -32,6 +32,8 @@ function addBook() {
 
     var bookName = $('#bookName').val();
     var ISBN = $('#ISBN').val();
+    var bookDescription = $('#bookDescription').val();
+    var bookGenre = $('#bookGenre').val();
     var author = $('#author').val();
     var publicationCompany = $('#publicationCompany').val();
     var publishedDate = $('#publishedDate').val();
@@ -46,10 +48,13 @@ function addBook() {
         $('#errorMessage').show();
         return; // Exit the function if any value is null
     }
-
+alert(bookDescription);
+alert(bookGenre);
     var formData = new FormData();
     formData.append('bookName', bookName);
     formData.append('ISBN', ISBN);
+    formData.append('bookDescription', bookDescription);
+    formData.append('bookGenre', bookGenre);
     formData.append('author', author);
     formData.append('publicationCompany', publicationCompany);
     formData.append('publishedDate', publishedDate);
@@ -90,6 +95,8 @@ function addMovie() {
     $('#errorMessage').hide();
 
     var movieName = $('#movieName').val();
+    var movieDescription = $("#movieDescription").val();
+    var movieGenre = $("#movieGenre").val();
     var distributedBy = $('#distributedBy').val();
     var director = $('#director').val();
     var productionCompany = $('#productionCompany').val();
@@ -112,6 +119,8 @@ function addMovie() {
 
     var formData = new FormData();
     formData.append('movieName', movieName);
+    formData.append('movieDescription', movieDescription);
+    formData.append('movieGenre', movieGenre);
     formData.append('distributedBy', distributedBy);
     formData.append('director', director);
     formData.append('productionCompany', productionCompany);
@@ -202,8 +211,21 @@ function addTech() {
 }
 
 function clearInputs() {
+    // Clear input fields
     var inputs = document.querySelectorAll('input');
-    inputs.forEach(function(input) {
+    inputs.forEach(function (input) {
         input.value = '';
+    });
+
+    // Clear text areas
+    var textAreas = document.querySelectorAll('textarea');
+    textAreas.forEach(function (textarea) {
+        textarea.value = '';
+    });
+
+    // Clear dropdown selects
+    var selects = document.querySelectorAll('select');
+    selects.forEach(function (select) {
+        select.value = '';
     });
 }

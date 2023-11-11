@@ -3,6 +3,8 @@
 
     // Retrieve form data
     $movieName = $_POST['movieName'];
+    $movieDescription = $_POST['movieDescription'];
+    $movieGenre = $_POST['movieGenre'];
     $distributedBy = $_POST['distributedBy'];
     $director = $_POST['director'];
     $productionCompany = $_POST['productionCompany'];
@@ -56,14 +58,27 @@
                     if(move_uploaded_file($_FILES['coverImageMovie']['tmp_name'], $newFilePath)) {
                         // File was uploaded successfully, now insert the movie record
                         $coverImageMoviePath = '/main resources/item covers/movieCovers/' . $uniqueImageID . '.' . $imageFileType;
-                        $insertmovieQuery = "INSERT INTO movies (movieName, publishedDate,distributedBy,  productionCompany, coverFilePath) 
-                                            VALUES ('$movieName', '$moviepublishedDate',  '$distributedBy', '$productionCompany', '$coverImageMoviePath')";
+                        $insertmovieQuery = "INSERT INTO movies (movieName, publishedDate,distributedBy,  productionCompany, coverFilePath, genre) 
+                                            VALUES ('$movieName', '$moviepublishedDate',  '$distributedBy', '$productionCompany', '$coverImageMoviePath', '$movieGenre')";
                         //Run insert movie query
                         $insertmovieResult = mysqli_query($conn, $insertmovieQuery);
                                         
                         if ($insertmovieResult) {
                             // Get the auto-generated movieID
                             $movieID = mysqli_insert_id($conn);
+
+                            // Construct the item description SQL query
+                            $escapedMovieDescription = mysqli_real_escape_string($conn, $movieDescription);
+
+                            $descriptionInsert = "INSERT INTO item_description (itemType, itemID, description) VALUES ('movie', '$movieID', '$escapedMovieDescription')";
+                            // Execute the descriptionInsert query
+                            $descriptionInsertResult = mysqli_query($conn, $descriptionInsert);
+
+                            if (!$descriptionInsertResult) {
+                                // If the query failed, output the error message
+                                die("Query failed: " . mysqli_error($conn));
+                            }
+                            
                             
                             //Add directed by director-movie relationship
                             $adddirectedByRelationship = "INSERT INTO directedby (directorID, movieID) VALUES ('$directorID ', '$movieID ')";

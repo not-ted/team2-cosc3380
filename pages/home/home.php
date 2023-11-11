@@ -31,7 +31,8 @@ $managementButtons = [
     '<form action="../user search/userSearch.php" method="GET"><button type="submit">User Search</button></form>',
     '<form action="../account dash/accountDash.php" method="GET"><button type="submit">Your Dashboard</button></form>',
     '<form action="../report/report.php" method="GET"><button type="submit">Generate Reports</button></form>',
-    '<form action="../hold-fine manager/holdFineManager.php" method="GET"><button type="submit">Management Holds & Fines</button></form>'
+    '<form action="../hold-fine manager/holdFineManager.php" method="GET"><button type="submit">Management Holds & Fines</button></form>',
+    '<form action="../checkout-return/checkout-return.php" method="GET"><button type="submit">Checkout & Returns</button></form>'
 ];
 
 // Determine which buttons to display based on the user's userType
@@ -61,6 +62,7 @@ if ($userData['userType'] === 'management') {
     <div style="position: absolute; top: 10px; right: 10px;">
         Logged in as <?php echo $userData['uhID']; ?> : <?php echo $userData['userType']; ?>
     </div>
+
 
     <h1>Library Homepage</h1>
     <div class="button-container">

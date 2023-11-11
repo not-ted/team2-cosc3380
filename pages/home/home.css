@@ -23,6 +23,28 @@ h1 {
     text-transform: uppercase;
 }
 
+/* Logout button styles */
+.logout-container {
+    position: absolute;
+    top: 30px;
+    right: 10px;
+}
+
+.logout-button {
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px; /* Adjust padding to make it smaller */
+    cursor: pointer;
+    transition: none; /* Disable the hover transition */
+}
+
+/* Style for the logout button on hover (optional) */
+.logout-button:hover {
+    background-color: red; /* Keep the same color on hover */
+}
+
 /* Styling for paragraphs (p) */
 p {
     font-weight: lighter;

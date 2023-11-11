@@ -145,26 +145,26 @@
                 if ($data['itemType'] == "book")
                 {
                     echo "<p> Book Name: <span class='data'>" . $itemData['bookName'] . "</span></p>";
-                    echo "<p> Book ID: <span class='data'>" . $itemData['bookCopyID'] . "</span></p>";
+                    echo "<p> Book ID: <span class='data'>" . $itemData['bookID'] . "</span></p>";
                 }
                 if ($data['itemType'] == "movie")
                 {
                     echo "<p> Movie Name: <span class='data'>" . $itemData['movieName'] . "</span></p>";
-                    echo "<p> Movie ID: <span class='data'>" . $itemData['movieCopyID'] . "</span></p>";
+                    echo "<p> Movie ID: <span class='data'>" . $itemData['movieID'] . "</span></p>";
                 }
                 if ($data['itemType'] == "tech")
                 {
                     echo "<p> Tech Name: <span class='data'>" . $itemData['techName'] . "</span></p>";
-                    echo "<p> Tech ID: <span class='data'>" . $itemData['techCopyID'] . "</span></p>";
+                    echo "<p> Tech ID: <span class='data'>" . $itemData['techID'] . "</span></p>";
                 }
 
                 //Action Buttons
                 echo "<div class = 'horContainer'>";
-                    if ($data['requestStatus'] != 'pending') 
+                    if ($data['requestStatus'] != 'pending' && $data['requestStatus'] != 'pickedUp' && $data['requestStatus'] != 'readyForPickUp') 
                     {
                         echo "<button style = 'background-color: #9ebbe6;' onclick = markAsPending({$data['holdID']})> Mark as <br> pending </button>";
                     }
-                    if ($data['requestStatus'] != 'readyForPickUp') 
+                    if ($data['requestStatus'] != 'readyForPickUp'  && $data['requestStatus'] != 'pickedUp') 
                     {
                         echo "<button style = 'background-color: #b8d6c0;' onclick = markAsReadyForPickUp({$data['holdID']})> Mark as <br> Ready for Pickup </button>";
                     }
@@ -172,7 +172,7 @@
                     {
                         echo "<button style = 'background-color: #ffd9a8;' onclick = markAsPickedUp({$data['holdID']})> Mark as <br> Picked Up </button>";
                     }
-                    if ($data['requestStatus'] != 'denied') 
+                    if ($data['requestStatus'] != 'denied'  && $data['requestStatus'] != 'pickedUp' && $data['requestStatus'] != 'readyForPickUp') 
                     {
                         echo "<button style = 'background-color: #e69ea2;' onclick = markAsDenied({$data['holdID']})> Mark as <br> Denied </button>";
                     }

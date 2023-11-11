@@ -48,6 +48,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['newPassword'])) {
 
 ?>
 
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -66,10 +68,53 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['newPassword'])) {
         <li class="user-profile-item">User ID: <?php echo htmlspecialchars($userData['uhID']); ?></li>
         <li class="user-profile-item">Email: <?php echo htmlspecialchars($userData['email']); ?></li>
         <li class="user-profile-item">User Type: <?php echo htmlspecialchars($userData['userType']); ?></li>
-        <li class="user-profile-item">Can Borrow: <?php echo ($userData['canBorrow'] == 1) ? 'Yes' : 'No'; ?></li>
+        <li class="user-profile-item">
+            Can Borrow: <span style="color: <?php echo ($userData['canBorrow'] == 1) ? 'green' : 'red'; ?>;">
+                <?php echo ($userData['canBorrow'] == 1) ? 'Yes' : 'No'; ?>
+            </span>
+        </li>
+
         <li class="user-profile-item">Borrow Limit (days): <?php echo htmlspecialchars($userData['borrowLimit']); ?></li>
-        <!-- Add more profile information here -->
+
+        <?php
+        // Fetch the count of currently borrowed items from the database
+        $sqlBorrowedCount = "SELECT COUNT(*) AS borrowedCount FROM borrowed WHERE userID = ? AND borrowStatus = 'checked out'";
+        $stmtBorrowedCount = $conn->prepare($sqlBorrowedCount);
+
+        // Fetch the count of pending requests from the database
+        $sqlRequestCount = "SELECT COUNT(*) AS requestCount FROM holds WHERE userID = ? AND requestStatus = 'pending'";
+        $stmtRequestCount = $conn->prepare($sqlRequestCount);
+
+        if ($stmtBorrowedCount && $stmtRequestCount) {
+            $stmtBorrowedCount->bind_param("i", $userId);
+            $stmtRequestCount->bind_param("i", $userId);
+
+            // Execute the borrowed count statement
+            if ($stmtBorrowedCount->execute()) {
+                $borrowedCount = $stmtBorrowedCount->get_result()->fetch_assoc()['borrowedCount'];
+
+                // Execute the request count statement
+                if ($stmtRequestCount->execute()) {
+                    $requestCount = $stmtRequestCount->get_result()->fetch_assoc()['requestCount'];
+
+                    // Calculate the request limit
+                    $requestLimit = max(0, 5 - ($borrowedCount + $requestCount));
+
+                    // Display the Request Limit
+                    echo "<li class='user-profile-item'>Request Limit: $requestLimit</li>";
+                }
+            }
+            // Close the statements
+            $stmtBorrowedCount->close();
+            $stmtRequestCount->close();
+        }
+        ?>
+
+
+
     </ul>
+
+
 
     <!-- display logout and back button -->
     <div class="logout-container">
@@ -170,6 +215,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['newPassword'])) {
     <table class="generic-table">
         <thead>
             <tr>
+                <th>borrow ID</th>
                 <th>Item Name</th>
                 <th>Item Type</th>
                 <th>Checkout Date</th>
@@ -192,10 +238,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['newPassword'])) {
 
                     while ($row = $result->fetch_assoc()) {
                         $itemName = $row['itemName'];
+                        $borrowID = $row['borrowID'];
                         $checkoutDate = date("Y-m-d", strtotime($row['checkoutDate']));
                         $dueDate = date("Y-m-d", strtotime($row['dueDate']));
 
                         echo "<tr>
+                    <td>$borrowID</td>
                     <td>$itemName</td>
                     <td>$itemType</td>
                     <td>$checkoutDate</td>
@@ -209,21 +257,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['newPassword'])) {
             }
 
             // Create a prepared statement for currently borrowed books
-            $sqlCurrBooks = "SELECT books.bookName AS itemName, c.checkoutDate, c.dueDate 
+            $sqlCurrBooks = "SELECT c.borrowID, books.bookName AS itemName, c.checkoutDate, c.dueDate 
     FROM borrowed c
     JOIN bookcopy ON c.itemCopyID = bookcopy.bookcopyID
     JOIN books ON bookcopy.bookID = books.bookID
     WHERE c.userID = ? AND c.itemType = 'book' AND borrowStatus = 'checked out'";
 
             // Create a prepared statement for movies
-            $sqlCurrMovies = "SELECT movies.movieName AS itemName, c.checkoutDate, c.dueDate 
+            $sqlCurrMovies = "SELECT c. borrowID, movies.movieName AS itemName, c.checkoutDate, c.dueDate 
     FROM borrowed c
     JOIN moviecopy ON c.itemCopyID = moviecopy.moviecopyID
     JOIN movies ON moviecopy.movieID = movies.movieID
     WHERE c.userID = ? AND c.itemType = 'movie' AND borrowStatus = 'checked out'";
 
             // Create a prepared statement for tech items
-            $sqlCurrTech = "SELECT tech.techName AS itemName, c.checkoutDate, c.dueDate 
+            $sqlCurrTech = "SELECT c. borrowID, tech.techName AS itemName, c.checkoutDate, c.dueDate 
     FROM borrowed c
     JOIN techcopy ON c.itemCopyID = techcopy.techcopyID
     JOIN tech ON techcopy.techID = tech.techID
@@ -243,27 +291,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['newPassword'])) {
     </table>
 
 
-    <h2>Your Reserved Items:</h2>
+    <h2>Your Currently Reserved Items:</h2>
     <table class="generic-table">
         <thead>
             <tr>
+                <th>Hold ID </th>
                 <th>Item Name</th>
                 <th>Item Type</th>
                 <th>Request Status</th>
+                <th>Cancel</th> <!-- New column for cancel action -->
             </tr>
         </thead>
         <tbody>
             <?php
             // Create a prepared statement to retrieve reserved items with their names
-            $sqlReservedItems = "SELECT h.itemType, h.requestStatus, h.itemID,
-        CASE
-            WHEN h.itemType = 'book' THEN (SELECT bookName FROM books WHERE bookID = h.itemID)
-            WHEN h.itemType = 'movie' THEN (SELECT movieName FROM movies WHERE movieID = h.itemID)
-            WHEN h.itemType = 'tech' THEN (SELECT techName FROM tech WHERE techID = h.itemID)
-            ELSE NULL
-        END AS itemName
-        FROM holds h
-        WHERE h.userID = ?";
+            $sqlReservedItems = "SELECT h.holdID, h.itemType, h.requestStatus, h.itemID,
+    CASE
+        WHEN h.itemType = 'book' THEN (SELECT bookName FROM books WHERE bookID = h.itemID)
+        WHEN h.itemType = 'movie' THEN (SELECT movieName FROM movies WHERE movieID = h.itemID)
+        WHEN h.itemType = 'tech' THEN (SELECT techName FROM tech WHERE techID = h.itemID)
+        ELSE NULL
+    END AS itemName
+    FROM holds h
+    WHERE h.userID = ? AND h.requestStatus = 'pending'"; // Only retrieve items with 'pending' status
 
             $stmtReservedItems = $conn->prepare($sqlReservedItems);
 
@@ -281,19 +331,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['newPassword'])) {
                     while ($row = $result->fetch_assoc()) {
                         $itemType = $row['itemType'];
                         $requestStatus = $row['requestStatus'];
-                        $itemID = $row['itemID'];
+                        $holdID = $row['holdID'];
                         $itemName = $row['itemName']; // Fix for "itemName" here
 
                         // Display the reserved items in the table
                         echo "<tr>
-                    <td>$itemName</td>
-                    <td>$itemType</td>
-                    <td>$requestStatus</td>
-                </tr>";
+                <td>$holdID</td>
+                <td>$itemName</td>
+                <td>$itemType</td>
+                <td>$requestStatus</td>
+                <td><button class='cancel-button' onclick=\"cancelReservation($holdID)\">Cancel</button></td>
+            </tr>";
                     }
                 } else {
                     // Display a message if the user has no reserved items
-                    echo "<tr><td colspan='3'>You don't have any reserved items at the moment.</td></tr>";
+                    echo "<tr><td colspan='4'>You don't have any pending reserved items at the moment.</td></tr>";
                 }
 
                 // Close the statement
@@ -302,6 +354,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['newPassword'])) {
             ?>
         </tbody>
     </table>
+
+    <!-- function for cancellation -->
+    <script>
+        function cancelReservation(holdID) {
+            // Make an AJAX request to cancel the reservation
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "cancelReservation.php", true);
+            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+            // Define the data to be sent in the request
+            var data = "holdID=" + holdID;
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    // Handle the response from the server
+                    alert(xhr.responseText);
+                }
+            };
+
+            // Send the request with the data
+            xhr.send(data);
+        }
+    </script>
+
+
 
     <h2> History:<h2>
 
