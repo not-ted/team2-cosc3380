@@ -68,10 +68,53 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['newPassword'])) {
         <li class="user-profile-item">User ID: <?php echo htmlspecialchars($userData['uhID']); ?></li>
         <li class="user-profile-item">Email: <?php echo htmlspecialchars($userData['email']); ?></li>
         <li class="user-profile-item">User Type: <?php echo htmlspecialchars($userData['userType']); ?></li>
-        <li class="user-profile-item">Can Borrow: <?php echo ($userData['canBorrow'] == 1) ? 'Yes' : 'No'; ?></li>
+        <li class="user-profile-item">
+            Can Borrow: <span style="color: <?php echo ($userData['canBorrow'] == 1) ? 'green' : 'red'; ?>;">
+                <?php echo ($userData['canBorrow'] == 1) ? 'Yes' : 'No'; ?>
+            </span>
+        </li>
+
         <li class="user-profile-item">Borrow Limit (days): <?php echo htmlspecialchars($userData['borrowLimit']); ?></li>
-        <!-- Add more profile information here -->
+
+        <?php
+        // Fetch the count of currently borrowed items from the database
+        $sqlBorrowedCount = "SELECT COUNT(*) AS borrowedCount FROM borrowed WHERE userID = ? AND borrowStatus = 'checked out'";
+        $stmtBorrowedCount = $conn->prepare($sqlBorrowedCount);
+
+        // Fetch the count of pending requests from the database
+        $sqlRequestCount = "SELECT COUNT(*) AS requestCount FROM holds WHERE userID = ? AND requestStatus = 'pending'";
+        $stmtRequestCount = $conn->prepare($sqlRequestCount);
+
+        if ($stmtBorrowedCount && $stmtRequestCount) {
+            $stmtBorrowedCount->bind_param("i", $userId);
+            $stmtRequestCount->bind_param("i", $userId);
+
+            // Execute the borrowed count statement
+            if ($stmtBorrowedCount->execute()) {
+                $borrowedCount = $stmtBorrowedCount->get_result()->fetch_assoc()['borrowedCount'];
+
+                // Execute the request count statement
+                if ($stmtRequestCount->execute()) {
+                    $requestCount = $stmtRequestCount->get_result()->fetch_assoc()['requestCount'];
+
+                    // Calculate the request limit
+                    $requestLimit = max(0, 5 - ($borrowedCount + $requestCount));
+
+                    // Display the Request Limit
+                    echo "<li class='user-profile-item'>Request Limit: $requestLimit</li>";
+                }
+            }
+            // Close the statements
+            $stmtBorrowedCount->close();
+            $stmtRequestCount->close();
+        }
+        ?>
+
+
+
     </ul>
+
+
 
     <!-- display logout and back button -->
     <div class="logout-container">
