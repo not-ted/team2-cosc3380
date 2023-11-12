@@ -3,6 +3,14 @@
 session_start();
 	include("connection.php");
 
+    if(isset($_SESSION['message'])){
+		$message = $_SESSION['message'];
+		unset($_SESSION['message']); // unset the message after displaying it
+	}
+	else{
+		$message = "";
+	}
+
 	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		//Something was posted
 		$username = $_POST['username'];
@@ -57,6 +65,7 @@ session_start();
 	<?php if (!empty($error)) { ?>
             <p class="error"><?php echo $error; ?></p> <!-- Display the error message -->
     <?php } ?>
+    <p class="error"><?php echo $message; ?></p>
 	<form method = "POST">
 		<label for = "username">Username</label><br>
 		<input type = "text" name = "username" id = "username" required><br><br>
