@@ -73,11 +73,12 @@ a {
 }
 
 .edit-button {
+    border: 0;
+    border-radius: 2vw;
+    padding: 0.8vw 2vw;
+    font-size: 1.3vw;
     background-color: rgb(128, 144, 207);
     color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
     cursor: pointer;
 }
 
@@ -133,4 +134,22 @@ a {
 
 .navbar li a:hover{
     background-color: rgb(202, 64, 64);
+}
+
+#editForm input[type="text"]{
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    overflow: auto;
+}
+
+#description{
+    width: 100%;
+    height: 100px;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    overflow: auto;
+
 }

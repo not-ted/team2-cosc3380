@@ -122,11 +122,19 @@ function submitHold($itemID, $conn, $itemType, $userID){
 				<li>Model: <?php echo htmlspecialchars($itemInfo['modelNumber']) ?></li><br><br>
 				<li><?php checkAvailable($itemInfo, $conn, 'tech') ?></li>
 			<?php } ?>
+			<?php if($userType == "management"){ ?>
+			<li>
+				<a href="itemEdit.php?id=<?php echo $itemID;?>&type=<?php echo $itemType; ?>">
+					<button class="edit-button">Edit Item Info</button>
+				</a>
+			</li>
+			<?php }  else {?>
 			<li>
 				<form method = "POST">
 					<input type = "submit" name = "submit" value = "Request this item">
 				</form>
 			</li>
+			<?php } ?>
 			<li>
 				<?php if(isset($message)) { ?>
 					<p class="message"><?php echo $message; ?></p>	
@@ -135,18 +143,7 @@ function submitHold($itemID, $conn, $itemType, $userID){
 		</ul>
 	</div>
 
-	<script>
-		function editItem() {
-			window.location.href = "editItem.php?id=<?php echo $itemID ?>&type=<?php echo $itemType ?>";
-		}
-	</script>
-
 	<?php if($userType == "management"){ ?>
-		<div class="edit-container">
-			<button class="edit-button" onclick="editItem()">Edit Item Info</button>
-		</div>
-
-
 		<div class="waitlist-container" id="waitlist">
 			<h1>Waitlist</h1>
 			<table class="generic-table">
