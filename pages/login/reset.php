@@ -3,7 +3,7 @@
 <!--- This is the password reset page for the library management system. --->
 <?php
 session_start();
-include("connection.php");
+include("../../connection.php");
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['form1'])) {
     $username = $_POST['username'];
@@ -54,13 +54,40 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['form2'])) {
 <html lang="en">
 
 <head>
-    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="login.css">
+    <link rel="stylesheet" href="../../main resources/main.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Password Reset</title>
 </head>
 
 <body>
+
+<div class="header">
+		<h1>University Library</h1>
+</div>
+	<div class="navbar">
+		<ul>
+			<li><a href="../home/home.php">Home</a></li>
+			<li><a href="../item search/itemSearch.php">Search</a></li>
+            <?php if(isset ($_SESSION['user_id'])) { ?>
+                <li><a href="../account dash/accountDash.php">My Account</a></li>
+            <?php } ?>
+            <?php if(isset($_SESSION['user_id']) && $_SESSION['user_type'] == 'management'){ ?>
+                <li><a href="../item add/itemAdd.php">Add Items</a></li>
+                <li><a href="../user search/userSearch.php">User Search</a></li>
+                <li><a href="../report/report.php">Reports</a></li>
+                <li><a href="../hold-fine manager/holdFineManager.php">Holds & Fines</a></li>
+                <li><a href="../checkout-return/checkout-return.php">Checkout & Returns</a></li>
+            <?php } ?>
+            <?php if(isset ($_SESSION['user_id'])) { ?>
+			    <li style="float:right; margin-right:20px"><a class="logout" href="../account dash/logout.php">Sign Out</a></li>
+            <?php } else { ?>
+                <li style="float:right; margin-right:20px"><a class="Sign In" href="../login/login.php">Sign In</a></li>
+            <?php } ?>
+		</ul>
+	</div>
+
     <div class="container">
         <h2>Password Reset</h2>
 
@@ -98,9 +125,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['form2'])) {
                 <label for="email">Email</label><br>
                 <input type="email" name="email" id="email" required><br><br>
 
-                <input type="submit" name="form1" value="Submit">
+                <input type="submit" name="form1" value="Submit"><br><br>
             </form>
         <?php } ?>
+
+        <a href = "login.php">Login</a>
     </div>
 </body>
 
