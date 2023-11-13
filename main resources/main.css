@@ -1,2 +1,47 @@
-/* THIS CSS PAGE HAS STYLE SHARED BY THE ENTIRE WEB APP */
-/* Fonts */
+body{
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.header {
+    background-image: url("https://libraries.uh.edu/images/branches_anderson_02.png");
+    background-repeat: no-repeat;
+	background-size: cover;
+    padding: 20px;
+    text-align: center;
+    font-size: 25px;
+    text-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+    
+}
+
+.navbar ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    width: 100%;
+    overflow: hidden;
+    background-color: rgb(153, 46, 46);
+}
+
+.navbar li{
+    float: left;
+}
+
+.navbar li a{
+    display: block;
+    padding: 10px;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+}
+
+.navbar li a:hover{
+    background-color: rgb(202, 64, 64);
+}
+
+.active{
+    background-color: rgb(237, 92, 92);
+}
