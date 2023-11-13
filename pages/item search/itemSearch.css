@@ -6,6 +6,17 @@ body {
     text-align: center;
 }
 
+h1{
+    font-size: 4vw;
+    text-align: center;
+    color: rgb(153, 46, 46);
+}
+
+h2{
+    text-align: center;
+    color: rgb(153, 46, 46);
+}
+
 .search-container {
     margin: 20px;
 }

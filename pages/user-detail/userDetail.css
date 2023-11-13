@@ -8,7 +8,15 @@ body {
 }
 
 /* Style the headings */
-h1,
+.user-detail h1{
+    display: flex;
+    color: rgb(153, 46, 46);
+    border-bottom: 2px solid rgb(153, 46, 46);
+    /* Add a bottom border */
+    padding-bottom: 5px;
+    /* Add some space between the border and text */
+
+}
 h2 {
     display: flex;
     color: rgb(153, 46, 46);
@@ -19,7 +27,9 @@ h2 {
 }
 
 h1{
-    margin-top: 50px;
+    font-size: 4vw;
+    text-align: center;
+    color: rgb(153, 46, 46);
 }
 
 /* Style the form elements */
@@ -27,16 +37,6 @@ label {
     font-weight: bold;
     color: rgb(128, 144, 207);
     /* Change label text color */
-}
-
-/* Style the password input field */
-input[type="password"] {
-    border: 1px solid rgb(128, 144, 207);
-    border-radius: 3vw;
-    padding: 0.8vw;
-    font-size: 1.5vw;
-    background-color: white;
-    color: rgb(153, 46, 46);
 }
 
 /* Style the submit button */
@@ -147,31 +147,4 @@ a {
 
 .user-profile-item:last-child {
     margin-bottom: 0;
-}
-
-.navbar ul{
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    overflow: hidden;
-    background-color: rgb(153, 46, 46);
-}
-
-.navbar li{
-    float: left;
-}
-
-.navbar li a{
-    display: block;
-    padding: 10px;
-    color: white;
-    text-align: center;
-    text-decoration: none;
-}
-
-.navbar li a:hover{
-    background-color: rgb(202, 64, 64);
 }

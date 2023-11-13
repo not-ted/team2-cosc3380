@@ -4,7 +4,7 @@ include("../../connection.php");
 include("itemFunctions.php");
 
 if(!isset($_SESSION['user_id'])){
-	header("Location: ../../index.php");
+	header("Location: ../../login.php");
 }
 else{
 	$userID = $_SESSION['user_id'];
@@ -79,14 +79,31 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
 <body>
 
+<div class="header">
+		<h1>University Library</h1>
+</div>
 	<div class="navbar">
 		<ul>
 			<li><a class="button" href="../home/home.php">Home</a></li>
-			<li><a class="button" href="../account dash/accountDash.php">Dashboard</a></li>
 			<li><a class="button" href="../item search/itemSearch.php">Search</a></li>
-			<li style="float:right; margin-right:20px"><a class="button" href="../account dash/logout.php">Sign Out</a></li>
+            <?php if(isset ($_SESSION['user_id'])) { ?>
+                <li><a class="button" href="../account dash/accountDash.php">My Account</a></li>
+            <?php } ?>
+            <?php if(isset($_SESSION['user_id']) && $_SESSION['user_type'] == 'management'){ ?>
+                <li><a class="button" href="../item add/itemAdd.php">Add Items</a></li>
+                <li><a class="button" href="../user search/userSearch.php">User Search</a></li>
+                <li><a class="button" href="../report/report.php">Reports</a></li>
+                <li><a class="button" href="../hold-fine manager/holdFineManager.php">Holds & Fines</a></li>
+                <li><a class="button" href="../checkout-return/checkout-return.php">Checkout & Returns</a></li>
+            <?php } ?>
+            <?php if(isset ($_SESSION['user_id'])) { ?>
+			    <li class="button" style="float:right; margin-right:20px"><a class="logout" href="../account dash/logout.php">Sign Out</a></li>
+            <?php } else { ?>
+                <li class="button" style="float:right; margin-right:20px"><a class="Sign In" href="../login/login.php">Sign In</a></li>
+            <?php } ?>
 		</ul>
 	</div>
+
 
 	<script>
 		var buttons = document.getElementsByClassName('button');

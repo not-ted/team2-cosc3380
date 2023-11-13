@@ -58,10 +58,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['newPassword'])) {
     <title>Account Dashboard</title>
     <!-- Import your CSS styles here -->
     <link rel="stylesheet" href="accountDash.css">
+    <link rel="stylesheet" href="../../main resources/main.css">
 </head>
 
 <body>
-    <h1>Welcome, <?php echo htmlspecialchars($userData['firstName']); ?></h1>
+
+<div class="header">
+		<h1>University Library</h1>
+</div>
+	<div class="navbar">
+		<ul>
+			<li><a href="../home/home.php">Home</a></li>
+			<li><a href="../item search/itemSearch.php">Search</a></li>
+            <?php if(isset ($_SESSION['user_id'])) { ?>
+                <li><a class="active" href="../account dash/accountDash.php">My Account</a></li>
+            <?php } ?>
+            <?php if(isset($_SESSION['user_id']) && $_SESSION['user_type'] == 'management'){ ?>
+                <li><a href="../item add/itemAdd.php">Add Items</a></li>
+                <li><a href="../user search/userSearch.php">User Search</a></li>
+                <li><a href="../report/report.php">Reports</a></li>
+                <li><a href="../hold-fine manager/holdFineManager.php">Holds & Fines</a></li>
+                <li><a href="../checkout-return/checkout-return.php">Checkout & Returns</a></li>
+            <?php } ?>
+            <?php if(isset ($_SESSION['user_id'])) { ?>
+			    <li style="float:right; margin-right:20px"><a class="logout" href="../account dash/logout.php">Sign Out</a></li>
+            <?php } else { ?>
+                <li style="float:right; margin-right:20px"><a class="Sign In" href="../login/login.php">Sign In</a></li>
+            <?php } ?>
+		</ul>
+	</div>    
+
+
+    <h2>Welcome, <?php echo htmlspecialchars($userData['firstName']); ?></h2>
 
     <h2>Your Profile Information:</h2>
     <ul class="user-profile">
@@ -113,18 +141,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['newPassword'])) {
 
 
     </ul>
-
-
-
-    <!-- display logout and back button -->
-    <div class="logout-container">
-        <button class="logout-button" onclick="location.href='logout.php'">Logout</button>
-    </div>
-
-    <div class="back-button-container">
-        <button class="back-button" onclick="location.href='../home/home.php'">Back to Home Page</button>
-    </div>
-
 
     <h2>Change Password:</h2>
     <form method="post">

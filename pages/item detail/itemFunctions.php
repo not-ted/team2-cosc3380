@@ -24,12 +24,12 @@ function getDirector($itemInfo, $conn){
 	$directors = array();
 	if (mysqli_num_rows($result) > 0) {
         while($row = mysqli_fetch_assoc($result)){
-            $directors[] = htmlspecialchars($row['authorName']);
+            $directors[] = htmlspecialchars($row['directorName']);
         }
         echo implode(", ", $directors);
     }
     else{
-        echo "No authors found";
+        echo "No directors found";
     }
 }
 

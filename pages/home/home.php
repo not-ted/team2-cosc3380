@@ -2,45 +2,17 @@
 // Start the user's session or resume if it exists
 session_start();
 
-// Check if the user is authenticated, redirect to the login page if not
-if (!isset($_SESSION['user_id'])) {
-    header('Location: ../../index.php'); // Redirect to the login page
-    exit;
-}
-
 // Include the database connection file
 include("../../connection.php");
 
-// Retrieve the user's profile information
-$userId = $_SESSION['user_id'];
-$sql = "SELECT * FROM users WHERE userID = $userId";
-$result = $conn->query($sql);
-$userData = $result->fetch_assoc();
-
-// Define buttons for regular users
-$Buttons = [
-
-    '<form action="../item search/itemSearch.php" method="GET"><button type="submit">Item Search</button></form>',
-    '<form action="../account dash/accountDash.php" method="GET"><button type="submit">Your Dashboard</button></form>'
-];
-
-// Define buttons for management users
-$managementButtons = [
-    '<form action="../item search/itemSearch.php" method="GET"><button type="submit">Item Search</button></form>',
-    '<form action="../item add/itemAdd.php" method="GET"><button type="submit">Item Add</button></form>',
-    '<form action="../user search/userSearch.php" method="GET"><button type="submit">User Search</button></form>',
-    '<form action="../account dash/accountDash.php" method="GET"><button type="submit">Your Dashboard</button></form>',
-    '<form action="../report/report.php" method="GET"><button type="submit">Generate Reports</button></form>',
-    '<form action="../hold-fine manager/holdFineManager.php" method="GET"><button type="submit">Management Holds & Fines</button></form>',
-    '<form action="../checkout-return/checkout-return.php" method="GET"><button type="submit">Checkout & Returns</button></form>'
-];
-
-// Determine which buttons to display based on the user's userType
-if ($userData['userType'] === 'management') {
-    $buttonsToDisplay = $managementButtons;
-} else {
-    $buttonsToDisplay = $Buttons;
+// Check if the user is authenticated, retrieve user info
+if (isset($_SESSION['user_id'])) {
+    $userId = $_SESSION['user_id'];
+    $sql = "SELECT * FROM users WHERE userID = $userId";
+    $result = $conn->query($sql);
+    $userData = $result->fetch_assoc();
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -50,6 +22,7 @@ if ($userData['userType'] === 'management') {
     <meta charset="UTF-8">
     <title>Library Homepage</title>
     <link rel="stylesheet" href="home.css">
+    <link rel="stylesheet" href="../../main resources/main.css">
     <style>
         .button-container {
             display: flex;
@@ -58,31 +31,38 @@ if ($userData['userType'] === 'management') {
 </head>
 
 <body>
-    <!-- Display user information at the top right corner -->
-    <div style="position: absolute; top: 10px; right: 10px;">
-        Logged in as <?php echo $userData['uhID']; ?> : <?php echo $userData['userType']; ?>
-    </div>
-
-
-    <h1>Library Homepage</h1>
-    <div class="button-container">
-        <?php
-        // Display the buttons based on userType
-        foreach ($buttonsToDisplay as $button) {
-            echo $button;
-        }
-        ?>
-    </div>
+    <div class="header">
+		<h1>University Library</h1>
+	</div>
+	<div class="navbar">
+		<ul>
+			<li><a class="active" href="../home/home.php">Home</a></li>
+			<li><a href="../item search/itemSearch.php">Search</a></li>
+            <?php if(isset ($_SESSION['user_id'])) { ?>
+                <li><a href="../account dash/accountDash.php">My Account</a></li>
+            <?php } ?>
+            <?php if(isset($_SESSION['user_id']) && $_SESSION['user_type'] == 'management'){ ?>
+                <li><a href="../item add/itemAdd.php">Add Items</a></li>
+                <li><a href="../user search/userSearch.php">User Search</a></li>
+                <li><a href="../report/report.php">Reports</a></li>
+                <li><a href="../hold-fine manager/holdFineManager.php">Holds & Fines</a></li>
+                <li><a href="../checkout-return/checkout-return.php">Checkout & Returns</a></li>
+            <?php } ?>
+            <?php if(isset ($_SESSION['user_id'])) { ?>
+			    <li style="float:right; margin-right:20px"><a class="logout" href="../account dash/logout.php">Sign Out</a></li>
+            <?php } else { ?>
+                <li style="float:right; margin-right:20px"><a class="Sign In" href="../login/login.php">Sign In</a></li>
+            <?php } ?>
+		</ul>
+	</div>
 
     <!-- Display a welcome message for the user -->
     <?php
-    $welcomeMessage = "Our most recently added books:";
-    echo "<p>$welcomeMessage</p>";
+    $welcomeMessage = "Recently added books:";
+    echo "<h2>$welcomeMessage</h2>";
     ?>
 
     <?php
-    // Include the connection to the database
-    include("../../connection.php");
 
     // Fetch recently added books
     $recentlyAddedBooks = array();
@@ -109,8 +89,35 @@ if ($userData['userType'] === 'management') {
     } else {
         echo "No recently added books.";
     }
-    ?>
 
+    echo '<h2>Recently added movies:</h2>';
+
+    // Fetch recently added movies
+    $recentlyAddedMovies = array();
+    $sqlMovies = "SELECT * FROM movies ORDER BY movieID DESC LIMIT 6";
+    $resultMovies = $conn->query($sqlMovies);
+
+    if ($resultMovies && $resultMovies->num_rows > 0) {
+        $recentlyAddedMovies = $resultMovies->fetch_all(MYSQLI_ASSOC);
+        echo '<div class="movie-covers-container">';
+        foreach ($recentlyAddedMovies as $movie) {
+            // Ensure the coverFilePath is set and not empty
+            if (!empty($movie['coverFilePath'])) {
+                $coverPath = '../../'. $movie['coverFilePath'];
+
+                // Create a clickable link that leads to itemDetail.php with the movieID
+                echo '<div class="cover-fade">
+                <a href="../item detail/itemDetail.php?id=' . $movie['movieID'] . '&type=movie">
+                    <img src="' . $coverPath . '" alt="Book Cover" class="book-cover">
+                </a>
+            </div>';
+            }
+        }
+        echo '</div>';
+    } else {
+        echo "No recently added movies.";
+    }
+    ?>
 
     <h2>Explore More Items</h2>
 

@@ -10,13 +10,27 @@ body {
 }
 
 /* Style the headings */
-h1,
-h2 {
+h1{
     color: rgb(153, 46, 46);
 }
-
+.header h1 {
+    font-size: 4vw;
+    text-align: center;
+}
 h2 {
+    color: rgb(153, 46, 46);
     font-weight: lighter;
+}
+
+.header {
+    background-image: url("https://libraries.uh.edu/images/branches_anderson_02.png");
+    background-repeat: no-repeat;
+	background-size: cover;
+    padding: 20px;
+    text-align: center;
+    font-size: 25px;
+    text-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+    
 }
 
 /* Style the submit button */
@@ -52,7 +66,7 @@ a {
     height: auto;
     top: 10px;
     border-radius: 10px;
-    margin-top: 70px;
+    margin-top: 20px;
     flex-direction: row;
     width: 90%;
 }
@@ -113,7 +127,8 @@ a {
     list-style-type: none;
     margin: 0;
     padding: 0;
-    position: fixed;
+    position: -webkit-sticky;
+    position: sticky;
     top: 0;
     width: 100%;
     overflow: hidden;
