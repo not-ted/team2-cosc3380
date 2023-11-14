@@ -1,4 +1,3 @@
-<!--- This is the login page for the library management system. --->
 <?php
 session_start();
 	include("../../connection.php");
