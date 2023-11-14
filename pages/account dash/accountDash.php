@@ -329,7 +329,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['newPassword'])) {
         ELSE NULL
     END AS itemName
     FROM holds h
-    WHERE h.userID = ? AND h.requestStatus = 'pending'"; // Only retrieve items with 'pending' status
+    WHERE h.userID = ? AND (h.requestStatus = 'pending' OR h.requestStatus = 'readyForPickUp'";
 
             $stmtReservedItems = $conn->prepare($sqlReservedItems);
 
