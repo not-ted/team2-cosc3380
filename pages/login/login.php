@@ -28,7 +28,7 @@ session_start();
                         if($user_data['password'] === $password){
                             // redirects to home page if login is successful
                             $_SESSION['user_id'] = $user_data['userID'];
-                            $_SESSION['user_type'] = $user_data['userType'];
+                            $_SESSION['user_type'] = strtolower($user_data['userType']);
                             $_SESSION['can_borrow'] = $user_data['canBorrow'];
                             header("Location: ../home/home.php");
                             die;
