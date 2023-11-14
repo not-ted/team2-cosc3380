@@ -98,7 +98,6 @@
         }
 
         $reportQuery = "SELECT 
-                            f.fineID,
                             users.userID,
                             users.firstName,
                             users.lastName,
@@ -186,7 +185,6 @@
                         echo "<th style = 'font-weight: bold;'> Times Checked Out </th>";
                     }
                     if ($reportType == 'usersWithMostToLeastFines') {
-                        echo "<th style = 'font-weight: bold;'> Fine ID </th>";
                         echo "<th style = 'font-weight: bold;'> UH ID </th>";
                         echo "<th style = 'font-weight: bold;'> First Name </th>";
                         echo "<th style = 'font-weight: bold;'> Last Name </th>";
@@ -221,7 +219,6 @@
             {
                 //Print out info
                 echo "<tr>";
-                echo "<th> {$data['fineID']} </th>";
                 echo "<th> {$data['uhID']} </th>";
                 echo "<th> {$data['firstName']} </th>";
                 echo "<th> {$data['lastName']} </th>";
@@ -239,7 +236,7 @@
                     echo "<th> {$data['lastName']} </th>";
                     echo "<th>" . strtoupper($data['userType']) . "</th>";
                     echo "<th>" . strtoupper($data['type']) . "</th>";
-                    echo "<th> {$data['fineAmount']} </th>";
+                    echo "<th> $".$data['fineAmount']. "</th>";
                     echo "<th> {$data['havePaid']} </th>";
                 echo "</tr>";
             }
