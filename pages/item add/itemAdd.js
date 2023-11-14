@@ -48,8 +48,6 @@ function addBook() {
         $('#errorMessage').show();
         return; // Exit the function if any value is null
     }
-alert(bookDescription);
-alert(bookGenre);
     var formData = new FormData();
     formData.append('bookName', bookName);
     formData.append('ISBN', ISBN);

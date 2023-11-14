@@ -168,7 +168,7 @@
                     {
                         echo "<button style = 'background-color: #b8d6c0;' onclick = markAsReadyForPickUp({$data['holdID']})> Mark as <br> Ready for Pickup </button>";
                     }
-                    if ($data['requestStatus'] != 'pickedUp') 
+                    if ($data['requestStatus'] != 'pickedUp' && $data['requestStatus'] != 'pending') 
                     {
                         echo "<button style = 'background-color: #ffd9a8;' onclick = markAsPickedUp({$data['holdID']})> Mark as <br> Picked Up </button>";
                     }

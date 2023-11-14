@@ -18,17 +18,17 @@ if ($result && mysqli_num_rows($result) > 0) {
         // Search for the first available bookcopy
         $bookID = $row['itemID'];
         $searchCopyQuery = "SELECT * FROM `bookcopy` WHERE `bookID` = $bookID AND `available` = 1 LIMIT 1";
-        $copyTable = 'bookCopy';
+        $copyTable = 'bookcopy';
     } elseif ($row['itemType'] === 'movie') {
         // Search for the first available moviecopy
         $movieID = $row['itemID'];
         $searchCopyQuery = "SELECT * FROM `moviecopy` WHERE `movieID` = $movieID AND `available` = 1 LIMIT 1";
-        $copyTable = 'movieCopy';
+        $copyTable = 'moviecopy';
     } elseif ($row['itemType'] === 'tech') {
         // Search for the first available techcopy
         $techID = $row['itemID'];
         $searchCopyQuery = "SELECT * FROM `techcopy` WHERE `techID` = $techID AND `available` = 1 LIMIT 1";
-        $copyTable = 'techCopy';
+        $copyTable = 'techcopy';
     }
 
     if (isset($searchCopyQuery)) {

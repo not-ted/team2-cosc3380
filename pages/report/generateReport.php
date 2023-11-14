@@ -180,7 +180,6 @@
         echo "<table>";
                 echo "<tr>";
                     if ($reportType == 'mostBorrowed') {
-                        echo "<th style = 'font-weight: bold;'> Borrow ID </th>";
                         echo "<th style = 'font-weight: bold;'> Item Type </th>";
                         echo "<th style = 'font-weight: bold;'> Item Name </th>";
                         echo "<th style = 'font-weight: bold;'> Item ID </th>";
@@ -211,7 +210,6 @@
                 
                 //Print out info
                 echo "<tr>";
-                    echo "<th> {$data['borrowID']} </th>";
                     echo "<th>" . strtoupper($data['itemType']) . " </th>";
                     echo "<th> {$data['itemName']} </th>";
                     echo "<th> {$data['itemID']} </th>";
