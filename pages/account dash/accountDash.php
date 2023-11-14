@@ -308,20 +308,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['newPassword'])) {
 
 
     <h2>Your Currently Reserved Items:</h2>
-    <table class="generic-table">
-        <thead>
-            <tr>
-                <th>Hold ID </th>
-                <th>Item Name</th>
-                <th>Item Type</th>
-                <th>Request Status</th>
-                <th>Cancel</th> <!-- New column for cancel action -->
-            </tr>
-        </thead>
-        <tbody>
-            <?php
-            // Create a prepared statement to retrieve reserved items with their names
-            $sqlReservedItems = "SELECT h.holdID, h.itemType, h.requestStatus, h.itemID,
+<table class="generic-table">
+    <thead>
+        <tr>
+            <th>Hold ID </th>
+            <th>Item Name</th>
+            <th>Item Type</th>
+            <th>Request Status</th>
+            <th>Cancel</th> <!-- New column for cancel action -->
+        </tr>
+    </thead>
+    <tbody>
+        <?php
+        // Create a prepared statement to retrieve reserved items with their names
+        $sqlReservedItems = "SELECT h.holdID, h.itemType, h.requestStatus, h.itemID,
     CASE
         WHEN h.itemType = 'book' THEN (SELECT bookName FROM books WHERE bookID = h.itemID)
         WHEN h.itemType = 'movie' THEN (SELECT movieName FROM movies WHERE movieID = h.itemID)
@@ -331,45 +331,55 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['newPassword'])) {
     FROM holds h
     WHERE h.userID = ? AND (h.requestStatus = 'pending' OR h.requestStatus = 'readyForPickUp')";
 
-            $stmtReservedItems = $conn->prepare($sqlReservedItems);
+        $stmtReservedItems = $conn->prepare($sqlReservedItems);
 
-            if ($stmtReservedItems) {
-                // Bind the user ID to the statement
-                $stmtReservedItems->bind_param("i", $userId);
+        if ($stmtReservedItems) {
+            // Bind the user ID to the statement
+            $stmtReservedItems->bind_param("i", $userId);
 
-                // Execute the statement
-                $stmtReservedItems->execute();
+            // Execute the statement
+            $stmtReservedItems->execute();
 
-                // Get the result set
-                $result = $stmtReservedItems->get_result();
+            // Get the result set
+            $result = $stmtReservedItems->get_result();
 
-                if ($result->num_rows > 0) { // Check if there are reserved items
-                    while ($row = $result->fetch_assoc()) {
-                        $itemType = $row['itemType'];
-                        $requestStatus = $row['requestStatus'];
-                        $holdID = $row['holdID'];
-                        $itemName = $row['itemName']; // Fix for "itemName" here
+            if ($result->num_rows > 0) { // Check if there are reserved items
+                while ($row = $result->fetch_assoc()) {
+                    $itemType = $row['itemType'];
+                    $requestStatus = $row['requestStatus'];
+                    $holdID = $row['holdID'];
+                    $itemName = $row['itemName']; // Fix for "itemName" here
 
-                        // Display the reserved items in the table
-                        echo "<tr>
+                    // Display the reserved items in the table
+                    echo "<tr>
                 <td>$holdID</td>
                 <td>$itemName</td>
                 <td>$itemType</td>
                 <td>$requestStatus</td>
-                <td><button class='cancel-button' onclick=\"cancelReservation($holdID)\">Cancel</button></td>
-            </tr>";
+                <td>";
+                    
+                    // Conditionally display the "Cancel" button
+                    if ($requestStatus == 'pending') {
+                        echo "<button class='cancel-button' onclick=\"cancelReservation($holdID)\">Cancel</button>";
+                    } else {
+                        echo "N/A";
                     }
-                } else {
-                    // Display a message if the user has no reserved items
-                    echo "<tr><td colspan='4'>You don't have any pending reserved items at the moment.</td></tr>";
+                    
+                    echo "</td>
+            </tr>";
                 }
-
-                // Close the statement
-                $stmtReservedItems->close();
+            } else {
+                // Display a message if the user has no reserved items
+                echo "<tr><td colspan='5'>You don't have any pending or ready for pickup reserved items at the moment.</td></tr>";
             }
-            ?>
-        </tbody>
-    </table>
+
+            // Close the statement
+            $stmtReservedItems->close();
+        }
+        ?>
+    </tbody>
+</table>
+
 
     <!-- function for cancellation -->
     <script>
