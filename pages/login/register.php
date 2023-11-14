@@ -18,12 +18,12 @@
 		$email = $_POST['email'];
 		$password = $_POST['password'];
 		$confirmPassword = $_POST['confirmPassword'];
-		$securityQuestion1 = $_POST['securityQuestion1'];
-		$securityQuestion2 = $_POST['securityQuestion2'];
-		$securityQuestion3 = $_POST['securityQuestion3'];
-		$securityAnswer1 = $_POST['securityAnswer1'];
-		$securityAnswer2 = $_POST['securityAnswer2'];
-		$securityAnswer3 = $_POST['securityAnswer3'];
+		$securityQuestion1 = "test";
+		$securityQuestion2 = "test";
+		$securityQuestion3 = "test";
+		$securityAnswer1 = "test";
+		$securityAnswer2 = "test";
+		$securityAnswer3 = "test";
 
 		try {
 			mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
@@ -107,45 +107,6 @@
 		<label for = "email">Email</label><br>
 		<input type = "email" name = "email" id = "email" required><br><br>	
 		<span class = "error" id = "emailError"></span>
-
-		<label for="securityQuestion1">Security Question 1</label><br>
-		<select name="securityQuestion1" id="securityQuestion1" required>
-			<option value="">--Select a security question--</option>
-			<option value="What is your mother's maiden name?">What is your mother's maiden name?</option>
-			<option value="What is the name of your first pet?">What is the name of your first pet?</option>
-			<option value="What is your favorite color?">What is your favorite color?</option>
-		</select><br>
-		<span class="error" id="securityQuestion1Error"></span><br>
-
-		<label for="securityAnswer1">Answer</label><br>
-		<input type="text" name="securityAnswer1" id="securityAnswer1" required><br>
-		<span class="error" id="securityAnswer1Error"></span><br>
-
-		<label for="securityQuestion2">Security Question 2</label><br>
-		<select name="securityQuestion2" id="securityQuestion2" required>
-			<option value="">--Select a security question--</option>
-			<option value="What is your favorite food?">What is your favorite food?</option>
-			<option value="What high school did you attend?">What high school did you attend?</option>
-			<option value="What was the make of your first car?">What was the make of your first car?</option>
-		</select><br>
-		<span class="error" id="securityQuestion2Error"></span><br>
-
-		<label for="securityAnswer2">Answer</label><br>
-		<input type="text" name="securityAnswer2" id="securityAnswer2" required><br>
-		<span class="error" id="securityAnswer2Error"></span><br>
-
-		<label for="securityQuestion3">Security Question 3</label><br>
-		<select name="securityQuestion3" id="securityQuestion3" required>
-			<option value="">--Select a security question--</option>
-			<option value="What city were you born in?">What city were you born in?</option>
-			<option value="What was the first concert you attended?">What was the first concert you attended?</option>
-			<option value="What year was your mother born?">What year was your mother born?</option>
-		</select><br>
-		<span class="error" id="securityQuestion3Error"></span><br>
-
-		<label for="securityAnswer3">Answer</label><br>
-		<input type="text" name="securityAnswer3" id="securityAnswer3" required><br>
-		<span class="error" id="securityAnswer3Error"></span><br>
 
 		<label for = "password">Password</label><br>
 		<input type = "password" name = "password" id = "password" required><br><br>

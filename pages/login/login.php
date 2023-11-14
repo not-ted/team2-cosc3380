@@ -100,7 +100,6 @@ session_start();
 
 		<input type = "submit" value = "Login"><br><br>
 
-		<a href = "reset.php">Forgot Password?</a>
 		<a href = "register.php">Register</a>
 	</form>
 </div>
