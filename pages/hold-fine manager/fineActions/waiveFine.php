@@ -20,6 +20,11 @@
             $userID = $row['userID'];
             $update = "UPDATE `users` SET `canBorrow` = 1 WHERE userID = $userID;";
             mysqli_query($conn, $update);
+
+            // Update borrowStatus to 'returned' in the borrowed table
+            $updateBorrowStatus = "UPDATE `borrowed` SET `borrowStatus` = 'returned' WHERE `borrowID` IN (SELECT `borrowID` FROM `fines` WHERE `fineID` = $fineID);";
+            mysqli_query($conn, $updateBorrowStatus);
+            
         }
     }
     
