@@ -66,16 +66,22 @@ else if(isset($_POST['submit']) && $canBorrow == 0){
 }
 
 function submitHold($itemID, $conn, $itemType, $userID){
-	$query2 = "SELECT * FROM holds WHERE itemID = '$itemID' AND userID = '$userID' AND requestStatus = 'pending' OR requestStatus = 'readyForPickup' AND itemType = '$itemType'";
+	$query2 = "SELECT * FROM holds WHERE itemID = '$itemID' AND userID = '$userID' AND itemType = '$itemType' AND (requestStatus = 'pending' OR requestStatus = 'readyForPickup')";
 	$result = mysqli_query($conn, $query2);
 	if(mysqli_num_rows($result) > 0){
 		$_SESSION['message'] = "You already have a pending request for this item";
 	}
 	else{
-		$requestDate = date("Y-m-d H:i:s");
-		$query2 = "INSERT INTO holds (userID, itemType, itemID, requestDate, requestStatus) VALUES ('$userID', '$itemType', '$itemID', '$requestDate', 'pending')";
-		$conn->query($query2);
-		$_SESSION['message'] =  "Request submitted";
+		try{
+			mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+			$requestDate = date("Y-m-d H:i:s");
+			$query3 = "INSERT INTO holds (userID, itemType, itemID, requestDate, requestStatus) VALUES ('$userID', '$itemType', '$itemID', '$requestDate', 'pending')";
+			$conn->query($query3);
+			$_SESSION['message'] =  "Request submitted";
+		}
+		catch (mysqli_sql_exception $e) {
+			$_SESSION['message'] = $e->getMessage();
+		}
 	}
 	header("Refresh:0");
 }
