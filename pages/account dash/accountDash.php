@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['newPassword'])) {
         $updateSql = "UPDATE users SET password = '$newPassword' WHERE userID = $userId";
         if ($conn->query($updateSql)) {
             // Password updated successfully, you can also add a success message
-            header('Location: ../../index.php');
+            header('Location: ../login/login.php');
             exit;
         } else {
             $passwordChangeError = "Error updating password: " . $conn->error;
