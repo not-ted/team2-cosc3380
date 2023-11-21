@@ -182,7 +182,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['newPassword'])) {
             END AS itemName
             FROM fines
             JOIN borrowed ON fines.borrowID = borrowed.borrowID
-            WHERE fines.userID = ? AND fines.havePaid = 'No' AND borrowed.returnedDate IS NULL";
+            WHERE fines.userID = ? AND fines.havePaid = 'No'";
 
             $stmtUserFines = $conn->prepare($sqlUserFines);
 
