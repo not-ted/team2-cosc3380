@@ -132,6 +132,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 				<label for="genre">Genre</label>
 				<input type="text" name="genre" value="<?php echo $itemInfo['genre']; ?>" required>
 
+				<label for="ISBN">ISBN</label>
+				<input type="text" name="ISBN" value="<?php echo $itemInfo['ISBN']; ?>" required>
+
 				<label for="publisher">Publisher</label>
 				<input type="text" name="publisher" value="<?php echo $itemInfo['publicationCompany']; ?>" required>
 

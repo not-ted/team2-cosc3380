@@ -245,14 +245,14 @@ function updateAuthor($itemID, $author, $conn){
 			//if Author exists check if author is already associated with book
 			$row = mysqli_fetch_assoc($result);
 			$authorID = $row['authorID'];
-			$query2 = "SELECT * FROM writtenBy WHERE authorID = '$authorID' AND bookID = '$itemID'";
+			$query2 = "SELECT * FROM writtenby WHERE authorID = '$authorID' AND bookID = '$itemID'";
 			$result2 = mysqli_query($conn, $query2);
 			if (mysqli_num_rows($result2) > 0) {
 				//if author is already associated with book, do nothing
 			}
 			else{
 				//if author is not associated with book, add to writtenby table
-				$query3 = "INSERT INTO writtenBy (authorID, bookID) VALUES ('$authorID', '$itemID')";
+				$query3 = "INSERT INTO writtenby (authorID, bookID) VALUES ('$authorID', '$itemID')";
 				mysqli_query($conn, $query3);
 			}
 		}
@@ -263,18 +263,18 @@ function updateAuthor($itemID, $author, $conn){
 			//get authorID
 			$authorID = mysqli_insert_id($conn);
 			//add to writtenby table
-			$query6 = "INSERT INTO writtenBy (authorID, bookID) VALUES ('$authorID', '$itemID')";
+			$query6 = "INSERT INTO writtenby (authorID, bookID) VALUES ('$authorID', '$itemID')";
 			mysqli_query($conn, $query6);
 		}
 	}
 	//delete any authors that are no longer associated with book
-	$query5 = "SELECT * FROM authors JOIN writtenBy ON authors.authorID = writtenBy.authorID WHERE bookID = '$itemID'";
+	$query5 = "SELECT * FROM authors JOIN writtenby ON authors.authorID = writtenby.authorID WHERE bookID = '$itemID'";
 	$result3 = mysqli_query($conn, $query5);
 	if (mysqli_num_rows($result3) > 0) {
 		while($row = mysqli_fetch_assoc($result3)){
 			if(!in_array($row['authorName'], $authorArray)){
 				$authorID = $row['authorID'];
-				$query7 = "DELETE FROM writtenBy WHERE authorID = '$authorID' AND bookID = '$itemID'";
+				$query7 = "DELETE FROM writtenby WHERE authorID = '$authorID' AND bookID = '$itemID'";
 				mysqli_query($conn, $query7);
 			}
 		}
@@ -292,14 +292,14 @@ function updateDirector($itemID, $director, $conn){
 			//if director exists check if director is already associated with movie
 			$row = mysqli_fetch_assoc($result);
 			$directorID = $row['directorID'];
-			$query2 = "SELECT * FROM directedBy WHERE directorID = '$directorID' AND movieID = '$itemID'";
+			$query2 = "SELECT * FROM directedby WHERE directorID = '$directorID' AND movieID = '$itemID'";
 			$result2 = mysqli_query($conn, $query2);
 			if (mysqli_num_rows($result2) > 0) {
 				//if director is already associated with movie, do nothing
 			}
 			else{
 				//if director is not associated with movie, add to directedby table
-				$query3 = "INSERT INTO directedBy (directorID, movieID) VALUES ('$directorID', '$itemID')";
+				$query3 = "INSERT INTO directedby (directorID, movieID) VALUES ('$directorID', '$itemID')";
 				mysqli_query($conn, $query3);
 			}
 		}
@@ -310,18 +310,18 @@ function updateDirector($itemID, $director, $conn){
 			//get directorID
 			$directorID = mysqli_insert_id($conn);
 			//add to directedby table
-			$query6 = "INSERT INTO directedBy (directorID, movieID) VALUES ('$directorID', '$itemID')";
+			$query6 = "INSERT INTO directedby (directorID, movieID) VALUES ('$directorID', '$itemID')";
 			mysqli_query($conn, $query6);
 		}
 	}
 	//delete any directors that are no longer associated with movie
-	$query5 = "SELECT * FROM directors JOIN directedBy ON directors.directorID = directedBy.directorID WHERE movieID = '$itemID'";
+	$query5 = "SELECT * FROM directors JOIN directedby ON directors.directorID = directedby.directorID WHERE movieID = '$itemID'";
 	$result3 = mysqli_query($conn, $query5);
 	if (mysqli_num_rows($result3) > 0) {
 		while($row = mysqli_fetch_assoc($result3)){
 			if(!in_array($row['directorName'], $directorArray)){
 				$directorID = $row['directorID'];
-				$query7 = "DELETE FROM directedBy WHERE directorID = '$directorID' AND movieID = '$itemID'";
+				$query7 = "DELETE FROM directedby WHERE directorID = '$directorID' AND movieID = '$itemID'";
 				mysqli_query($conn, $query7);
 			}
 		}
@@ -336,14 +336,14 @@ function updateBrand($itemID, $brand, $conn){
 		//if brand exists check if brand is already associated with tech
 		$row = mysqli_fetch_assoc($result);
 		$brandID = $row['brandID'];
-		$query2 = "SELECT * FROM manufacturedBy WHERE brandID = '$brandID' AND techID = '$itemID'";
+		$query2 = "SELECT * FROM manufacturedby WHERE brandID = '$brandID' AND techID = '$itemID'";
 		$result2 = mysqli_query($conn, $query2);
 		if (mysqli_num_rows($result2) > 0) {
 			//if brand is already associated with tech, do nothing
 		}
 		else{
 			//if brand is not associated with tech, add to manufacturedby table
-			$query3 = "INSERT INTO manufacturedBy (brandID, techID) VALUES ('$brandID', '$itemID')";
+			$query3 = "INSERT INTO manufacturedby (brandID, techID) VALUES ('$brandID', '$itemID')";
 			mysqli_query($conn, $query3);
 		}
 	}
@@ -354,7 +354,7 @@ function updateBrand($itemID, $brand, $conn){
 		//get brandID
 		$brandID = mysqli_insert_id($conn);
 		//add to manufacturedby table
-		$query6 = "INSERT INTO manufacturedBy (brandID, techID) VALUES ('$brandID', '$itemID')";
+		$query6 = "INSERT INTO manufacturedby (brandID, techID) VALUES ('$brandID', '$itemID')";
 		mysqli_query($conn, $query6);
 	}
 }
