@@ -71,6 +71,16 @@ a {
     width: 90%;
 }
 
+.list editForm{
+    display: flex;
+    height: auto;
+    top: 10px;
+    border-radius: 10px;
+    margin-top: 20px;
+    flex-direction: row;
+    width: 90%;
+}
+
 .list img{
     display: block;
     margin: 30px;
@@ -167,4 +177,17 @@ a {
     box-sizing: border-box;
     overflow: auto;
 
+}
+
+.generic-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.table{
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    width: 90%;
 }

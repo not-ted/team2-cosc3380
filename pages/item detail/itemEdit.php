@@ -3,6 +3,9 @@ session_start();
 include("../../connection.php");
 include("itemFunctions.php");
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 if(!isset($_SESSION['user_id'])){
 	header("Location: ../../login.php");
 }
@@ -24,7 +27,6 @@ if (isset($_GET["id"])) {
 
   $itemID = $_GET["id"];
   $itemType = $_GET["type"];	
-
   // query the database for the item with the specified ID
   if($itemType == "book"){
   	$query = "SELECT * FROM books WHERE bookID = $itemID LIMIT 1";
@@ -52,19 +54,10 @@ if (isset($_GET["id"])) {
   	$coverPath = "../main resources/placeholder.png";
   }
 }
-
-if($_SERVER['REQUEST_METHOD'] == 'POST'){
-	if($itemType == "book"){
-		updateBook($itemID, $conn);
-	}
-	if($itemType == "movie"){
-		updateMovie($itemID, $conn);
-	}
-	if($itemType == "tech"){
-		updateTech($itemID, $conn);
-	}
-	header("Location: itemDetail.php?id=$itemID&type=$itemType");
+else{
+	echo "Item not found";
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -118,7 +111,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
 	<div class="list">
 		<img id = "coverimage" src ="<?php echo htmlspecialchars($coverPath); ?>">
-		<form id="editForm" method="POST">
+		<form name="editForm" id="editForm" method="POST" action="submitEdit.php">
+			<input type="hidden" name="itemType" value="<?php echo $itemType; ?>">
+			<input type="hidden" name="itemID" value="<?php echo $itemID; ?>">
 			<?php if($itemType == "book"){ ?>
 				<label for="title">Title</label>
 				<input type="text" name="title" value="<?php echo $itemInfo['bookName']; ?>" required>
@@ -178,4 +173,29 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 		</form>
 	</div>
 
+	<div class="table">
+		<form name="deleteCopy" method="POST" action="deleteCopy.php">
+			<input type="hidden" name="itemType" value="<?php echo $itemType; ?>">
+			<input type="hidden" name="itemID" value="<?php echo $itemID; ?>">
+			<h2>Copies</h2>
+			<table class="generic-table">
+				<thead>
+					<tr>
+						<th>Copy ID</th>
+						<?php if($itemType == "book"){ ?>
+							<th>Cover Type</th>
+						<?php } ?>
+						<th>Status</th>
+						<th>Remove Copy</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php getCopies($itemID, $itemType, $conn); ?>
+				</tbody>
+			</table>
+			<br><br>
+			<input type="submit" value="Remove Selected Copies">
+		</form>
+	</div>
+	<br><br>
 </body>
