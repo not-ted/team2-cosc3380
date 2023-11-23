@@ -118,55 +118,79 @@ function checkAvailable($itemInfo, $conn, $itemType){
 
 function getCopies($itemID, $itemType, $conn){
 	if($itemType == "book"){
-		$query = "SELECT DISTINCT bookID, bookCopyID, coverType, borrowStatus FROM bookcopy LEFT OUTER JOIN borrowed ON itemCopyID = bookCopyID AND itemType = 'book' WHERE bookID = '$itemID'";
+		$query = "SELECT DISTINCT bookID, bookCopyID, coverType, borrowStatus, requestStatus
+					FROM bookcopy 
+					LEFT OUTER JOIN borrowed ON borrowed.itemCopyID = bookCopyID AND borrowed.itemType = 'book' AND borrowStatus LIKE '%checked%'
+					LEFT OUTER JOIN holds ON holds.itemCopyID = bookCopyID AND holds.itemType = 'book'
+					WHERE bookID = '$itemID'";
 		$result = mysqli_query($conn, $query);
 		if (mysqli_num_rows($result) > 0) {
 			while($row = mysqli_fetch_assoc($result)){
 				echo "<tr>";
 				echo "<td>" . $row['bookCopyID'] . "</td>";
 				echo "<td>" . $row['coverType'] . "</td>";
-				if($row['borrowStatus'] == NULL){
+				if($row['borrowStatus'] == NULL && $row['requestStatus'] != "readyForPickUp"){
 					echo "<td>AVAILABLE</td>";
 					echo "<td><input type='checkbox' name='toBeRemoved[]' value='" . $row['bookCopyID'] . "'></td>";
 				}
-				else{
+				else if($row['borrowStatus'] != NULL){
 					echo "<td>CHECKED OUT</td>";
+					echo "<td>Item cannot be removed at this time.</td>";
+				}
+				else if($row['requestStatus'] == "readyForPickUp"){
+					echo "<td>PENDING PICKUP</td>";
 					echo "<td>Item cannot be removed at this time.</td>";
 				}
 			}
 		}
 	}
 	if($itemType == "movie"){
-		$query = "SELECT DISTINCT movieID, movieCopyID, borrowStatus FROM moviecopy LEFT OUTER JOIN borrowed ON itemCopyID = movieCopyID AND itemType = 'movie' AND borrowStatus LIKE '%checked%' WHERE movieID = '$itemID'";
+		$query = "SELECT DISTINCT movieID, movieCopyID, borrowStatus, requestStatus
+					FROM moviecopy 
+					LEFT OUTER JOIN borrowed ON itemCopyID = movieCopyID AND itemType = 'movie' AND borrowStatus LIKE '%checked%' 
+					LEFT OUTER JOIN holds ON holds.itemCopyID = movieCopyID AND holds.itemType = 'movie'
+					WHERE movieID = '$itemID'";
 		$result = mysqli_query($conn, $query);
 		if (mysqli_num_rows($result) > 0) {
 			while($row = mysqli_fetch_assoc($result)){
 				echo "<tr>";
 				echo "<td>" . $row['movieCopyID'] . "</td>";
-				if($row['borrowStatus'] == NULL){
+				if($row['borrowStatus'] == NULL && $row['requestStatus'] != "readyForPickUp"){
 					echo "<td>AVAILABLE</td>";
 					echo "<td><input type='checkbox' name='toBeRemoved[]' value='" . $row['movieCopyID'] . "'></td>";
 				}
-				else{
+				else if($row['borrowStatus'] != NULL){
 					echo "<td>CHECKED OUT</td>";
+					echo "<td>Item cannot be removed at this time.</td>";
+				}
+				else if($row['requestStatus'] == "readyForPickUp"){
+					echo "<td>PENDING PICKUP</td>";
 					echo "<td>Item cannot be removed at this time.</td>";
 				}
 			}
 		}
 	}
 	if($itemType == "tech"){
-		$query = "SELECT DISTINCT techID, techCopyID, borrowStatus FROM techcopy LEFT OUTER JOIN borrowed ON itemCopyID = techCopyID AND itemType = 'tech' AND borrowStatus LIKE '%checked%' WHERE techID = '$itemID'";
+		$query = "SELECT DISTINCT techID, techCopyID, borrowStatus, requestStatus
+					FROM techcopy 
+					LEFT OUTER JOIN borrowed ON itemCopyID = techCopyID AND itemType = 'tech' AND borrowStatus LIKE '%checked%' 
+					LEFT OUTER JOIN holds ON holds.itemCopyID = techCopyID AND holds.itemType = 'tech'
+					WHERE techID = '$itemID'";
 		$result = mysqli_query($conn, $query);
 		if (mysqli_num_rows($result) > 0) {
 			while($row = mysqli_fetch_assoc($result)){
 				echo "<tr>";
 				echo "<td>" . $row['techCopyID'] . "</td>";
-				if($row['borrowStatus'] == NULL){
+				if($row['borrowStatus'] == NULL && $row['requestStatus'] != "readyForPickUp"){
 					echo "<td>AVAILABLE</td>";
 					echo "<td><input type='checkbox' name='toBeRemoved[]' value='" . $row['techCopyID'] . "'></td>";
 				}
-				else{
+				else if($row['borrowStatus'] != NULL){
 					echo "<td>CHECKED OUT</td>";
+					echo "<td>Item cannot be removed at this time.</td>";
+				}
+				else if($row['requestStatus'] == "readyForPickUp"){
+					echo "<td>PENDING PICKUP</td>";
 					echo "<td>Item cannot be removed at this time.</td>";
 				}
 			}
