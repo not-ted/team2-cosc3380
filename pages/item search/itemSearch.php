@@ -77,7 +77,7 @@ include("../../connection.php");
                     $columnName = 'techName';
                 }
 
-                $sql .= " FROM $table WHERE $columnName LIKE '%$search%'";
+                $sql .= " FROM $table WHERE $columnName LIKE '%$search%' AND deleted = 0";
 
                 $result = $conn->query($sql); // Use $conn here
 
